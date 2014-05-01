@@ -5,8 +5,18 @@
 
 {% block content %}
 <div class="jumbotron">
-  <h1>Summary </h1>
-  <p>lalalala</p>
-  <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+  <h1>Project ID {{ project_id }} done!</h1>
+  <p>From YYYY-MM-DD mm:hh to YYYY-MM-DD mm:hh using xxhrs xxmins xxsec.<br>
+     Occupied CPU time xxx.xxhrs, xx.xTB disk space.</p>
+  <p><a class="btn btn-danger btn-lg" role="button">Result Bundle Download</a></p>
+</div>
+<div id="nav-stage">
+<ul class="nav nav-pills nav-justified">
+  <li class="active"><a href="#">Summary</a></li>
+  <li><a href="#">Stage A</a></li>
+  <li><a href="#">Stage B</a></li>
+  <li><a href="#">Stage C</a></li>
+  <li><a href="#">Promotion</a></li>
+</ul>
 </div>
 {% endblock %}

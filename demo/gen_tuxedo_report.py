@@ -45,7 +45,9 @@ report_out = dict()
 
 def render_report():
     # render out report
-    report_out['index'] = report_tpl['index'].render()
+    report_out['index'] = report_tpl['index'].render(
+        project_id=9527
+    )
 
 
 def output_report(base_dir):
