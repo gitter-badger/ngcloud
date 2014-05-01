@@ -36,7 +36,7 @@ def cleanup_output(output_p):
 
 
 # Template in use setup
-TPL_NAME = ['index', 'qc']  # , 'tophat', 'cufflinks']
+TPL_NAME = ['index', 'qc', 'tophat']  # , 'cufflinks']
 
 report_tpl = {
     k: env.get_template('%s.html' % k)
@@ -47,13 +47,13 @@ report_out = dict()
 
 
 def render_report():
+    config = {
+        'project_id': 9527,
+    }
     # render out report
-    report_out['index'] = report_tpl['index'].render(
-        project_id=9527
-    )
-    report_out['qc'] = report_tpl['qc'].render(
-        project_id=9527
-    )
+    report_out['index'] = report_tpl['index'].render(**config)
+    report_out['qc'] = report_tpl['qc'].render(**config)
+    report_out['tophat'] = report_tpl['tophat'].render(**config)
 
 
 def output_report(base_dir):
