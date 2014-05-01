@@ -1,9 +1,7 @@
 from jinja2 import Environment, FileSystemLoader
-from tempfile import mkdtemp
+# from tempfile import mkdtemp
 from pathlib import Path
 import shutil
-import subprocess as sp
-import sys
 import logging
 
 # Jinja2 setup
@@ -60,7 +58,9 @@ def output_report(base_dir):
 
 def gen_report(output_p):
     # create new folder, copy static files
-    base_dir = Path(mkdtemp(prefix='report_', dir=str(output_p)))
+    base_dir = output_p / 'report_dev'
+    # Path(mkdtemp(prefix='report_', dir=str(output_p)))
+    base_dir.mkdir()
     copy_static(base_dir)
 
     render_report()
@@ -87,7 +87,3 @@ if __name__ == '__main__':
 
     base_dir, index_p = gen_report(output_p)
     print(_CAVEAT_MSG.format(base_dir))
-
-    # open report dir in OSX
-    if sys.platform.startswith('darwin'):
-        sp.call(['open', str(index_p.resolve())])
