@@ -19,15 +19,20 @@ def copy_static(output_p, statc_dir='report/static'):
 
 
 def cleanup_output(output_p):
+    if not output_p.exists:
+        output_p.mkdir()
+        return
+
     logging.info('Remove previous outputs under output')
     pre_output = [str(p) for p in output_p.iterdir()
-                  if p.is_dir()]
+                  if p.is_dir() and p.name.startswith('report_')]
     # remove all previous output
-    shutil.rmtree(str(output_p))
+    for pre in pre_output:
+        shutil.rmtree(pre)
+
     logging.warn(
         'The following ouput dir has been removed: %s' % ', '.join(pre_output)
     )
-    output_p.mkdir()
 
 
 # Template in use setup
@@ -63,7 +68,8 @@ def gen_report(output_p):
     # create new folder, copy static files
     base_dir = output_p / 'report_dev'
     # Path(mkdtemp(prefix='report_', dir=str(output_p)))
-    base_dir.mkdir()
+    if not base_dir.exists():
+        base_dir.mkdir()
     copy_static(base_dir)
 
     render_report()
