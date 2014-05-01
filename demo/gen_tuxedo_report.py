@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 import subprocess as sp
 import sys
+import logging
 
 # Jinja2 setup
 report_loader = FileSystemLoader('report/templates')
@@ -13,6 +14,22 @@ def locate_static(path):
     return 'static/%s' % path
 
 env.globals['static'] = locate_static
+
+
+def copy_static(output_p, statc_dir='report/static'):
+    shutil.copytree(statc_dir, str(output_p / 'static'))
+
+
+def cleanup_output(output_p):
+    logging.info('Remove previous outputs under output')
+    pre_output = [str(p) for p in output_p.iterdir()
+                  if p.is_dir()]
+    # remove all previous output
+    shutil.rmtree(str(output_p))
+    logging.warn(
+        'The following ouput dir has been removed: %s' % ', '.join(pre_output)
+    )
+    output_p.mkdir()
 
 
 # Template in use setup
@@ -38,23 +55,36 @@ def output_report(base_dir):
 
     return index_p
 
-def copy_static(output_p, statc_dir='report/static'):
-    shutil.copytree(statc_dir, str(output_p / 'static'))
+
+def gen_report(output_p):
+    # create new folder, copy static files
+    base_dir = Path(mkdtemp(prefix='report_', dir=str(output_p)))
+    copy_static(base_dir)
+
+    render_report()
+    index_p = output_report(base_dir)
+    return base_dir, index_p
+
+
+_CAVEAT_MSG = '''\
+New output result is under {!s}.
+
+The folder can be downloaded and viewed locally.
+Quick remainder for serving current folder through http:
+
+    $ python3 -m http.server
+    # Serving HTTP on 0.0.0.0 port 8000 ...
+'''
 
 if __name__ == '__main__':
     output_p = Path('output')
     if not output_p.exists():
         output_p.mkdir()
     else:
-        # remove all previous output
-        shutil.rmtree(str(output_p))
-        output_p.mkdir()
+        cleanup_output(output_p)
 
-    render_report()
-
-    base_dir = Path(mkdtemp(prefix='report_', dir='output'))
-    index_p = output_report(base_dir)
-    copy_static(base_dir)
+    base_dir, index_p = gen_report(output_p)
+    print(_CAVEAT_MSG.format(base_dir))
 
     # open report dir in OSX
     if sys.platform.startswith('darwin'):
