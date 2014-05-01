@@ -6,7 +6,7 @@ import logging
 
 # Jinja2 setup
 report_loader = FileSystemLoader('report/templates')
-env = Environment(loader=report_loader)
+env = Environment(loader=report_loader, extensions=['jinja2.ext.with_'])
 
 def locate_static(path):
     return 'static/%s' % path
@@ -31,7 +31,7 @@ def cleanup_output(output_p):
 
 
 # Template in use setup
-TPL_NAME = ['index']  # , 'fastqc', 'tophat', 'cufflinks']
+TPL_NAME = ['index', 'qc']  # , 'tophat', 'cufflinks']
 
 report_tpl = {
     k: env.get_template('%s.html' % k)
@@ -46,14 +46,17 @@ def render_report():
     report_out['index'] = report_tpl['index'].render(
         project_id=9527
     )
+    report_out['qc'] = report_tpl['qc'].render(
+        project_id=9527
+    )
 
 
 def output_report(base_dir):
-    index_p = base_dir / 'index.html'
-    with open(str(index_p), 'w') as f:
-        f.write(report_out['index'])
+    for name, content in report_out.items():
+        with open(str(base_dir / '{}.html'.format(name)), 'w') as f:
+            f.write(content)
 
-    return index_p
+    return base_dir / 'index.html'
 
 
 def gen_report(output_p):

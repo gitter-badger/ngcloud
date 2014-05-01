@@ -9,7 +9,7 @@ body {
 }
 
 #nav-stage {
-    margin: 50px 0;
+    margin: 20px 0;
 }
 
 #panel-download {
@@ -19,6 +19,21 @@ body {
     border-color: #D2322D;
     background-color: #D2322D;
     color: #FFF;
+}
+
+.note {
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background: rgb(235, 255, 182);
+    padding: 10px 25px;
+    margin: 0 0 20px;
+}
+.note h2 {
+    color: rgba(117, 153, 22);
+}
+
+.panel-body .tab-content .tab-pane {
+    margin: 0 20px;
 }
 
 /* Wrapper for page content to push down footer */
@@ -34,6 +49,7 @@ body {
 #push,
 #footer {
     min-height: 60px;
+    margin-top: 30px;
 }
 #footer {
     background-color: #333;

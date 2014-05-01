@@ -10,15 +10,9 @@
   <p><a class="btn btn-danger btn-lg" role="button">Result Bundle Download</a></p>
 </div>
 
-<div id="nav-stage">
-<ul class="nav nav-pills nav-justified">
-  <li class="active"><a href="#">Summary</a></li>
-  <li><a href="#">Quality Control</a></li>
-  <li><a href="#">Alignment</a></li>
-  <li><a href="#">Expression Quantification</a></li>
-  <li><a href="#">Promotion</a></li>
-</ul>
-</div>
+{% with active='summary' %}
+{% include "_stage.html" %}
+{% endwith %}
 
 <div class="row">
   <div class="col-sm-6">

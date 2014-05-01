@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}
+  Quality Control
+{% endblock %}
+
+{% block content %}
+<h1>Project ID {{ project_id }}</h1>
+{% with active='qc' %}
+{% include "_stage.html" %}
+{% endwith %}
+
+<div class="note">
+<h2>Quality Control</h2>
+<p>In this step we check the quality result from the point of NGS sequencing. During sequencing, the machine often uses fluorescent light to detect the DNA bases. However, sometimes the strength of fluorescent is not strong enough or noise comes in, which makes read error prone.</p>
+<p>An error prone read might cause misalignment or might indicate contamination during sample preparation. So using quality control we could find out these read and provide some statistics about how good the sequencing is.</p>
+<p class="text-right lead">more information on <a href="#">this page</a>.</p>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="sampleTab">
+      <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
+      <li><a href="#sample1" data-toggle="tab">SRRxxxxxx</a></li>
+      <li><a href="#sample2" data-toggle="tab">SRRyyyyyy</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="overall">A</div>
+      <div class="tab-pane" id="sample1">B</div>
+      <div class="tab-pane" id="sample2">C</div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+$('#sampleTab a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})
+{% endblock %}
