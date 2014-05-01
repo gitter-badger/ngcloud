@@ -13,9 +13,9 @@
 <div id="nav-stage">
 <ul class="nav nav-pills nav-justified">
   <li class="active"><a href="#">Summary</a></li>
-  <li><a href="#">Stage A</a></li>
-  <li><a href="#">Stage B</a></li>
-  <li><a href="#">Stage C</a></li>
+  <li><a href="#">Quality Control</a></li>
+  <li><a href="#">Alignment</a></li>
+  <li><a href="#">Expression Quantification</a></li>
   <li><a href="#">Promotion</a></li>
 </ul>
 </div>
@@ -32,6 +32,7 @@
         <h4>CPU, Disk Usage</h4>
         <p>Occupied CPU time xxx.xxhrs, xx.xTB disk space.</p>
         <h4>Owner</h4>
+        <p>{{ owner|default('NTU CGM') }}</p>
       </div>
     </div>
   </div>
@@ -44,10 +45,9 @@
         <h4>Pipeline used:</h4>
         <p>Tuxedo</p>
         <h4>Sample input:</h4>
-        <ul>
-          <li>SRRxxxxxx</li>
-          <li>SRRxxxxxx</li>
-        </ul>
+        <p>SRRxxxxxx, SRRyyyyyy</p>
+        <h4>Parameters:</h4>
+        <p>{{ param|default('(none)') }}</p>
       </div>
     </div>
   </div>
