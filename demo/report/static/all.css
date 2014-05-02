@@ -24,16 +24,30 @@ body {
 .note {
     -moz-border-radius: 15px;
     border-radius: 15px;
-    background: rgb(235, 255, 182);
     padding: 10px 25px;
     margin: 0 0 20px;
-}
-.note h2 {
-    color: rgba(117, 153, 22);
 }
 
 .panel-body .tab-content .tab-pane {
     margin: 0 20px;
+}
+
+.closable-note {
+    width: 30%;
+}
+@media (max-width: 767px) {
+    .closable-note {
+        width: 100%;
+    }
+}
+
+.legend-desc {
+    margin-top: 100px;
+}
+@media (max-width: 767px) {
+    .legend-desc {
+        margin-top: 20px;
+    }
 }
 
 /* Wrapper for page content to push down footer */
