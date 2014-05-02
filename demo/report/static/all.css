@@ -12,10 +12,10 @@ body {
     margin: 20px 0;
 }
 
-#panel-download {
+.panel-download {
     border-color: #D2322D;
 }
-#panel-download .panel-heading {
+.panel-download .panel-heading {
     border-color: #D2322D;
     background-color: #D2322D;
     color: #FFF;
@@ -42,7 +42,7 @@ body {
 }
 
 .legend-desc {
-    margin-top: 100px;
+    margin-top: 150px;
 }
 @media (max-width: 767px) {
     .legend-desc {
