@@ -1,36 +1,62 @@
 {% set _sample_path='../../result/' +  sample + '_fastqc/Images' %}
 <h1>Quality Control of {{ sample }}</h1>
 <div class="row">
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-remove"></span> By Base</h3>
   <img class="img-responsive" src="{{ _sample_path }}/per_base_quality.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-ok"></span> Per sequence quality scores</h3>
   <img class="img-responsive" src="{{_sample_path}}/per_sequence_quality.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-ok"></span> Per base sequence content</h3>
   <img class="img-responsive" src="{{_sample_path}}/per_base_sequence_content.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-remove"></span> Per base GC content</h3>
   <img class="img-responsive" src="{{_sample_path}}/per_base_gc_content.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-remove"></span> Per sequence GC content</h3>
   <img class="img-responsive" src="{{_sample_path}}/per_sequence_gc_content.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-remove"></span> Per base N content</h3>
   <img class="img-responsive" src="{{_sample_path}}/per_base_n_content.png" alt="">
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
   <h3><span class="glyphicon glyphicon-ok"></span> Sequence Length Distribution</h3>
   <img class="img-responsive" src="{{_sample_path}}/sequence_length_distribution.png" alt="">
 </div>
-<div class="col-sm-6">
-  <h3><span class="glyphicon glyphicon-remove"></span> Sequence Duplication Levels</h3>
+<div class="col-md-6">
+  <h3><span class="glyphicon glyphicon-question-sign"></span> Sequence Duplication Levels</h3>
   <img class="img-responsive" src="{{_sample_path}}/duplication_levels.png" alt="">
 </div>
+</div><!-- /.row -->
+<div class="row">
+  <h3><span class="glyphicon glyphicon-remove"></span> Overrepresented sequences</h3>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Sequence</th>
+          <th>Count / (%)</th>
+          <th>Possible Source</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGC</td>
+          <td>343018 / 0.34</td>
+          <td>TruSeq Adapter, Index 1 (100% over 50bp)</td>
+        </tr>
+        <tr>
+          <td>AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATG</td>
+          <td>195943 / 0.12</td>
+          <td>TruSeq Adapter, Index 1 (100% over 49bp)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div><!-- /.row -->
