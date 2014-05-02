@@ -40,6 +40,29 @@ Quality Control
 </div>
 {% endblock %}
 
+{% block after_panel %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-danger panel-download">
+      <div class="panel-heading">
+        <h3 class="panel-title">Download Quality Control Result only</h3>
+      </div><!-- /.panel-heading -->
+      <div class="panel-body">
+        <p class="lead">Download the result in different formats:</p>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          Results (in tar.gz)
+        </button>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          Reports only (in zip)
+        </button>
+      </div><!-- /.panel-body -->
+    </div><!-- /.panel -->
+  </div>
+</div>
+{% endblock %}
+
 {% block extra_js %}
 $('#sampleTab a').click(function (e) {
 e.preventDefault()
