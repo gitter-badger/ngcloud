@@ -1,0 +1,71 @@
+{% extends 'stage.html' %}
+
+{% block title %}
+Quality Control
+{% endblock %}
+
+{% set active='qc' %}
+
+{% block stage_note %}
+<h2>Quality Control</h2>
+<p>In this step we check the quality result from the point of NGS sequencing. During sequencing, the machine often uses fluorescent light to detect the DNA bases. However, sometimes the strength of fluorescent is not strong enough or noise comes in, which makes read error prone.</p>
+<p>An error prone read might cause misalignment or might indicate contamination during sample preparation. So using quality control we could find out these read and provide some statistics about how good the sequencing is.</p>
+<p class="text-right lead">more information on <a href="#">this page</a>.</p>
+{% endblock %}
+
+{% block panel %}
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="sampleTab">
+  <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
+  {% set all_samples=all_samples or ['SRR950078_R1', 'SRR950078_R2'] %}
+  {% for sample in all_samples %}
+  <li><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample }}</a></li>
+  {% endfor %}
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="overall">
+    <div class="container-fluid">
+      {% include "qc_overall.html" %}
+    </div>
+  </div>
+  {% for sample in all_samples %}
+  <div class="tab-pane" id="sample{{ loop.index }}">
+    <div class="container-fluid">
+      {% include "qc_sample.html" %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
+{% block after_panel %}
+<div class="row">
+  <div class="col-sm-12">
+    <div class="panel panel-danger panel-download">
+      <div class="panel-heading">
+        <h3 class="panel-title">Download Quality Control Result only</h3>
+      </div><!-- /.panel-heading -->
+      <div class="panel-body">
+        <p class="lead">Download the result in different formats:</p>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          Results (in tar.gz)
+        </button>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          Reports only (in zip)
+        </button>
+      </div><!-- /.panel-body -->
+    </div><!-- /.panel -->
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+$('#sampleTab a').click(function (e) {
+e.preventDefault()
+$(this).tab('show')
+})
+{% endblock %}
