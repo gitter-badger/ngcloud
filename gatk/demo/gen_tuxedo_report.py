@@ -36,7 +36,7 @@ def cleanup_output(output_p):
 
 
 # Template in use setup
-TPL_NAME = ['index', 'qc', 'align'   , 'gatk']
+TPL_NAME = ['index', 'qc', 'tophat']  # , 'cufflinks']
 
 report_tpl = {
     k: env.get_template('%s.html' % k)
@@ -53,8 +53,8 @@ def render_report():
     # render out report
     report_out['index'] = report_tpl['index'].render(**config)
     report_out['qc'] = report_tpl['qc'].render(**config)
-    report_out['gatk'] = report_tpl['gatk'].render(**config)
-    report_out['align'] = report_tpl['align'].render(**config)
+    report_out['tophat'] = report_tpl['tophat'].render(**config)
+
 
 def output_report(base_dir):
     for name, content in report_out.items():
