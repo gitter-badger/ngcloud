@@ -36,7 +36,7 @@ def cleanup_output(output_p):
 
 
 # Template in use setup
-TPL_NAME = ['index', 'qc', 'align'   , 'gatk']
+TPL_NAME = ['index', 'qc', 'align' , 'gatk']
 
 report_tpl = {
     k: env.get_template('%s.html' % k)
@@ -48,7 +48,7 @@ report_out = dict()
 
 def render_report():
     config = {
-        'project_id': 9527,
+        'project_id': 3323,
     }
     # render out report
     report_out['index'] = report_tpl['index'].render(**config)

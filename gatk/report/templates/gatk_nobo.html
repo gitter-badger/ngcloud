@@ -73,9 +73,9 @@ Variant (Calling by GATK)
 
   <div class="row">
     <div class="col-sm-12">
-       {% include "tables/table_filter1.html"%}
-     <div class="table-responsive">
-        {% include "tables/ap2_t.html" %}
+      {% include "tables/table_filter.html"%}
+      <div class="table-responsive">
+        {% include "tables/large_table.html" %}
       </div>
     </div>
   </div>
@@ -160,28 +160,40 @@ Variant (Calling by GATK)
 
 <script>
 /* Custom filtering function which will search data in column four between two values */
-{% include "tables/range1.html"%}
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        var min = $('#min').val() * 1;
+        var max = $('#max').val() * 1;
+        var age = parseFloat( data[3] ) || 0; // use data for the age column
 
+        if ( ( min == '' && max == '' ) ||
+             ( min == '' && age <= max ) ||
+             ( min <= age && '' == max ) ||
+             ( min <= age && age <= max ) )
+        {
+            return true;
+        }
+        return false;
+    }
+);
 
-$(document).ready(function() { 
-
-    var table = $('#example').DataTable();
- 
-    $("#example tfoot th").each( function () {
-        var select = $('<select><option value=""></option></select>')
-            .appendTo( $(this).empty() )
-            .on( 'change', function () {
-                table.column( i )
-                    .search( $(this).val() )
-                    .draw();
-            } );
- 
-        table.column().data().unique().sort().each( function ( d, j ) {
-            select.append( '<option value="'+d+'">'+d+'</option>' )
-        } );
+$(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#example tfoot th').each( function () {
+        var title = $('#example thead th').eq( $(this).index() ).text();
+        $(this).html( '<input type="text">' );
     } );
-
-   
+    
+    // Data Table
+    var table = $('#example').DataTable();
+    
+    // Apply the filter
+    $("#example tfoot input").on( 'keyup change', function () {
+        table
+            .column( $(this).parent().index()+':visible' )
+            .search( this.value )
+            .draw();
+    } );    
  
    //  Event listener to the two range filtering inputs to redraw on input
     $('#min, #max').keyup( function() {

@@ -6,12 +6,6 @@ Alignment (using BWA)
 
 {% set active='align' %}
 
-{% block extra_css %}
-  <style>
-  
-  </style>
-{% endblock %}
-
 {% block stage_note %}
 <h2>Alignment (using BWA)</h2>
 <p>Ipsum est alias nisi laboriosam tempore iste modi, fuga, ipsum. Et nihil harum veniam dicta recusandae. Natus ipsum hic nemo aspernatur quis exercitationem animi reiciendis atque. Accusamus impedit similique voluptatum modi accusamus commodi. Eaque facere necessitatibus pariatur aperiam officia consequatur? Quos ex numquam adipisci sit unde neque sequi eum sequi!</p>
@@ -135,12 +129,38 @@ Alignment (using BWA)
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  $(document).ready(function() {
-    $('#example').dataTable();
-  });
-</script>
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {packages:['table']});
+      google.setOnLoadCallback(drawTable);
+      function drawTable() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', '#CHROM');
+        data.addColumn('string', 'POS');
+        data.addColumn('string', 'ID');
+        data.addColumn('string', 'REF');
+        data.addColumn('string', 'ALT');
+        data.addColumn('string', 'QUAL');
+        data.addColumn('string', 'FILTER');
+        data.addColumn('string', 'INFO');
+        data.addColumn('string', 'FORMAT');
+        data.addColumn('string', 'Sample1');
+        data.addColumn('string', 'Sample2');
+        data.addColumn('string', 'Sample3');
+        data.addColumn('string', 'Sample4');
+        data.addColumn('string', 'Sample5');
+        data.addColumn('string', 'Sample6');
+        data.addRows([
+          ['chr1',  '3653441', '.', 'G', 'A', '.', 'PASS', 'ADP=5;W', 'GT:GQ:SD','./.:.:1','./.:.:4','./.:.:6','./.:.:15','./.:.:3','./.:.:2', ],
+	  ['chr1',  '25254317', '.', 'C', 'T', '.', 'PASS', 'ADP=3;W', 'GT:GQ:SD','./.:.:3','./.:.:3','./.:.:5','./.:.:5','./.:.:6','./.:.:1', ],
+	  ['chr1',  '27534176', '.', 'G', 'T', '.', 'PASS', 'ADP=47;W', 'GT:GQ:SD','./.:.:11','./.:.:52','./.:.:32','./.:.:40','./.:.:14','./.:.:76', ],
+	  ['chr1',  '45524213', '.', 'C', 'T', '.', 'PASS', 'ADP=2;W', 'GT:GQ:SD','./.:.:4','./.:.:0','./.:.:2','./.:.:2','./.:.:0','./.:.:6', ],
+	  ['chr1',  '1.15E+08', '.', 'T', 'A', '.', 'PASS', 'ADP=246;W', 'GT:GQ:SD','0/0:478:25','0/0:460:25','0/0:456:24','0/0:460:24','0/0:255:27','0/0:452:24', ],
+	  ['chr1',  '2.03E+08', '.', 'C', 'T', '.', 'PASS', 'ADP=13;W', 'GT:GQ:SD','./.:.:3','./.:.:18','./.:.:2','./.:.:6','./.:.:16','./.:.:33', ],
+        ]);
 
-<script src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
-<script src="http://cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+         var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, {showRowNumber: true});
+      }
+    </script>
 {% endblock %}

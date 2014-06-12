@@ -6,12 +6,6 @@ Alignment (using BWA)
 
 {% set active='align' %}
 
-{% block extra_css %}
-  <style>
-  
-  </style>
-{% endblock %}
-
 {% block stage_note %}
 <h2>Alignment (using BWA)</h2>
 <p>Ipsum est alias nisi laboriosam tempore iste modi, fuga, ipsum. Et nihil harum veniam dicta recusandae. Natus ipsum hic nemo aspernatur quis exercitationem animi reiciendis atque. Accusamus impedit similique voluptatum modi accusamus commodi. Eaque facere necessitatibus pariatur aperiam officia consequatur? Quos ex numquam adipisci sit unde neque sequi eum sequi!</p>
@@ -92,10 +86,10 @@ Alignment (using BWA)
 
   <div class="row">
     <div class="col-sm-12">
-      <h4>Type of Alignment</h4>
-    </div>
+    <h4>Type of Alignment</h4>
+  </div>
     <div class="col-sm-5">
-      <div id="table_div"></div>
+      <div id="piechart" style="width: 90%; height: 350px;"></div>
     </div>
     <div class="col-sm-7">
     <table class="table table-hover" style="margin-top: 20px;">
@@ -135,12 +129,26 @@ Alignment (using BWA)
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  $(document).ready(function() {
-    $('#example').dataTable();
-  });
-</script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Alignment', 'Percentage'],
+          ['Both mapped',     82411062],
+          ['Single mapped',     558406],
+          ['Multiple aligned', 5165148],
+          ['Unalinged',       30000000]
+        ]);
 
-<script src="http://cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
-<script src="http://cdn.datatables.net/plug-ins/28e7751dbec/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+        var options = {
+          legend: 'none',
+          pieSliceText: 'label',
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+      }
+    </script>
 {% endblock %}

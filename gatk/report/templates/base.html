@@ -12,7 +12,8 @@
     <!-- Bootstrap core CSS -->
     <link href="{{ static('vendor/bootstrap-3.1.1/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="{{ static('all.css') }}"rel="stylesheet">
+    <link href="{{ static('all.css') }}" rel="stylesheet">
+    
     {% block extra_css %}{% endblock %}
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -36,7 +37,7 @@
       </div>
     </div>
 
-    {% block extra_js %}{% endblock %}
     {% include "includes/footer_scripts.html" %}
+    {% block extra_js %}{% endblock %}
   </body>
 </html>
