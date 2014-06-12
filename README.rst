@@ -21,5 +21,5 @@ To monitor a folder change,
 .. code-block:: bash
 
     watchmedo shell-command --recursive \
-        --command='python gen_tuxedo_report.py' \
+        --command='python gen.py' \
         report # folder under watch
