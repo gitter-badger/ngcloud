@@ -47,13 +47,13 @@ report_out = dict()
 
 
 def render_report():
-    config = {
+    result_info = {
         'project_id': 9527,
     }
     # render out report
-    report_out['index'] = report_tpl['index'].render(**config)
-    report_out['qc'] = report_tpl['qc'].render(**config)
-    report_out['tophat'] = report_tpl['tophat'].render(**config)
+    report_out['index'] = report_tpl['index'].render(**result_info)
+    report_out['qc'] = report_tpl['qc'].render(**result_info)
+    report_out['tophat'] = report_tpl['tophat'].render(**result_info)
 
 
 def output_report(base_dir):
