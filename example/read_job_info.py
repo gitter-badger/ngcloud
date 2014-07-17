@@ -1,16 +1,25 @@
-import yaml
+import sys
+from os.path import expanduser
 from pathlib import Path
-from pprint import pprint
+from ngparser.info import JobInfo
 
-JOB_PATH = Path("/Users/liang/Documents/biocloud_datasets/job_9527_tuxedo")
+def main():
+    if sys.platform == "darwin":
+        JOB_PATH = Path(
+            expanduser("~/Documents/biocloud_datasets/job_9527_tuxedo"))
+    elif sys.platform.startswith("linux"):
+        JOB_PATH = Path(
+            expanduser("~/dataset/biocloud/job_9527_tuxedo"))
 
-def open(path_like, *args, **kwargs):
-    if isinstance(path_like, Path):
-        return path_like.open(*args, **kwargs)
-    else:
-        return open(path_like, *args, **kwargs)
+    job_info = JobInfo(JOB_PATH)
 
-with open(JOB_PATH / "job_info.yaml") as f:
-    job_info = yaml.load(f)
+    print(job_info.id, job_info.type)
 
-pprint(job_info)
+    sample_list = job_info.sample_list
+    print(sample_list)
+    for sample in sample_list:
+        print(sample)
+
+if __name__ == "__main__":
+    main()
+
