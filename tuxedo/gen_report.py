@@ -64,6 +64,12 @@ def render_report(job_info):
 
     return report_html
 
+
+def copy_static_qc(job_info):
+    """Copy needed file for report in qc stage"""
+    pass
+
+
 def output_report(report_root, report_html):
     """Output the render html to the output location.
 
