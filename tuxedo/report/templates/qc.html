@@ -14,10 +14,10 @@ Quality Control
 {% endblock %}
 
 {% block panel %}
+{% set all_samples = job_info.expanded_sample_list %}
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="sampleTab">
   <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
-  {% set all_samples=all_samples or ['SRR950078_R1', 'SRR950078_R2'] %}
   {% for sample in all_samples %}
   <li><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample }}</a></li>
   {% endfor %}
