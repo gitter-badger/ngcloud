@@ -90,6 +90,8 @@ def gen_report(job_root, output_root):
     1. read original data (covered by ngparser)
     2. render report (:func:`render_report`)
     3. output report under output_root (:func:`output_report`)
+    4. copy required output file under /static folder.
+       In this case, only qc stage is required. (:func:`copy_static_qc`)
 
     """
 

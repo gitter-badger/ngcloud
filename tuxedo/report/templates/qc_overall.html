@@ -1,3 +1,4 @@
+{% set _pic_base = static('qc_overall') %}
 <div class="row">
 <div class="col-sm-12">
   <h3>By Base</h3>
@@ -11,7 +12,7 @@
 </div>
 <div class="row">
 <div class="col-md-9">
-  <img class="img-responsive" src="../../result/SRR950078_R1_fastqc/Images/per_base_quality.png" alt="">
+  <img class="img-responsive" src="{{ _pic_base }}/per_base_quality.png" alt="">
 </div>
 <div class="col-md-3">
   <div class="panel panel-default legend-desc">
