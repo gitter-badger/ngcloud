@@ -1,0 +1,10 @@
+sample_list:
+# TODO: accept conditions
+    - SRR1027176_R1:
+        pair_end: true
+    - SRR1027176_R2:
+        pair_end: true
+    - SRR1027183_R1:
+        pair_end: true
+    - SRR1027183_R2:
+        pair_end: true
