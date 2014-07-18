@@ -66,7 +66,12 @@ def render_report(job_info):
 
 
 def copy_static_qc(job_info):
-    """Copy needed file for report in qc stage"""
+    """Copy needed file for report in qc stage
+
+    - qc summary img (not implemented)
+    - qc img by sample
+
+    """
     pass
 
 
