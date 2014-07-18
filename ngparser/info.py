@@ -12,9 +12,18 @@ class Sample:
     Parameters
     ----------
     name : string
-    pair_end : bool or None
+    pair_end : 'R1', 'R2', False, or None
     stranded : bool or None
-    """
+
+    Note
+    ----
+    If a sample is pair-end, say sample 5566 has read 1 and 2, then one should
+    explicitly creates two Sample instances
+
+        >>> [Sample(name='5566_%s' % pe, pair_end=true) for pe in ['R1', 'R2']]
+        [Sample(name='5566_R1'), Sample(name='5566_R2')]
+
+   """
 
     _STR_FORMAT = '\n'.join([
         "Sample {0.name}",
@@ -67,23 +76,6 @@ class JobInfo:
 
         self._raw = self._read_yaml()
         self.sample_list = self._parse_sample_list()
-        self.expanded_sample_list = list(self._expand_sample_list())
-
-    def _expand_sample_list(self):
-        """Yield full name list of all samples.
-
-        Pair-end samples will be expressed as sample_R1, sample_R2.
-
-        Return
-        ------
-        Generator of list of sample names, R1 and R2 are seperated.
-        """
-        for sample in self.sample_list:
-            if sample.pair_end:
-                yield "%s_R1" % sample.name
-                yield "%s_R2" % sample.name
-            else:
-                yield "%s" % sample.name
 
     def _read_yaml(self):
         with open(self._root / "job_info.yaml") as f:
@@ -102,6 +94,7 @@ class JobInfo:
 
         for sample in self._raw['sample_list']:
             name, info = next(iter(sample.items()))  # now a dict with one key
+            # TODO:if user input SRR5566_R1 but no R2, needs to check
             sample_list.append(Sample(name, **info))
 
         return sample_list
