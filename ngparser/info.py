@@ -68,9 +68,9 @@ class JobInfo:
     ).match
 
     def __init__(self, root_path):
-        self._root = Path(expanduser(root_path))
+        self.root_path = Path(abspath(expanduser(root_path)))
 
-        folder_info = self._parse_job_folder()
+        folder_info = self._parse_job_folder_name()
         self.id = folder_info['id']
         self.type = folder_info['type']
 
@@ -78,14 +78,14 @@ class JobInfo:
         self.sample_list = self._parse_sample_list()
 
     def _read_yaml(self):
-        with open(self._root / "job_info.yaml") as f:
+        with open(self.root_path / "job_info.yaml") as f:
             return yaml.load(f)
 
-    def _parse_job_folder(self):
-        folder_match = JobInfo._read_folder_name(self._root.name)
-        if not folder_match or not self._root.is_dir():
+    def _parse_job_folder_name(self):
+        folder_match = JobInfo._read_folder_name(self.root_path.name)
+        if not folder_match or not self.root_path.is_dir():
             raise ValueError(
-                "Unreadable folder path: {:s}".format(abspath(self._root))
+                "Unreadable folder path: {:s}".format(self.root_path)
             )
         return folder_match.groupdict()
 
