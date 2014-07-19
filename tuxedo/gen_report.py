@@ -4,7 +4,7 @@ import sys
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 from ngparser.info import JobInfo
-from ngparser.util import expanduser
+from ngparser.util import expanduser, copy, strify_path, open
 
 _CAVEAT_MSG = '''\
 New output result is under {!s}.
@@ -14,6 +14,7 @@ Quick remainder for serving current folder through http:
 
     $ python3 -m http.server
     # Serving HTTP on 0.0.0.0 port 8000 ...
+
 '''
 
 # Jinja2 setup
@@ -43,7 +44,7 @@ def cleanup_output(output_root):
 
     logging.info('Remove previous outputs under output')
     previous_output = [
-        str(p) for p in output_root.iterdir()
+        strify_path(p) for p in output_root.iterdir()
         if p.is_dir() and p.name.startswith('report_')
     ]
     logging.warn(
@@ -65,13 +66,34 @@ def render_report(job_info):
     return report_html
 
 
-def copy_static_qc(job_info):
+def copy_static_qc(job_info, report_root):
     """Copy needed file for report in qc stage
 
     - qc summary img (not implemented)
     - qc img by sample
 
     """
+    copy_static_qc_summary(job_info, report_root)
+
+
+def copy_static_qc_summary(job_info, report_root):
+    """Copy QC summary pics to static/qc_overall"""
+
+    _REQUIRE_FILE = [
+        'per_base_quality.png',
+        'per_base_sequence_content.png',
+    ]
+    _DST_ROOT = report_root / 'static' / 'qc_overall'
+    _SRC_ROOT = job_info.root_path / '1_fastqc' / 'overall'
+
+    if not _DST_ROOT.exists():
+        _DST_ROOT.mkdir(parents=True)
+
+    for require_fp in _REQUIRE_FILE:
+        copy(_SRC_ROOT / require_fp, _DST_ROOT / require_fp)
+
+
+def copy_static_qc_sample(sample):
     pass
 
 
@@ -81,7 +103,7 @@ def output_report(report_root, report_html):
     So no original data is involved, just some file I/O.
     """
     for name, content in report_html.items():
-        with open(str(report_root / '{}.html'.format(name)), 'w') as f:
+        with open(report_root / '{}.html'.format(name), 'w') as f:
             f.write(content)
 
     return report_root / 'index.html'  # return the path to front page
@@ -109,6 +131,7 @@ def gen_report(job_root, output_root):
     report_html = render_report(job_info)
 
     copy_static(report_root)
+    copy_static_qc(job_info, report_root)
     index_p = output_report(report_root, report_html)
 
     return report_root, index_p
