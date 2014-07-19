@@ -1,5 +1,6 @@
 from pathlib import Path
 import os.path as op
+import shutil
 
 def open(path_like, *args, **kwargs):
     """Custom open() that accepts pathlib.Path object.
@@ -27,12 +28,32 @@ def abspath(path_like):
     else:
         return op.abspath(path_like)
 
+
 def expanduser(path_like):
     if isinstance(path_like, Path):
         return op.expanduser(path_like.as_posix())
     else:
         return op.expanduser(path_like)
 
+
+def copy(src_path_like, dst_path_like, *args, **kwargs):
+    """pathlib support for path-like objects."""
+
+    shutil.copy(
+        strify_path(src_path_like), strify_path(dst_path_like),
+        *args, **kwargs
+    )
+
+
+def strify_path(path_like):
+    if isinstance(path_like, Path):
+        return path_like.as_posix()
+    elif isinstance(path_like, str):
+        return path_like
+    else:
+        raise ValueError(
+            "Unknown type {} for path-like object".format(type(path_like))
+        )
 
 def _val_bool_or_none(arg, name):
     """Check if argument is of True, False, or None.
