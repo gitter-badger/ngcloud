@@ -38,7 +38,7 @@ def copy_static(report_root, statc_dir='report/static'):
 
 
 def cleanup_output(output_root):
-    if not output_root.exists:
+    if not output_root.exists():
         output_root.mkdir()
         return
 
@@ -160,6 +160,7 @@ def gen_report(job_root, output_root):
 if __name__ == '__main__':
     output_root = Path('output')
     cleanup_output(output_root)
+
     if sys.platform == "darwin":
         JOB_PATH = Path(
             expanduser("~/Documents/biocloud_datasets/job_9527_tuxedo"))
@@ -167,5 +168,7 @@ if __name__ == '__main__':
         JOB_PATH = Path(
             expanduser("~/dataset/biocloud/job_9527_tuxedo"))
 
+    # call gen_report to do both parsing and generating report
     report_root, index_p = gen_report(JOB_PATH, output_root)
+
     print(_CAVEAT_MSG.format(report_root))
