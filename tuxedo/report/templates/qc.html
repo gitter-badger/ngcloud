@@ -19,7 +19,7 @@ Quality Control
 <ul class="nav nav-tabs" id="sampleTab">
   <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
   {% for sample in all_samples %}
-  <li><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample.name }}</a></li>
+  <li><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample.full_name }}</a></li>
   {% endfor %}
 </ul>
 

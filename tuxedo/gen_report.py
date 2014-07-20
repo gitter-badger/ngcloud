@@ -74,6 +74,7 @@ def copy_static_qc(job_info, report_root):
 
     """
     copy_static_qc_summary(job_info, report_root)
+    copy_static_qc_sample(job_info, report_root)
 
 
 def copy_static_qc_summary(job_info, report_root):
@@ -90,11 +91,30 @@ def copy_static_qc_summary(job_info, report_root):
         _DST_ROOT.mkdir(parents=True)
 
     for require_fp in _REQUIRE_FILE:
-        copy(_SRC_ROOT / require_fp, _DST_ROOT / require_fp)
+        copy(_SRC_ROOT / require_fp, _DST_ROOT)
 
 
-def copy_static_qc_sample(sample):
-    pass
+def copy_static_qc_sample(job_info, report_root):
+    """Copy QC sample pics to static/qc_sample/<sample_name>"""
+    _REQUIRE_FILE_PATTERN = [
+        '*.png'
+    ]
+    _DST_ROOT = report_root / 'static' / 'qc_sample'
+    _SRC_ROOT = job_info.root_path / '1_fastqc' / 'output'
+
+    # copy imgs from each sample run
+    for sample in job_info.sample_list:
+        # collect required file list
+        require_fp_list = []
+        for pattern in _REQUIRE_FILE_PATTERN:
+            sp_root = _SRC_ROOT / "{}_fastqc".format(sample.name) / "Images"
+            require_fp_list.extend(sp_root.glob(pattern))
+
+        _dst_sample_dir = _DST_ROOT / sample.full_name / "pics"
+        _dst_sample_dir.mkdir(parents=True)
+        # copy based on the file list
+        for fp in require_fp_list:
+            copy(fp, _dst_sample_dir)
 
 
 def output_report(report_root, report_html):
