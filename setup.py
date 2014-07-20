@@ -20,8 +20,8 @@ def find_version(*path_parts):
     raise RuntimeError("Unable to find version string.")
 
 setup(
-    name='ngparser',
-    version=find_version('ngparser', '__init__.py'),
+    name='ngcloud',
+    version=find_version('ngcloud', '__init__.py'),
 
     license='MIT',
     description='NGCloud result parser',
@@ -29,7 +29,7 @@ setup(
     author='Liang Bo Wang',
     author_email='r02945054@ntu.edu.tw',
 
-    url='https://github.com/ccwang002/ngcloud-parser',
+    url='https://github.com/ccwang002/ngcloud',
     classifiers=[
         'Development Status :: 3 - Beta',
     ],

@@ -3,8 +3,8 @@ import logging
 import sys
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
-from ngparser.info import JobInfo
-from ngparser.util import expanduser, copy, strify_path, open
+from ngcloud.info import JobInfo
+from ngcloud.util import expanduser, copy, strify_path, open
 
 _CAVEAT_MSG = '''\
 New output result is under {!s}.
@@ -134,7 +134,7 @@ def gen_report(job_root, output_root):
 
     The process can be splitted into 3 parts:
 
-    1. read original data (covered by ngparser)
+    1. read original data (covered by ngcloud)
     2. render report (:func:`render_report`)
     3. output report under output_root (:func:`output_report`)
     4. copy required output file under /static folder.

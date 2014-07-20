@@ -1,7 +1,7 @@
 import sys
 from os.path import expanduser
 from pathlib import Path
-from ngparser.info import JobInfo
+from ngcloud.info import JobInfo
 
 def main():
     if sys.platform == "darwin":

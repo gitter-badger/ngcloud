@@ -1,6 +1,6 @@
 import yaml
 from pathlib import Path
-from ngparser.util import (
+from ngcloud.util import (
     open, abspath, expanduser,
     _val_bool_or_none,
 )
