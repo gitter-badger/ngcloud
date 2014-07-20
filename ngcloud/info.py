@@ -12,19 +12,16 @@ class Sample:
     Parameters
     ----------
     name : string
-    pair_end : 'R1', 'R2', False, or None
-    stranded : bool or None
+    pair_end : {'R1', 'R2', False}, optional
+    stranded : bool, optional
 
 
     Attributes
     ----------
     name : string
-        Sample name. Pair-end samples should have same ``name``
-
+        Sample name. Pair-end samples should have same `name`
     full_name : string
         Auto-generated full sample name, containing pair-end info.
-        So pair-end samples should have different ``full_name``
-
 
     Examples
     --------

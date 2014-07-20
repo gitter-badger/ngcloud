@@ -3,9 +3,10 @@ import os.path as op
 import shutil
 
 def open(path_like, *args, **kwargs):
-    """Custom open() that accepts pathlib.Path object.
+    """Custom open() that accepts :py:class:`pathlib.Path` object.
 
-    All the parameters will be passed to original :py:func:`open`.
+    All the parameters will be passed to original :py:func:`python:open`.
+
 
     Examples
     --------
@@ -21,7 +22,7 @@ def open(path_like, *args, **kwargs):
 
 
 def abspath(path_like):
-    """Custom abspath() that accepts both str and pathlib.Path."""
+    """Custom abspath() that accepts both str and :py:class:`pathlib.Path`."""
 
     if isinstance(path_like, Path):
         return op.abspath(path_like.as_posix())
@@ -58,7 +59,7 @@ def strify_path(path_like):
 def _val_bool_or_none(arg, name):
     """Check if argument is of True, False, or None.
 
-    Otherwise ValueError is raised.
+    Otherwise :py:exc:`ValueError` is raised.
 
     Raises
     ------
