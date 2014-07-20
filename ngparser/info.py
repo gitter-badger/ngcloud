@@ -15,13 +15,32 @@ class Sample:
     pair_end : 'R1', 'R2', False, or None
     stranded : bool or None
 
-    Note
-    ----
+
+    Attributes
+    ----------
+    name : string
+        Sample name. Pair-end samples should have same ``name``
+
+    full_name : string
+        Auto-generated full sample name, containing pair-end info.
+        So pair-end samples should have different ``full_name``
+
+
+    Examples
+    --------
     If a sample is pair-end, say sample 5566 has read 1 and 2, then one should
     explicitly creates two Sample instances
 
-        >>> [Sample(name='5566' % pe, pair_end=pe) for pe in ['R1', 'R2']]
+        >>> pe = [Sample(name='5566' % pe, pair_end=pe) for pe in ['R1', 'R2']]
+        >>> pe
         [Sample(name='5566'), Sample(name='5566')]
+        >>> print(pe[0])  # get first pair-end sample
+        Sample 5566
+            pair_end: R1
+            stranded: None
+
+        >>> pe[0].full_name
+        '5566_R1'
 
    """
 
