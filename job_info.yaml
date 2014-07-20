@@ -1,10 +1,10 @@
 sample_list:
-# TODO: accept conditions
-    - SRR1027176_R1:
-        pair_end: true
-    - SRR1027176_R2:
-        pair_end: true
-    - SRR1027183_R1:
-        pair_end: true
-    - SRR1027183_R2:
-        pair_end: true
+# TODO: accept conditions, sample_group
+    - SRR1027176_1:
+        pair_end: R1
+    - SRR1027176_2:
+        pair_end: R2
+    - SRR1027183_1:
+        pair_end: R1
+    - SRR1027183_2:
+        pair_end: R2

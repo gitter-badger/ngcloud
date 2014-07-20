@@ -20,8 +20,8 @@ class Sample:
     If a sample is pair-end, say sample 5566 has read 1 and 2, then one should
     explicitly creates two Sample instances
 
-        >>> [Sample(name='5566_%s' % pe, pair_end=true) for pe in ['R1', 'R2']]
-        [Sample(name='5566_R1'), Sample(name='5566_R2')]
+        >>> [Sample(name='5566' % pe, pair_end=pe) for pe in ['R1', 'R2']]
+        [Sample(name='5566'), Sample(name='5566')]
 
    """
 
@@ -35,17 +35,32 @@ class Sample:
         self.name = name            # SRR332241
 
         # bool check
-        _val_bool_or_none(pair_end, 'pair_end')
+        Sample._val_pair_end(pair_end)
         _val_bool_or_none(stranded, 'stranded')
 
         self.pair_end = pair_end
         self.stranded = stranded
+
+        self.full_name = self._gen_full_name()
 
     def __repr__(self):
         return "Sample(name={0.name!r})".format(self)
 
     def __str__(self):
         return Sample._STR_FORMAT.format(self)
+
+    def _gen_full_name(self):
+        if self.pair_end:
+            return "{0.name}_{0.pair_end}".format(self)
+        else:
+            return self.name
+
+    @staticmethod
+    def _val_pair_end(pair_end):
+        if pair_end not in ['R1', 'R2', False, None]:
+            raise ValueError(
+                "Unexpected pair-end type: {}".format(pair_end)
+            )
 
 
 class JobInfo:
