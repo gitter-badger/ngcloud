@@ -1,15 +1,18 @@
-**************
-NGCloud Parser
-**************
+*******
+NGCloud
+*******
 
-The parser that read the result structure.
+Documentation: http://ngcloud.readthedocs.org/
 
+Works on Python 3.4+
 
 Installation
-------------
+============
 
-Requires Python 3.4, pip and setuptools.
+*Not available* through PyPI now. To use NGCloud, install from source.
 
 ::
 
-    pip install git+https://github.com/ccwang002/ngcloud-parser.git@master
+    git clone https://github.com/ccwang002/ngcloud.git
+    cd ngcloud
+    python setup.py install
