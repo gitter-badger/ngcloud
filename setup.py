@@ -34,6 +34,10 @@ setup(
         'Development Status :: 3 - Beta',
     ],
 
+    install_requires=[
+        'PyYAML',
+    ],
+
     keywords='ngs',
     packages=find_packages(
         exclude=['contrib', 'docs', 'test*']
