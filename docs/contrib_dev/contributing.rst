@@ -1,9 +1,6 @@
 Contributing
 ============
 
-For the full guideline, see ``docs/contrib_dev/contributing.rst``.
-
-
 Code Style
 ----------
 
