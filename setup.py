@@ -36,7 +36,7 @@ setup(
 
     entry_points={
         'console_scripts': [
-            'ngparse = ngcloud.parser:main',
+            'ngreport = ngcloud.report:main',
         ],
     },
 

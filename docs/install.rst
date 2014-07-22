@@ -29,9 +29,10 @@ Dependencies
 ------------
 
 - PyYAML_
+- docopt_
 
 .. _PyYAML: http://pyyaml.org/
-
+.. _docopt: https://github.com/docopt/docopt 
 
 Install from PyPI
 -----------------

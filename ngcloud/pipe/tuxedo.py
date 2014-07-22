@@ -1,0 +1,2 @@
+class TuxedoReader:
+    pass
