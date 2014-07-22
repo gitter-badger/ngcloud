@@ -35,6 +35,10 @@ Quick remainder for serving current folder through http:
     # Serving HTTP on 0.0.0.0 port 8000 ...
 '''
 
+
+def parse(pipe_type, job_dir, out_dir):
+    pass
+
 def main():
     args = docopt(_SCRIPT_DOC, version=ng.__version__)
     print(args)

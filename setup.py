@@ -34,7 +34,14 @@ setup(
         'Development Status :: 3 - Beta',
     ],
 
+    entry_points={
+        'console_scripts': [
+            'ngparse = ngcloud.parser:main',
+        ],
+    },
+
     install_requires=[
+        'docopt > 0.6',
         'PyYAML',
     ],
 
