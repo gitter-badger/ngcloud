@@ -1,6 +1,11 @@
 #! /usr/bin/env python3.4
 # flake8: noqa
-"""NGCloud NGS result parser for different pipelines.
+
+from pathlib import Path
+from docopt import docopt
+import ngcloud as ng
+
+_SCRIPT_DOC = """NGCloud NGS result parser for different pipelines.
 
 Usage:
     ngparse [-p <pipeline>] <job_dir> [<out_dir>] [-v ...]
@@ -20,10 +25,6 @@ Options:
 
 """
 
-from pathlib import Path
-from docopt import docopt
-import ngcloud as ng
-
 _CAVEAT_MSG = '''\
 New output result is under {!s}.
 
@@ -34,9 +35,8 @@ Quick remainder for serving current folder through http:
     # Serving HTTP on 0.0.0.0 port 8000 ...
 '''
 
-
-if __name__ == '__main__':
-    args = docopt(__doc__, version=ng.__version__)
+def main():
+    args = docopt(_SCRIPT_DOC, version=ng.__version__)
     print(args)
 
     pipe_type = args['--pipe']
@@ -61,3 +61,6 @@ if __name__ == '__main__':
     verbosity = args['--verbose']
 
     print(out_dir)
+
+if __name__ == '__main__':
+    main()
