@@ -35,11 +35,11 @@ REPORT_TPL = {
     for k in TPL_NAME
 }
 
-def copy_static(report_root, statc_dir='report/static'):
+def copy_static(report_root, static_dir='report/static'):
     if not report_root.exists():
         report_root.mkdir()
 
-    shutil.copytree(statc_dir, str(report_root / 'static'))
+    shutil.copytree(static_dir, str(report_root / 'static'))
 
 
 def cleanup_output(output_root):
