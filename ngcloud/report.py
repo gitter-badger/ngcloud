@@ -1,8 +1,13 @@
 #! /usr/bin/env python3.4
 import importlib
+import shutil
 from pathlib import Path
+from abc import ABCMeta, abstractmethod
 from docopt import docopt
+import jinja2
 import ngcloud as ng
+from ngcloud.util import strify_path, open
+from ngcloud.info import JobInfo
 
 logger = ng._create_logger(__name__)
 
@@ -41,8 +46,124 @@ Quick remainder for serving current folder through http:
     # Serving HTTP on 0.0.0.0 port 8000 ...
 '''
 
+
+class Stage:
+    __metaclass__ = ABCMeta
+
+    template_name = ''
+
+    def __init__(self, job_info):
+        self._setup_jinja2()
+        self._template = self._env.get_template(
+            "%s.html" % self.template_name
+        )
+        self.job_info = job_info
+
+    def _setup_jinja2(self):
+        self._report_loader = jinja2.FileSystemLoader(
+            self.template_root.as_posix()
+        )
+        self._env = jinja2.Environment(
+            loader=self._report_loader,
+            extensions=['jinja2.ext.with_'],
+        )
+        self._env.globals['static'] = self._template_static_path
+
+    def _template_static_path(self, path):
+        return 'static/%s' % path
+
+    def render(self):
+        return self._template.render(job_info=self.job_info)
+
+    def copy_static(self, report_root):
+        pass
+
+
 class Report:
-    pass
+    """NGCloud report base class of every pipeline.
+
+    Notes
+    -----
+    When creating one's own pipeline, *always* remember to
+    call the super class's constructor. That is,
+
+    .. code-block:: python3
+        :emphasize-lines: 3
+
+        class MyReport(Report):
+            def __init__(self, job_dir, out_dir, verbosity, *my_args):
+                super(Report, self).__init__(job_dir, out_dir, verbosity)
+                # ...
+
+    Also, if one want to use :command:`ngreport` for custom report class,
+    :py:meth:`__init__` signature should always match :py:class:`Report`.
+
+    """
+
+    __metaclass__ = ABCMeta
+
+    def __init__(self):
+        self.template_config()
+
+    def generate(self, job_dir, out_dir):
+        self.job_info = JobInfo(job_dir)
+        self.out_dir = out_dir
+
+        self.report_root = self.out_dir / ('report_%s' % self.job_info.id)
+        logger.info(
+            "Get a new job folder"
+            "id: {0.id} type: {0.type}".format(self.job_info)
+        )
+
+        if not self.report_root.exists():
+            self.report_root.mkdir(parents=True)
+
+        # copy template's static files
+        self.copy_static()
+
+        # create stage instances
+        self._stages = [
+            Stage(self.job_info)
+            for Stage in self.stage_template_cls
+        ]
+
+        self.render_report()
+
+        # copy stage's static files
+        for stage in self._stages:
+            stage.copy_static(self.report_root)
+
+        # write rendered report html to files
+        self.output_report()
+
+    def render_report(self):
+        """Put real results into report template and return rendered html."""
+
+        self.report_html = dict()
+        for stage in self._stages:
+            self.report_html[stage.template_name] = stage.render()
+
+    def copy_static(self):
+        """Copy template statics files to output dir."""
+        shutil.copytree(
+            strify_path(self.static_root),
+            strify_path(self.report_root / 'static')
+        )
+
+    def output_report(self):
+        for name, content in self.report_html.items():
+            with open(self.report_root / '{}.html'.format(name), 'w') as f:
+                f.write(content)
+
+    @abstractmethod
+    def template_config(self):
+        """Setup configuration for report templates.
+
+        *Always* override this method
+        """
+        self.stage_template_cls = [Stage, Stage]
+        self.static_root = Path()
+
 
 def generate(pipe_report_cls, job_dir, out_dir, verbosity=0):
     """Generate a NGCloud report.
