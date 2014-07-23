@@ -3,6 +3,7 @@ import logging
 import sys
 from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
+import ngcloud as ng
 from ngcloud.info import JobInfo
 from ngcloud.util import expanduser, copy, strify_path, open
 
@@ -16,6 +17,10 @@ Quick remainder for serving current folder through http:
     # Serving HTTP on 0.0.0.0 port 8000 ...
 
 '''
+
+# logger setup
+logger = ng._create_logger(__name__)
+
 
 # Jinja2 setup
 report_loader = FileSystemLoader('report/templates')
@@ -42,12 +47,12 @@ def cleanup_output(output_root):
         output_root.mkdir()
         return
 
-    logging.info('Remove previous outputs under output')
+    logger.info('Remove previous outputs under output')
     previous_output = [
         strify_path(p) for p in output_root.iterdir()
         if p.is_dir() and p.name.startswith('report_')
     ]
-    logging.warn(
+    logger.warn(
         'These ouput reports will be removed: %s' % ', '.join(previous_output)
     )
     for pre in previous_output:
@@ -144,7 +149,7 @@ def gen_report(job_root, output_root):
 
     job_info = JobInfo(job_root)
     report_root = output_root / ('report_%s' % job_info.id)
-    logging.info(
+    logger.info(
         "Get a new job folder id: {0.id} type: {0.type}".format(job_info)
     )
 
@@ -158,6 +163,12 @@ def gen_report(job_root, output_root):
 
 
 if __name__ == '__main__':
+    # set logging
+    handler = logging.StreamHandler()
+    handler.setFormatter(ng._log_formatter)
+    handler.setLevel(logging.DEBUG)
+    logger.addHandler(handler)
+
     output_root = Path('output')
     cleanup_output(output_root)
 

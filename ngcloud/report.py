@@ -4,6 +4,8 @@ from docopt import docopt
 import ngcloud as ng
 from ngcloud.pipe import tuxedo
 
+logger = ng._create_logger(__name__)
+
 AVAIL_PIPES = {
     'tuxedo': tuxedo.TuxedoReader
     # FIXME: try to make ng.pipe.tuxedo.TuxedoReader valid import path
