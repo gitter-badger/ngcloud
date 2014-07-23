@@ -1,14 +1,13 @@
 #! /usr/bin/env python3.4
+import importlib
 from pathlib import Path
 from docopt import docopt
 import ngcloud as ng
-from ngcloud.pipe import tuxedo
 
 logger = ng._create_logger(__name__)
 
 AVAIL_PIPES = {
-    'tuxedo': tuxedo.TuxedoReader
-    # FIXME: try to make ng.pipe.tuxedo.TuxedoReader valid import path
+    'tuxedo': 'ngcloud.pipe.tuxedo.TuxedoReport'
 }
 
 _SCRIPT_DOC = """\
@@ -45,7 +44,7 @@ Quick remainder for serving current folder through http:
 class Report:
     pass
 
-def generate(pipe_type_cls, job_dir, out_dir, verbosity=0):
+def generate(pipe_report_cls, job_dir, out_dir, verbosity=0):
     """Generate a NGCloud report.
 
     For :ref:`normal usage <ngreport>`, one can use :command:`ngreport` command
@@ -53,8 +52,8 @@ def generate(pipe_type_cls, job_dir, out_dir, verbosity=0):
 
     Parameters
     ----------
-    pipe_type_cls: class
-        Python class to generate the report of certain pipeline.
+    pipe_report_cls: str
+        Name of the Python class to generate the report of certain pipeline.
     job_dir: path-like object
     out_dir: path-like object
     verbosity: int
@@ -66,6 +65,17 @@ def generate(pipe_type_cls, job_dir, out_dir, verbosity=0):
     inherit :py:class:`Report` and call this function manually.
 
     """
+    # read in the pipeline class
+    pipe_module_name, pipe_class_name = pipe_report_cls.rsplit('.', 1)
+    pipe_module = importlib.import_module(pipe_module_name)
+    PipeReport = getattr(pipe_module, pipe_class_name)
+
+    if not issubclass(PipeReport, Report):
+        raise TypeError(
+            "pipe_report_cls: {} should be inherited from"
+            "ngcloud.report.Report".format(pipe_report_cls)
+        )
+
     job_dir = Path(job_dir)
     out_dir = Path(out_dir)
 
@@ -79,6 +89,9 @@ def generate(pipe_type_cls, job_dir, out_dir, verbosity=0):
             'Expect job info to be dir: {}'.format(job_dir)
         )
 
+    report = PipeReport()
+    report.generate(job_dir, out_dir)
+
 
 def main():
     args = docopt(_SCRIPT_DOC, version=ng.__version__)
@@ -90,7 +103,7 @@ def main():
         raise ValueError(
             "Unknown pipeline type: {}".format(pipe_type)
         )
-    pipe_type_cls = AVAIL_PIPES[pipe_type]
+    pipe_report_cls = AVAIL_PIPES[pipe_type]
 
     job_dir = Path(args['<job_dir>'])
     out_dir = Path(
@@ -98,7 +111,7 @@ def main():
     )
     verbosity = args['--verbose']
 
-    generate(pipe_type_cls, job_dir, out_dir, verbosity)
+    generate(pipe_report_cls, job_dir, out_dir, verbosity)
 
 if __name__ == '__main__':
     main()
