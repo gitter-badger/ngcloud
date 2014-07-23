@@ -43,6 +43,7 @@ setup(
     install_requires=[
         'docopt > 0.6',
         'PyYAML',
+        'Jinja2 > 2',
     ],
 
     keywords='ngs',
