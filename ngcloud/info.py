@@ -1,10 +1,13 @@
-import yaml
+import re
 from pathlib import Path
+import yaml
+import ngcloud as ng
 from ngcloud.util import (
     open, abspath, expanduser,
     _val_bool_or_none,
 )
-import re
+
+logger = ng._create_logger(__name__)
 
 class Sample:
     """Sample experiment run information.
@@ -58,6 +61,10 @@ class Sample:
         self.stranded = stranded
 
         self.full_name = self._gen_full_name()
+        logger.info(
+            "New Sample (full_name: {0.full_name}) created".format(self))
+        logger.debug(
+            "New sample full_info: {!r}".format(self))
 
     def __repr__(self):
         return "Sample(name={0.name!r})".format(self)
@@ -73,6 +80,8 @@ class Sample:
 
     @staticmethod
     def _val_pair_end(pair_end):
+        logger.debug(
+            "Checking pair-end: {}".format(pair_end))
         if pair_end not in ['R1', 'R2', False, None]:
             raise ValueError(
                 "Unexpected pair-end type: {}".format(pair_end)
@@ -94,21 +103,28 @@ class JobInfo:
     root_path : path like object
     """
 
+    # FIXME: use job_info.yaml instead of folder name
     _read_folder_name = re.compile(
         r"^job_(?P<id>\d+)_(?P<type>\w+)$"
     ).match
 
     def __init__(self, root_path):
+        logger.info("Reading job info from folder: {}".format(root_path))
         self.root_path = Path(abspath(expanduser(root_path)))
+        logger.debug("Get absolute path: {!s}".format(self.root_path))
 
         folder_info = self._parse_job_folder_name()
         self.id = folder_info['id']
         self.type = folder_info['type']
+        logger.info(
+            "Folder name read, get id: {0.id} type: {0.type}".format(self)
+        )
 
         self._raw = self._read_yaml()
         self.sample_list = self._parse_sample_list()
 
     def _read_yaml(self):
+        logger.info("Reading job_info.yaml")
         with open(self.root_path / "job_info.yaml") as f:
             return yaml.load(f)
 
@@ -121,11 +137,14 @@ class JobInfo:
         return folder_match.groupdict()
 
     def _parse_sample_list(self):
+        logger.info("Get sample_list from raw yaml")
         sample_list = []
-
         for sample in self._raw['sample_list']:
             name, info = next(iter(sample.items()))  # now a dict with one key
-            # TODO:if user input SRR5566_R1 but no R2, needs to check
+            # TODO: if user input SRR5566_R1 but no R2, needs to check
+            logger.debug(
+                "Reading sample name: {0} info: {1}".format(name, info)
+            )
             sample_list.append(Sample(name, **info))
 
         return sample_list
