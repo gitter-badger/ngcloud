@@ -1,6 +1,9 @@
-from pathlib import Path
-import os.path as op
 import shutil
+import os.path as op
+from pathlib import Path
+import ngcloud as ng
+
+logger = ng._create_logger(__name__)
 
 def open(path_like, *args, **kwargs):
     """Custom open() that accepts :py:class:`pathlib.Path` object.
