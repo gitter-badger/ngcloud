@@ -40,7 +40,13 @@ def expanduser(path_like):
 def copy(src_path_like, dst_path_like, metadata=False, **kwargs):
     """pathlib support for path-like objects."""
 
-    shutil.copy(
+    if metadata:
+        _copy_cmd = shutil.copy2  # copy2 perserves metadata
+    else:
+        _copy_cmd = shutil.copy
+
+    # TODO: use system command for large file
+    _copy_cmd(
         strify_path(src_path_like), strify_path(dst_path_like),
         **kwargs
     )
