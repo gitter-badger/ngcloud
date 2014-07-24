@@ -33,12 +33,7 @@ setup(
     classifiers=[
         'Development Status :: 3 - Beta',
     ],
-
-    entry_points={
-        'console_scripts': [
-            'ngreport = ngcloud.report:main',
-        ],
-    },
+    keywords='ngs',
 
     install_requires=[
         'docopt > 0.6',
@@ -46,9 +41,14 @@ setup(
         'Jinja2 > 2',
     ],
 
-    keywords='ngs',
     packages=find_packages(
         exclude=['contrib', 'docs', 'test*']
     ),
     test_suite='nose.collector',
+    entry_points={
+        'console_scripts': [
+            'ngreport = ngcloud.report:main',
+        ],
+    },
+
 )

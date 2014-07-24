@@ -62,6 +62,7 @@ class TophatStage(Stage):
     template_name = 'tophat'
     template_root = _here / 'report' / 'templates'
 
+
 class TuxedoReport(Report):
     """NGCloud report class of Tuxedo pipeline."""
 
