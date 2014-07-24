@@ -67,8 +67,8 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
     file_patterns : str or iterable
         glob-style file pattern
 
-    Return
-    ------
+    Returns
+    -------
     List of :py:class:`pathlib.Path` object.
 
     Examples
@@ -111,7 +111,7 @@ def strify_path(path_like):
     """Normalized path-like object to POSIX style str.
 
     Examples
-    -------
+    --------
 
         >>> strify_path(Path('ngcloud') / 'hi.py'))
         "ngcloud/hi.py"
