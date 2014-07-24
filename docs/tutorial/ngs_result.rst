@@ -27,7 +27,7 @@ Specify the ``job_info.yaml``
 
 ``job_info.yaml`` follows YAML_ syntax, which stores how the NGS analysis pipeline is performed and the sample information. YAML_ is a human readable format to store natural data structure.
 
-.. literalinclude:: ../../example/tuxedo/job_info.yaml
+.. literalinclude:: ../../examples/tuxedo/job_info.yaml
     :language: yaml
     :linenos:
 
