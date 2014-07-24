@@ -2,7 +2,7 @@
 import importlib
 import shutil
 from pathlib import Path
-from abc import ABCMeta, abstractmethod
+import abc
 from docopt import docopt
 import jinja2
 import ngcloud as ng
@@ -47,9 +47,7 @@ Quick remainder for serving current folder through http:
 '''
 
 
-class Stage:
-    __metaclass__ = ABCMeta
-
+class Stage(metaclass=abc.ABCMeta):
     template_name = ''
 
     def __init__(self, job_info, report_root):
@@ -81,7 +79,7 @@ class Stage:
         pass
 
 
-class Report:
+class Report(metaclass=abc.ABCMeta):
     """NGCloud report base class of every pipeline.
 
     Notes
@@ -101,8 +99,6 @@ class Report:
     :py:meth:`__init__` signature should always match :py:class:`Report`.
 
     """
-
-    __metaclass__ = ABCMeta
 
     def __init__(self):
         self.template_config()
@@ -157,7 +153,7 @@ class Report:
             with open(self.report_root / '{}.html'.format(name), 'w') as f:
                 f.write(content)
 
-    @abstractmethod
+    @abc.abstractmethod
     def template_config(self):
         """Setup configuration for report templates.
 
