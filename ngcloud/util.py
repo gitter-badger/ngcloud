@@ -83,20 +83,26 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
          PosixPath('report/static/vendor/bootstrap-3.1.1/js/bootstrap.js')]
 
     """
+    # if input is str
+    if isinstance(file_patterns, str):
+        return list(Path(path_like).glob(file_patterns))
+
+    # if input is iterable
     try:
         discovered_file_list = []
         for pattern in file_patterns:
-            discovered_file_list.extend(path_like.glob(pattern))
+            if not isinstance(pattern, str):
+                raise TypeError(
+                    "File pattern should be str, not {}".format(file_patterns)
+                )
+            discovered_file_list.extend(Path(path_like).glob(pattern))
         return discovered_file_list
-    except TypeError:
-        if isinstance(file_patterns, str):
-            return path_like.glob(file_patterns)
-        else:
-            raise TypeError(
-                "Unexpect file_patterns: {},"
-                "should be str or iterable of str elements."
-                .format(file_patterns)
-            )
+    except TypeError as te:
+        raise ValueError(
+            "Unexpect file_patterns: {}, "
+            "should be str or iterable of str elements."
+            .format(file_patterns)
+        ) from te
 
 def strify_path(path_like):
     """Normalized path-like object to POSIX style str.
