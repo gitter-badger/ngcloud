@@ -297,7 +297,8 @@ def main():
     # setup console logging
     console = logging.StreamHandler()
     console.setFormatter(ng._log_formatter)
-    logger.addHandler(console)
+    pkg_logger = logging.getLogger("ngcloud")
+    pkg_logger.addHandler(console)
 
     args = docopt(_SCRIPT_DOC, version=ng.__version__)
 
@@ -308,7 +309,7 @@ def main():
         loglevel = logging.DEBUG
     else:
         loglevel = logging.WARNING
-    console.setLevel(loglevel)
+    pkg_logger.setLevel(loglevel)
 
     logger.debug("Get command line arguments: {!r}".format(dict(args)))
 
