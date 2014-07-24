@@ -18,7 +18,6 @@ class Sample:
     pair_end : {'R1', 'R2', False}, optional
     stranded : bool, optional
 
-
     Attributes
     ----------
     name : string
@@ -132,7 +131,7 @@ class JobInfo:
         folder_match = JobInfo._read_folder_name(self.root_path.name)
         if not folder_match or not self.root_path.is_dir():
             raise ValueError(
-                "Unreadable folder path: {:s}".format(self.root_path)
+                "Unreadable folder path: {!s}".format(self.root_path)
             )
         return folder_match.groupdict()
 
