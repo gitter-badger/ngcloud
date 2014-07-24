@@ -37,12 +37,12 @@ def expanduser(path_like):
         return op.expanduser(path_like)
 
 
-def copy(src_path_like, dst_path_like, *args, **kwargs):
+def copy(src_path_like, dst_path_like, metadata=False, **kwargs):
     """pathlib support for path-like objects."""
 
     shutil.copy(
         strify_path(src_path_like), strify_path(dst_path_like),
-        *args, **kwargs
+        **kwargs
     )
 
 
