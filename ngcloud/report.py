@@ -82,28 +82,51 @@ class Stage(metaclass=abc.ABCMeta):
 class Report(metaclass=abc.ABCMeta):
     """NGCloud report base class of every pipeline.
 
-    Notes
-    -----
-    When creating one's own pipeline, *always* remember to
-    call the super class's constructor. That is,
+    To combind custom pipeline with :command:`ngreport`,
+    :py:meth:`__init__` signature must match :py:class:`Report`.
+    Setup the custom logics in :py:func:`template_config`
 
-    .. code-block:: python3
-        :emphasize-lines: 3
+    Attributes
+    ----------
+    job_info
+    out_dir
+    report_root
+    stage_template_cls : list of class
+        List of stage class name in order used in for this pipeline report.
+    static_root : Path
+        Path to the template static file dir
 
-        class MyReport(Report):
-            def __init__(self, job_dir, out_dir, verbosity, *my_args):
-                super(Report, self).__init__(job_dir, out_dir, verbosity)
-                # ...
-
-    Also, if one want to use :command:`ngreport` for custom report class,
-    :py:meth:`__init__` signature should always match :py:class:`Report`.
+    Raises
+    ------
+    TypeError
+        When initiate this class directly,
+        or subclass does not implement :py:func:`!template_config`
 
     """
 
     def __init__(self):
+        """Call :py:func:`template_config`."""
         self.template_config()
 
     def generate(self, job_dir, out_dir):
+        """Render a report and output to given directory.
+
+        The whole process breaks down into follwoing parts:
+
+        1. read NGS result as :py:class:`~ngcloud.info.JobInfo`
+        2. render report, covered by :py:func:`render_report`
+        3. copy template-related static files such as JS and CSS
+           into output dir, covered by :py:func:`copy_static`
+        4. copy stage-related static files into output dir.
+           Call each :py:func:`Stage.copy_static` respectively
+        5. output rendered reports into output dir, covered by
+           :py:func:`output_report`
+
+        Notes
+        -----
+        **Override this function with care.** You might break the logic.
+
+        """
         self.job_info = JobInfo(job_dir)
         self.out_dir = out_dir
 
@@ -116,9 +139,6 @@ class Report(metaclass=abc.ABCMeta):
         if not self.report_root.exists():
             self.report_root.mkdir(parents=True)
 
-        # copy template's static files
-        self.copy_static()
-
         # create stage instances
         self._stages = [
             Stage(self.job_info, self.report_root)
@@ -126,6 +146,9 @@ class Report(metaclass=abc.ABCMeta):
         ]
 
         self.render_report()
+
+        # copy template's static files
+        self.copy_static()
 
         # copy stage's static files
         for stage in self._stages:
@@ -149,6 +172,10 @@ class Report(metaclass=abc.ABCMeta):
         )
 
     def output_report(self):
+        """Output rendered htmls to output directory.
+
+        No original data is involved, just some file I/Oing.
+        """
         for name, content in self.report_html.items():
             with open(self.report_root / '{}.html'.format(name), 'w') as f:
                 f.write(content)
@@ -157,7 +184,59 @@ class Report(metaclass=abc.ABCMeta):
     def template_config(self):
         """Setup configuration for report templates.
 
-        *Always* override this method
+        *Always* override this method.
+        Also, two instance attributes should be setted here:
+
+        - :py:attr:`stage_template_cls`
+        - :py:attr:`static_root`
+
+        Examples
+        --------
+
+        .. code-block:: python3
+
+            def template_config(self):
+                self.stage_template_cls = [IndexStage, MyStage]
+                self.static_root = "mypipe/report/static"
+
+        One could also put the extra logics here for custom report,
+        since this function will always be called by :py:func:`!__init__`
+
+        .. py:attribute:: stage_template_cls
+
+            (List of class name) Store the sequence of stages in use.
+            Specify names of subclass of :py:class:`Stage`
+
+            For example,
+
+            .. code-block:: python3
+
+                from ngcloud.pipe.common import InextStage, QCStage
+
+                # inside template_config()
+                self.stage_template_cls = [IndexStage, QCStage]
+
+            One only needs to pass in the name of the stage class,
+            not initiate the stage class.
+            See :py:class:`Stage` for how to write a new stage class
+
+        .. py:attribute:: static_root
+
+            :py:class:`~pathlib.Path` to root dir of report static files,
+            such as JS, CSS files for making html pages.
+
+            For example,
+
+            .. code-block:: python3
+
+                # inside template_config()
+                self.static_root = Path('ngreport/static')
+                # below it has js/, css/, imgs/ subfolders
+
+            Take care if the path is inside your package or inside the same
+            folder as the Python script. One could use ``__file__``
+            to determine where the script locates.
+
         """
         self.stage_template_cls = [Stage, Stage]
         self.static_root = Path()

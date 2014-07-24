@@ -42,6 +42,7 @@ class QCStage(Stage):
             copy(src_root / fp, dest_root)
 
     def copy_static_sample(self):
+        """Copy QC sample pics to static/qc_sample/<sample_name>"""
         file_patterns = ['*.png']
 
         all_src_root = self.job_info.root_path / '1_fastqc' / 'output'
