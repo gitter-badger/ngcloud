@@ -44,6 +44,9 @@ setup(
     packages=find_packages(
         exclude=['contrib', 'docs', 'test*']
     ),
+    package_data={
+        'ngcloud.pipe': ['report/*'],
+    },
     test_suite='nose.collector',
     entry_points={
         'console_scripts': [
