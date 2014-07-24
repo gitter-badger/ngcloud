@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+from pathlib import Path
 import re
 
 here = path.abspath(path.dirname(__file__))
@@ -18,6 +19,13 @@ def find_version(*path_parts):
         return version_match.group(1)
 
     raise RuntimeError("Unable to find version string.")
+
+# recursively find all files under ngcloud/pipe/report
+pipe_template_data = [
+    p.relative_to('ngcloud/pipe').as_posix()
+    for p in Path('ngcloud/pipe/report').glob("**/*")
+    if not p.is_dir()
+]
 
 setup(
     name='ngcloud',
@@ -45,7 +53,7 @@ setup(
         exclude=['contrib', 'docs', 'test*']
     ),
     package_data={
-        'ngcloud.pipe': ['report/*'],
+        'ngcloud.pipe': pipe_template_data,
     },
     test_suite='nose.collector',
     entry_points={
