@@ -52,6 +52,38 @@ def copy(src_path_like, dst_path_like, metadata=False, **kwargs):
     )
 
 
+def discover_file_by_patterns(path_like, file_patterns="*"):
+    """Discover files under certain path based on given patterns.
+
+    Support both ``**`` and ``*`` globbing syntax.
+    Call :py:func:`pathlib.Path.glob` internally.
+
+    Parameters
+    ----------
+    path_like : path-like object
+    file_patterns : str or iterable
+        glob-style file pattern
+
+    Return
+    ------
+    List of :py:class:`pathlib.Path` object.
+
+    """
+    try:
+        discovered_file_list = []
+        for pattern in file_patterns:
+            discovered_file_list.extend(path_like.glob(pattern))
+        return discovered_file_list
+    except TypeError:
+        if isinstance(file_patterns, str):
+            return path_like.glob(file_patterns)
+        else:
+            raise TypeError(
+                "Unexpect file_patterns: {},"
+                "should be str or iterable of str elements."
+                .format(file_patterns)
+            )
+
 def strify_path(path_like):
     if isinstance(path_like, Path):
         return path_like.as_posix()
