@@ -3,6 +3,7 @@ import importlib
 import shutil
 from pathlib import Path
 import abc
+import logging
 from docopt import docopt
 import jinja2
 import ngcloud as ng
@@ -292,8 +293,24 @@ def generate(pipe_report_cls, job_dir, out_dir, verbosity=0):
 
 
 def main():
+
+    # setup console logging
+    console = logging.StreamHandler()
+    console.setFormatter(ng._log_formatter)
+    logger.addHandler(console)
+
     args = docopt(_SCRIPT_DOC, version=ng.__version__)
-    print(args)
+
+    # set logging level
+    if args['--verbose'] == 1:
+        loglevel = logging.INFO
+    elif args['--verbose'] >= 2:
+        loglevel = logging.DEBUG
+    else:
+        loglevel = logging.WARNING
+    console.setLevel(loglevel)
+
+    logger.debug("Get command line arguments: {!r}".format(dict(args)))
 
     pipe_type = args['--pipe']
     # validate pipe_type
