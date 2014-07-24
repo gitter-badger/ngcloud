@@ -52,12 +52,13 @@ class Stage:
 
     template_name = ''
 
-    def __init__(self, job_info):
+    def __init__(self, job_info, report_root):
         self._setup_jinja2()
         self._template = self._env.get_template(
             "%s.html" % self.template_name
         )
         self.job_info = job_info
+        self.report_root = report_root
 
     def _setup_jinja2(self):
         self._report_loader = jinja2.FileSystemLoader(
@@ -75,7 +76,8 @@ class Stage:
     def render(self):
         return self._template.render(job_info=self.job_info)
 
-    def copy_static(self, report_root):
+    def copy_static(self):
+        """Copy stage-specific static files under report folder."""
         pass
 
 
@@ -123,7 +125,7 @@ class Report:
 
         # create stage instances
         self._stages = [
-            Stage(self.job_info)
+            Stage(self.job_info, self.report_root)
             for Stage in self.stage_template_cls
         ]
 
@@ -131,7 +133,7 @@ class Report:
 
         # copy stage's static files
         for stage in self._stages:
-            stage.copy_static(self.report_root)
+            stage.copy_static()
 
         # write rendered report html to files
         self.output_report()
