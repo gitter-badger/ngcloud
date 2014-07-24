@@ -136,7 +136,7 @@ def _val_bool_or_none(arg, name):
     ValueError
 
     """
-    if not isinstance(arg, bool) and not arg is None:
+    if not isinstance(arg, bool) and arg is not None:
         raise ValueError(
             "Expect {0} to be True, False or None".format(name)
         )
