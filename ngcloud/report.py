@@ -279,11 +279,11 @@ def generate(pipe_report_cls, job_dir, out_dir, verbosity=0):
 
     # validate job_dir
     if not job_dir.exists():
-        raise FileNotFoundError(    # noqa
+        raise FileNotFoundError(
             'Job info folder: {} does not exist!'.format(job_dir)
         )
     if not job_dir.is_dir():
-        raise NotADirectoryError(   # noqa
+        raise NotADirectoryError(
             'Expect job info to be dir: {}'.format(job_dir)
         )
 
