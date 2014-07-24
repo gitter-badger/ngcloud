@@ -20,12 +20,11 @@ High level NGCloud result parser can be accessed by both ways,
 
     $ python -m ngcloud.report
     # Usage:
-    # ... (they access same function)
-
+    # ... (they access the same function)
 
 
 .. seealso::
 
-    To use the parser inside a Python program, call the function
+    To use the parser inside a Python program, call
     :py:func:`ngcloud.report.generate` directly.
 

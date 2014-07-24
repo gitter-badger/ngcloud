@@ -68,6 +68,20 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
     ------
     List of :py:class:`pathlib.Path` object.
 
+    Examples
+    --------
+
+        >>> discover_file_by_patterns("report", "**/_*.html")
+        [PosixPath('report/templates/_nav.html'),
+         PosixPath('report/templates/_footer.html'),
+         PosixPath('report/templates/_stage_pipe.html')]
+        >>> discover_file_by_patterns("report", ["**/_*.html", "**/*.js"])
+        [PosixPath('report/templates/_nav.html'),
+         PosixPath('report/templates/_footer.html'),
+         PosixPath('report/templates/_stage_pipe.html'),
+         PosixPath('report/static/vendor/bootstrap-3.1.1/js/bootstrap.min.js'),
+         PosixPath('report/static/vendor/bootstrap-3.1.1/js/bootstrap.js')]
+
     """
     try:
         discovered_file_list = []
@@ -85,6 +99,17 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
             )
 
 def strify_path(path_like):
+    """Normalized path-like object to POSIX style str.
+
+    Examples
+    -------
+
+        >>> strify_path(Path('ngcloud') / 'hi.py'))
+        "ngcloud/hi.py"
+        >>> strify_path('ngcloud/hi.py')
+        "ngcloud/hi.py"
+
+    """
     if isinstance(path_like, Path):
         return path_like.as_posix()
     elif isinstance(path_like, str):
