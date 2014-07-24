@@ -1,0 +1,35 @@
+tophat_reports v2.0.9 (3067M)
+---------------------------------------
+[samopen] SAM header is present: 25 sequences.
+	Loading chrM...done
+	Loading chr1...done
+	Loading chr2...done
+	Loading chr3...done
+	Loading chr4...done
+	Loading chr5...done
+	Loading chr6...done
+	Loading chr7...done
+	Loading chr8...done
+	Loading chr9...done
+	Loading chr10...done
+	Loading chr11...done
+	Loading chr12...done
+	Loading chr13...done
+	Loading chr14...done
+	Loading chr15...done
+	Loading chr16...done
+	Loading chr17...done
+	Loading chr18...done
+	Loading chr19...done
+	Loading chr20...done
+	Loading chr21...done
+	Loading chr22...done
+	Loading chrX...done
+	Loading chrY...done
+	Loading ...done
+Loaded 218187 GFF junctions from tophat/tmp/genes.juncs.
+Loaded 228766 junctions
+Printing junction BED track...done
+Printing insertions...done
+Printing deletions...done
+Found 139721 junctions from happy spliced reads
