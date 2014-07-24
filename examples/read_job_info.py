@@ -1,15 +1,12 @@
 import sys
-from os.path import expanduser
 from pathlib import Path
 from ngcloud.info import JobInfo
 
 def main():
     if sys.platform == "darwin":
-        JOB_PATH = Path(
-            expanduser("~/Documents/biocloud_datasets/job_9527_tuxedo"))
+        JOB_PATH = Path("job_9527_tuxedo_minimal")
     elif sys.platform.startswith("linux"):
-        JOB_PATH = Path(
-            expanduser("~/dataset/biocloud/job_9527_tuxedo"))
+        JOB_PATH = Path("job_9527_tuxedo_minimal")
 
     job_info = JobInfo(JOB_PATH)
 

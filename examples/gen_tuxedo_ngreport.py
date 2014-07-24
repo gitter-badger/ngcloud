@@ -2,7 +2,7 @@ from pathlib import Path
 import logging
 import shutil
 from ngcloud.report import generate
-from ngcloud.util import expanduser, strify_path
+from ngcloud.util import strify_path
 from ngcloud import _create_logger
 
 logger = _create_logger(__name__)
@@ -30,8 +30,7 @@ if __name__ == '__main__':
 
     generate(
         pipe_report_cls='ngcloud.pipe.tuxedo.TuxedoReport',
-        job_dir=Path(
-            expanduser("~/dataset/biocloud/job_9527_tuxedo")),
+        job_dir=Path("job_9527_tuxedo_minimal"),
         out_dir=output_root
     )
 
