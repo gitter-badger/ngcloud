@@ -94,6 +94,7 @@ def strify_path(path_like):
             "Unknown type {} for path-like object".format(type(path_like))
         )
 
+
 def _val_bool_or_none(arg, name):
     """Check if argument is of True, False, or None.
 

@@ -70,6 +70,6 @@ class TuxedoReport(Report):
             IndexStage,
             QCStage,
             TophatStage,
-            # CufflinkStage
+            # CufflinkStage,
         ]
         self.static_root = _here / 'report' / 'static'
