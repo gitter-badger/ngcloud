@@ -20,8 +20,8 @@ _SCRIPT_DOC = """\
 NGCloud report generator for differenct NGS analysis pipelines.
 
 Usage:
-    ngreport [-p <pipeline>] <job_dir> [<out_dir>] [-v ...]
-    ngreport [-p <pipeline>] <job_dir> [-o <out_dir>] [-v ...]
+    ngreport [-p <pipeline>] <job_dir> [<out_dir>] [-v ...] [options]
+    ngreport [-p <pipeline>] <job_dir> [-o <out_dir>] [-v ...] [options]
     ngreport -h | --help
     ngreport --version
 
@@ -34,6 +34,8 @@ Options:
     <job_dir>           Path to the organized job folder [default: .]
     -o <out_dir>, --outdir=<out_dir>, <out_dir>
                         Path to the report output [default: ./output]
+    --color             Produce colorful logs, require colorlog
+    --log-time          Add time stamp in log
 
 """
 
@@ -293,10 +295,8 @@ def generate(pipe_report_cls, job_dir, out_dir):
 
 
 def main():
-
     # setup console logging
     console = logging.StreamHandler()
-    console.setFormatter(ng._log_formatter)
     pkg_logger = logging.getLogger("ngcloud")
     pkg_logger.addHandler(console)
 
@@ -311,6 +311,39 @@ def main():
     else:
         loglevel = logging.WARNING
     pkg_logger.setLevel(loglevel)
+
+    log_fmt = '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] %(message)s'
+    if args['--log-time']:
+        log_fmt = '[%(asctime)s]' + log_fmt
+
+    color_log_fmt = (
+        '%(log_color)s%(levelname)-7s%(reset)s '
+        '%(cyan)s%(name)-8s%(reset)s '
+        '%(log_color)s[%(funcName)s]%(reset)s '
+        '%(message)s'
+    )
+    if args['--log-time']:
+        color_log_fmt = '%(asctime)s ' + color_log_fmt
+
+    # set color log output
+    log_formatter = logging.Formatter(
+        log_fmt,
+        '%Y-%m-%d %H:%M:%S'
+    )
+    if args['--color']:
+        try:
+            import colorlog
+            log_color_formatter = colorlog.ColoredFormatter(
+                color_log_fmt,
+                '%Y-%m-%d %H:%M:%S',
+                log_colors=colorlog.default_log_colors
+            )
+            console.setFormatter(log_color_formatter)
+        except ImportError:
+            print("color log requires colorlog, try pip install colorlog")
+            console.setFormatter(log_formatter)
+    else:
+        console.setFormatter(log_formatter)
 
     logger.debug("Get command line arguments: {!r}".format(dict(args)))
 
