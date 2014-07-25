@@ -243,7 +243,7 @@ class Report(metaclass=abc.ABCMeta):
         self.static_root = Path()
 
 
-def generate(pipe_report_cls, job_dir, out_dir, verbosity=0):
+def generate(pipe_report_cls, job_dir, out_dir):
     """Generate a NGCloud report.
 
     For :ref:`normal usage <ngreport>`, one can use :command:`ngreport` command
@@ -325,9 +325,8 @@ def main():
     out_dir = Path(
         args['<out_dir>'] if args['<out_dir>'] else args['--outdir']
     )
-    verbosity = args['--verbose']
 
-    generate(pipe_report_cls, job_dir, out_dir, verbosity)
+    generate(pipe_report_cls, job_dir, out_dir)
 
 if __name__ == '__main__':
     main()
