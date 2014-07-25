@@ -1,4 +1,3 @@
-import re
 from pathlib import Path
 import yaml
 import ngcloud as ng
@@ -98,24 +97,17 @@ class JobInfo:
     root_path : path like object
     """
 
-    # FIXME: use job_info.yaml instead of folder name
-    _read_folder_name = re.compile(
-        r"^job_(?P<id>\d+)_(?P<type>\w+)$"
-    ).match
-
     def __init__(self, root_path):
         logger.info("Reading job info from folder: {}".format(root_path))
         self.root_path = Path(abspath(expanduser(root_path)))
         logger.debug("Get absolute path: {!s}".format(self.root_path))
 
-        folder_info = self._parse_job_folder_name()
-        self.id = folder_info['id']
-        self.type = folder_info['type']
-        logger.info(
-            "Folder name read, get id: {0.id} type: {0.type}".format(self)
-        )
-
         self._raw = self._read_yaml()
+        self.id = self._raw['job_id']
+        self.type = self._raw['job_type']
+        logger.info(
+            "JobInfo created (id: {0.id} type: {0.type})".format(self)
+        )
         self.sample_list = self._parse_sample_list()
 
     def _read_yaml(self):
@@ -123,16 +115,8 @@ class JobInfo:
         with open(self.root_path / "job_info.yaml") as f:
             return yaml.load(f)
 
-    def _parse_job_folder_name(self):
-        folder_match = JobInfo._read_folder_name(self.root_path.name)
-        if not folder_match or not self.root_path.is_dir():
-            raise ValueError(
-                "Unreadable folder path: {!s}".format(self.root_path)
-            )
-        return folder_match.groupdict()
-
     def _parse_sample_list(self):
-        logger.info("Get sample_list from raw yaml")
+        logger.info("Get sample_list from YAML info")
         sample_list = []
         for sample in self._raw['sample_list']:
             name, info = next(iter(sample.items()))  # now a dict with one key

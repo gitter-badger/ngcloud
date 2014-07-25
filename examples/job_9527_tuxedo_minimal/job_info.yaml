@@ -1,3 +1,5 @@
+job_type: tuxedo
+job_id: 9527
 sample_list:
 # TODO: accept conditions, sample_group
     - SRR1027176_1:
