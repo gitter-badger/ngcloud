@@ -25,8 +25,9 @@ Contents
 
     install
     tutorial/index.rst
-    contrib_dev/contributing
     module_api/ngcloud
+    contrib_dev/develop
+    contrib_dev/contributing
 
 
 Indices and tables
