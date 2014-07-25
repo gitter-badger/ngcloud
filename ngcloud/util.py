@@ -10,14 +10,18 @@ def open(path_like, *args, **kwargs):
 
     All the parameters will be passed to original :py:func:`python:open`.
 
-
     Examples
     --------
 
-        >>> with open(Path(), 'w') as f:
+        >>> with open(Path('say'), 'w') as f:
         ...     f.write('hi')
 
     """
+    logger.debug(
+        "File {0!s} is open by custom open() function "
+        "with extra arguments: args={1} kwargs={2}"
+        .format(path_like, args, kwargs)
+    )
     if isinstance(path_like, Path):
         return path_like.open(*args, **kwargs)
     else:
@@ -25,8 +29,11 @@ def open(path_like, *args, **kwargs):
 
 
 def abspath(path_like):
-    """Custom abspath() that accepts both str and :py:class:`pathlib.Path`."""
+    """Custom abspath() that accepts both str and Path object.
 
+    Internally it calls :py:func:`os.path.abspath`
+    """
+    logger.debug("Path {!s} passed to custom abspath() function")
     if isinstance(path_like, Path):
         return op.abspath(path_like.as_posix())
     else:
@@ -34,6 +41,11 @@ def abspath(path_like):
 
 
 def expanduser(path_like):
+    """Custom expanduser() that accepts both str and Path object.
+
+    Internally it calls :py:func:`os.path.expanduser`
+    """
+    logger.debug("Path {!s} passed to custom expanduser() function")
     if isinstance(path_like, Path):
         return op.expanduser(path_like.as_posix())
     else:
@@ -41,8 +53,11 @@ def expanduser(path_like):
 
 
 def copy(src_path_like, dst_path_like, metadata=False, **kwargs):
-    """pathlib support for path-like objects."""
+    """pathlib support for path-like objects.
 
+    Internally use either :py:func:`shutil.copy` or :py:func:`shutil.copy2`
+    based on `metadata` value.
+    """
     if metadata:
         _copy_cmd = shutil.copy2  # copy2 perserves metadata
     else:
@@ -50,8 +65,7 @@ def copy(src_path_like, dst_path_like, metadata=False, **kwargs):
 
     # TODO: use system command for large file
     _copy_cmd(
-        strify_path(src_path_like), strify_path(dst_path_like),
-        **kwargs
+        strify_path(src_path_like), strify_path(dst_path_like), **kwargs
     )
 
 
@@ -88,7 +102,11 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
     """
     # if input is str
     if isinstance(file_patterns, str):
-        return list(Path(path_like).glob(file_patterns))
+        found_file_list = list(Path(path_like).glob(file_patterns))
+        logger.info(
+            "{2} file discovered under {0!s} with single pattern {1}"
+            .format(path_like, file_patterns, len(found_file_list))
+        )
 
     # if input is iterable
     try:
@@ -98,7 +116,16 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
                 raise TypeError(
                     "File pattern should be str, not {}".format(file_patterns)
                 )
-            discovered_file_list.extend(Path(path_like).glob(pattern))
+            file_list = list(Path(path_like).glob(pattern))
+            logger.debug(
+                "... {} file found by {}"
+                .format(len(file_list), pattern)
+            )
+            discovered_file_list.extend(file_list)
+        logger.info(
+            "{2} file discovered under {0!s} with patterns {1!r}"
+            .format(path_like, file_patterns, len(discovered_file_list))
+        )
         return discovered_file_list
     except TypeError as te:
         raise ValueError(
@@ -106,6 +133,7 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
             "should be str or iterable of str elements."
             .format(file_patterns)
         ) from te
+
 
 def strify_path(path_like):
     """Normalized path-like object to POSIX style str.
