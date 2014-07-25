@@ -340,8 +340,11 @@ def main():
             )
             console.setFormatter(log_color_formatter)
         except ImportError:
-            print("color log requires colorlog, try pip install colorlog")
             console.setFormatter(log_formatter)
+            logger.warn(
+                "Color logs require colorlog, "
+                "try pip install colorlog or colorlog[windows] on Windows"
+            )
     else:
         console.setFormatter(log_formatter)
 
