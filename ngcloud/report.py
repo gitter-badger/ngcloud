@@ -365,7 +365,7 @@ def main():
 
     generate(pipe_report_cls, job_dir, out_dir)
 
-    logger.info("Job successfully end. print message")
+    logger.info("Job successfully end. Print message")
     print(_CAVEAT_MSG.format(out_dir))
 
 
