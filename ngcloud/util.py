@@ -33,7 +33,6 @@ def abspath(path_like):
 
     Internally it calls :py:func:`os.path.abspath`
     """
-    logger.debug("Path {!s} passed to custom abspath() function")
     if isinstance(path_like, Path):
         return op.abspath(path_like.as_posix())
     else:
@@ -45,7 +44,6 @@ def expanduser(path_like):
 
     Internally it calls :py:func:`os.path.expanduser`
     """
-    logger.debug("Path {!s} passed to custom expanduser() function")
     if isinstance(path_like, Path):
         return op.expanduser(path_like.as_posix())
     else:

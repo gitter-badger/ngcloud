@@ -61,9 +61,7 @@ class Sample:
 
         self.full_name = self._gen_full_name()
         logger.info(
-            "New Sample (full_name: {0.full_name}) created".format(self))
-        logger.debug(
-            "New sample full_info: {!r}".format(self))
+            "New sample(full_name: {0.full_name}) created".format(self))
 
     def __repr__(self):
         return "Sample(name={0.name!r})".format(self)
@@ -79,8 +77,6 @@ class Sample:
 
     @staticmethod
     def _val_pair_end(pair_end):
-        logger.debug(
-            "Checking pair-end: {}".format(pair_end))
         if pair_end not in ['R1', 'R2', False, None]:
             raise ValueError(
                 "Unexpected pair-end type: {}".format(pair_end)
