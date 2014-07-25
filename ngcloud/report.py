@@ -300,6 +300,7 @@ def main():
     pkg_logger = logging.getLogger("ngcloud")
     pkg_logger.addHandler(console)
 
+    # read arguments from command line
     args = docopt(_SCRIPT_DOC, version=ng.__version__)
 
     # set logging level
@@ -327,6 +328,10 @@ def main():
     )
 
     generate(pipe_report_cls, job_dir, out_dir)
+
+    logger.info("Job successfully end. print message")
+    print(_CAVEAT_MSG.format(out_dir))
+
 
 if __name__ == '__main__':
     main()
