@@ -3,6 +3,7 @@ from codecs import open
 from os import path
 from pathlib import Path
 import re
+import sys
 
 here = path.abspath(path.dirname(__file__))
 
@@ -27,6 +28,15 @@ pipe_template_data = [
     if not p.is_dir()
 ]
 
+if sys.platform.startswith("win32"):
+    color_dep = ['colorlog[windows]']
+else:
+    color_dep = ['colorlog']
+
+all_dep = []
+for deps in [color_dep]:
+    all_dep.extend(deps)
+
 setup(
     name='ngcloud',
     version=find_version('ngcloud', '__init__.py'),
@@ -48,6 +58,10 @@ setup(
         'PyYAML',
         'Jinja2 > 2',
     ],
+    extras_require={
+        'color': color_dep,
+        'all': all_dep,
+    },
 
     packages=find_packages(
         exclude=['contrib', 'docs', 'test*']
