@@ -1,3 +1,5 @@
+.. _prepare-own-result:
+
 ***********************************
 Prepare Your NGS Result for NGCloud
 ***********************************

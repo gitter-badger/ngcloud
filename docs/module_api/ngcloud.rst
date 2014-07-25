@@ -1,5 +1,8 @@
+.. _package-api:
+
+***********
 Package API
------------
+***********
 
 .. toctree::
     :maxdepth: 2
