@@ -30,9 +30,12 @@ Dependencies
 
 - PyYAML_
 - docopt_
+- Jinja2_
 
 .. _PyYAML: http://pyyaml.org/
-.. _docopt: https://github.com/docopt/docopt 
+.. _docopt: https://github.com/docopt/docopt
+.. _Jinja2: http://jinja.pocoo.org/docs/
+
 
 Install from PyPI
 -----------------
