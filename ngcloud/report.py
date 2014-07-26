@@ -51,20 +51,29 @@ Quick remainder for serving current folder through http:
 
 
 class Stage(metaclass=abc.ABCMeta):
-    template_name = ''
+    template_entrancename = 'stage.html'
+    template_find_paths = ['report/templates']
 
     def __init__(self, job_info, report_root):
+        logger.debug("New stage {} initiated".format(type(self).__name__))
         self._setup_jinja2()
         self._template = self._env.get_template(
-            "%s.html" % self.template_name
+            self.template_entrancename
         )
         self.job_info = job_info
         self.report_root = report_root
 
     def _setup_jinja2(self):
-        self._report_loader = jinja2.FileSystemLoader(
-            self.template_root.as_posix()
+        try:
+            _template_paths = strify_path(self.template_find_paths)
+        except TypeError:
+            _template_paths = [
+                strify_path(p) for p in self.template_find_paths
+            ]
+        logger.debug(
+            "Jinja2 reads templates from {}".format(_template_paths)
         )
+        self._report_loader = jinja2.FileSystemLoader(_template_paths)
         self._env = jinja2.Environment(
             loader=self._report_loader,
             extensions=['jinja2.ext.with_'],
@@ -178,7 +187,7 @@ class Report(metaclass=abc.ABCMeta):
         """Put real results into report template and return rendered html."""
         self.report_html = dict()
         for stage in self._stages:
-            self.report_html[stage.template_name] = stage.render()
+            self.report_html[stage.template_entrancename] = stage.render()
 
     def copy_static(self):
         """Copy template statics files to output dir."""

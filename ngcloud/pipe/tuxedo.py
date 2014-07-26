@@ -8,12 +8,12 @@ _here = Path(__file__).parent
 
 
 class IndexStage(Stage):
-    template_name = 'index'
-    template_root = _here / 'report' / 'templates'
+    template_entrancename = 'index.html'
+    template_find_paths = _here / 'report' / 'templates'
 
 class QCStage(Stage):
-    template_name = 'qc'
-    template_root = _here / 'report' / 'templates'
+    template_entrancename = 'qc.html'
+    template_find_paths = _here / 'report' / 'templates'
 
     def copy_static(self):
         """Copy needed file for report in QC stage.
@@ -60,8 +60,8 @@ class QCStage(Stage):
 
 
 class TophatStage(Stage):
-    template_name = 'tophat'
-    template_root = _here / 'report' / 'templates'
+    template_entrancename = 'tophat.html'
+    template_find_paths = _here / 'report' / 'templates'
 
 
 class TuxedoReport(Report):
