@@ -102,7 +102,7 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
     if isinstance(file_patterns, str):
         found_file_list = list(Path(path_like).glob(file_patterns))
         logger.info(
-            "{2} file discovered under {0!s} with single pattern {1}"
+            "{2} file matching single pattern {1} under {0!s}"
             .format(path_like, file_patterns, len(found_file_list))
         )
 
@@ -121,7 +121,7 @@ def discover_file_by_patterns(path_like, file_patterns="*"):
             )
             discovered_file_list.extend(file_list)
         logger.info(
-            "{2} file discovered under {0!s} with patterns {1!r}"
+            "{2} file matching patterns {1!r} under {0!s}"
             .format(path_like, file_patterns, len(discovered_file_list))
         )
         return discovered_file_list
