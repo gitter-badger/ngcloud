@@ -150,7 +150,7 @@ def strify_path(path_like):
     elif isinstance(path_like, str):
         return path_like
     else:
-        raise ValueError(
+        raise TypeError(
             "Unknown type {} for path-like object".format(type(path_like))
         )
 
