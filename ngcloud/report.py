@@ -360,13 +360,16 @@ def main():
 
     logger.debug("Get command line arguments: {!r}".format(dict(args)))
 
+    # set pipeline to use
     pipe_type = args['--pipe']
-    # validate pipe_type
-    if pipe_type not in AVAIL_PIPES:
-        raise ValueError(
-            "Unknown pipeline type: {}".format(pipe_type)
+    if pipe_type in AVAIL_PIPES:
+        pipe_report_cls = AVAIL_PIPES[pipe_type]
+    else:
+        logger.info(
+            "Pipeline type {} is not in AVAIL_PIPES, "
+            "pass it as a Python class name".format(pipe_type)
         )
-    pipe_report_cls = AVAIL_PIPES[pipe_type]
+        pipe_report_cls = pipe_type
 
     job_dir = Path(args['<job_dir>'])
     out_dir = Path(
