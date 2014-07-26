@@ -59,8 +59,9 @@ class Sample:
         self.stranded = stranded
 
         self.full_name = self._gen_full_name()
-        logger.info(
-            "New sample(full_name: {0.full_name}) created".format(self))
+        logger.debug(
+            "New sample(full_name: {0.full_name}) created".format(self)
+        )
 
     def __repr__(self):
         return "Sample(name={0.name!r})".format(self)
