@@ -257,8 +257,6 @@ def generate(pipe_report_cls, job_dir, out_dir):
         Name of the Python class to generate the report of certain pipeline.
     job_dir: path-like object
     out_dir: path-like object
-    verbosity: int
-        How noisy the log will be
 
     Notes
     -----
@@ -267,11 +265,20 @@ def generate(pipe_report_cls, job_dir, out_dir):
 
     """
     # read in the pipeline class
+    logger.debug("Get pipeline class: {}".format(pipe_report_cls))
     pipe_module_name, pipe_class_name = pipe_report_cls.rsplit('.', 1)
+    logger.info(
+        "Get report class {} from module {}"
+        .format(pipe_class_name, pipe_module_name)
+    )
     pipe_module = importlib.import_module(pipe_module_name)
     PipeReport = getattr(pipe_module, pipe_class_name)
 
     if not issubclass(PipeReport, Report):
+        logger.warn(
+            "Unaccepted report class {} being passed, "
+            "should be subclass of ngcloud.report.Report"
+        )
         raise TypeError(
             "pipe_report_cls: {} should be inherited from"
             "ngcloud.report.Report".format(pipe_report_cls)
@@ -287,7 +294,7 @@ def generate(pipe_report_cls, job_dir, out_dir):
         )
     if not job_dir.is_dir():
         raise NotADirectoryError(
-            'Expect job info to be dir: {}'.format(job_dir)
+            'Expect path to job info a valid directory: {}'.format(job_dir)
         )
 
     report = PipeReport()
@@ -312,10 +319,13 @@ def main():
         loglevel = logging.WARNING
     pkg_logger.setLevel(loglevel)
 
-    log_fmt = '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] %(message)s'
+    # set log format
+    log_fmt = (
+        '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] '
+        '%(message)s'
+    )
     if args['--log-time']:
         log_fmt = '[%(asctime)s]' + log_fmt
-
     color_log_fmt = (
         '%(log_color)s%(levelname)-7s%(reset)s '
         '%(cyan)s%(name)-8s%(reset)s '
