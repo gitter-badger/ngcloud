@@ -109,6 +109,10 @@ class Report(metaclass=abc.ABCMeta):
 
     def __init__(self):
         """Call :py:func:`template_config`."""
+        logger.debug(
+            "New report {} object has been initiated"
+            .format(type(self).__name__)
+        )
         self.template_config()
 
     def generate(self, job_dir, out_dir):
@@ -130,6 +134,10 @@ class Report(metaclass=abc.ABCMeta):
         **Override this function with care.** You might break the logic.
 
         """
+        logger.info(
+            "Generate report from job result {!s} under {!s}"
+            .format(job_dir, out_dir)
+        )
         self.job_info = JobInfo(job_dir)
         self.out_dir = out_dir
 
@@ -141,6 +149,11 @@ class Report(metaclass=abc.ABCMeta):
 
         if not self.report_root.exists():
             self.report_root.mkdir(parents=True)
+        else:
+            logger.warn(
+                "Report root {!s} has already existed!"
+                .format(self.report_root)
+            )
 
         # create stage instances
         self._stages = [
@@ -148,21 +161,21 @@ class Report(metaclass=abc.ABCMeta):
             for Stage in self.stage_template_cls
         ]
 
+        logger.info("Render report templates")
         self.render_report()
 
-        # copy template's static files
+        logger.info("Copying report static files")
         self.copy_static()
 
-        # copy stage's static files
+        logger.info("Copying each stage's static files")
         for stage in self._stages:
             stage.copy_static()
 
-        # write rendered report html to files
+        logger.info("Write rendered templates to file")
         self.output_report()
 
     def render_report(self):
         """Put real results into report template and return rendered html."""
-
         self.report_html = dict()
         for stage in self._stages:
             self.report_html[stage.template_name] = stage.render()

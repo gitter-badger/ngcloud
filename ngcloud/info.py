@@ -99,14 +99,13 @@ class JobInfo:
     """
 
     def __init__(self, root_path):
-        logger.info("Reading job info from folder: {}".format(root_path))
         self.root_path = Path(abspath(expanduser(root_path)))
-        logger.debug("Get absolute path: {!s}".format(self.root_path))
+        logger.debug("Reading info from path: {!s}".format(self.root_path))
 
         self._raw = self._read_yaml()
         self.id = self._raw['job_id']
         self.type = self._raw['job_type']
-        logger.info(
+        logger.debug(
             "JobInfo created (id: {0.id} type: {0.type})".format(self)
         )
         self.sample_list = self._parse_sample_list()
@@ -122,9 +121,6 @@ class JobInfo:
         for sample in self._raw['sample_list']:
             name, info = next(iter(sample.items()))  # now a dict with one key
             # TODO: if user input SRR5566_R1 but no R2, needs to check
-            logger.debug(
-                "Reading sample name: {0} info: {1}".format(name, info)
-            )
             sample_list.append(Sample(name, **info))
 
         return sample_list
