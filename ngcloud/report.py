@@ -202,7 +202,7 @@ class Report(metaclass=abc.ABCMeta):
         No original data is involved, just some file I/Oing.
         """
         for name, content in self.report_html.items():
-            with open(self.report_root / '{}.html'.format(name), 'w') as f:
+            with open(self.report_root / '{}'.format(name), 'w') as f:
                 f.write(content)
 
     @abc.abstractmethod
