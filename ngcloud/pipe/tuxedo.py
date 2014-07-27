@@ -2,18 +2,25 @@ from pathlib import Path
 import ngcloud as ng
 from ngcloud.report import Stage, Report
 from ngcloud.util import copy, discover_file_by_patterns
+from ngcloud.pipe import (
+    _get_builtin_template_root,
+    get_shared_template_root, get_shared_static_root
+)
 
 logger = ng._create_logger(__name__)
 _here = Path(__file__).parent
-
+_find_paths = [
+    get_shared_template_root(),
+    _get_builtin_template_root() / 'tuxedo',
+]
 
 class IndexStage(Stage):
     template_entrancename = 'index.html'
-    template_find_paths = _here / 'report' / 'templates'
+    template_find_paths = _find_paths
 
 class QCStage(Stage):
     template_entrancename = 'qc.html'
-    template_find_paths = _here / 'report' / 'templates'
+    template_find_paths = _find_paths
 
     def copy_static(self):
         """Copy needed file for report in QC stage.
@@ -61,7 +68,7 @@ class QCStage(Stage):
 
 class TophatStage(Stage):
     template_entrancename = 'tophat.html'
-    template_find_paths = _here / 'report' / 'templates'
+    template_find_paths = _find_paths
 
 
 class TuxedoReport(Report):
@@ -74,4 +81,4 @@ class TuxedoReport(Report):
             TophatStage,
             # CufflinkStage,
         ]
-        self.static_root = _here / 'report' / 'static'
+        self.static_roots = get_shared_static_root()

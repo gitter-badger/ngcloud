@@ -155,6 +155,14 @@ def strify_path(path_like):
         )
 
 
+def is_pathlike(path_like):
+    """Helper function to determine is pathlike object."""
+    if isinstance(path_like, Path) or isinstance(path_like, str):
+        return True
+    else:
+        return False
+
+
 def _val_bool_or_none(arg, name):
     """Check if argument is of True, False, or None.
 

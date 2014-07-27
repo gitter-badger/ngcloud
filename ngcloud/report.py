@@ -7,8 +7,9 @@ import logging
 from docopt import docopt
 import jinja2
 import ngcloud as ng
-from ngcloud.util import strify_path, open
+from ngcloud.util import strify_path, open, is_pathlike
 from ngcloud.info import JobInfo
+from ngcloud.pipe import get_shared_static_root
 
 logger = ng._create_logger(__name__)
 
@@ -105,7 +106,7 @@ class Report(metaclass=abc.ABCMeta):
     report_root
     stage_template_cls : list of class
         List of stage class name in order used in for this pipeline report.
-    static_root : Path
+    static_roots : Path
         Path to the template static file dir
 
     Raises
@@ -190,11 +191,22 @@ class Report(metaclass=abc.ABCMeta):
             self.report_html[stage.template_entrancename] = stage.render()
 
     def copy_static(self):
-        """Copy template statics files to output dir."""
-        shutil.copytree(
-            strify_path(self.static_root),
-            strify_path(self.report_root / 'static')
-        )
+        """Copy template statics files to output dir.
+[M#Ç
+        Files under each path specifed by :py:attr:`static_roots`
+        will be copied to folder :file:`static` below :py:attr:`report_root`.
+        """
+        logger.info("Copying report static files")
+        if is_pathlike(self.static_roots):
+            _static_roots = [self.static_roots]
+        else:
+            _static_roots = self.static_roots
+        for sr in _static_roots:
+            logger.debug(".. copying {!s}".format(sr))
+            shutil.copytree(
+                strify_path(Path(sr)),
+                strify_path(self.report_root / 'static')
+            )
 
     def output_report(self):
         """Output rendered htmls to output directory.
@@ -213,7 +225,7 @@ class Report(metaclass=abc.ABCMeta):
         Also, two instance attributes should be setted here:
 
         - :py:attr:`stage_template_cls`
-        - :py:attr:`static_root`
+        - :py:attr:`static_roots`
 
         Examples
         --------
@@ -221,8 +233,8 @@ class Report(metaclass=abc.ABCMeta):
         .. code-block:: python3
 
             def template_config(self):
-                self.stage_template_cls = [IndexStage, MyStage]
-                self.static_root = "mypipe/report/static"
+                self.stage_template_cls = [MyIndexStage, MyStage]
+                self.static_roots = '/path/to/my/static'
 
         One could also put the extra logics here for custom report,
         since this function will always be called by :py:func:`!__init__`
@@ -238,33 +250,40 @@ class Report(metaclass=abc.ABCMeta):
 
                 from ngcloud.pipe.common import InextStage, QCStage
 
-                # inside template_config()
                 self.stage_template_cls = [IndexStage, QCStage]
 
             One only needs to pass in the name of the stage class,
             not initiate the stage class.
             See :py:class:`Stage` for how to write a new stage class
 
-        .. py:attribute:: static_root
+        .. py:attribute:: static_roots
 
-            :py:class:`~pathlib.Path` to root dir of report static files,
+            (list of) path-like object to root dir of report static files,
             such as JS, CSS files for making html pages.
 
             For example,
 
             .. code-block:: python3
 
-                # inside template_config()
-                self.static_root = Path('ngreport/static')
+                self.static_roots = Path('ngreport/static')
                 # below it has js/, css/, imgs/ subfolders
 
-            Take care if the path is inside your package or inside the same
-            folder as the Python script. One could use ``__file__``
-            to determine where the script locates.
+            A common case will be to extend existed pipelines, then both
+            shared static files and custom static files can be uesd
+            by giving a list of paths to root of static files.
+
+            .. code-block:: python3
+
+                from ngcloud.pipe import get_shared_static_root
+
+                self.static_roots = [
+                    get_shared_static_root()
+                    '/path/to/my/static'
+                ]
 
         """
         self.stage_template_cls = [Stage, Stage]
-        self.static_root = Path()
+        self.static_roots = get_shared_static_root()
 
 
 def generate(pipe_report_cls, job_dir, out_dir):
