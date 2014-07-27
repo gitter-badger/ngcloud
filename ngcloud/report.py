@@ -1,4 +1,6 @@
 #! /usr/bin/env python3.4
+import sys
+import os.path
 import importlib
 import shutil
 from pathlib import Path
@@ -415,6 +417,14 @@ def main():
     job_dir = Path(args['<job_dir>'])
     out_dir = Path(
         args['<out_dir>'] if args['<out_dir>'] else args['--outdir']
+    )
+    # FIXME: custom pipeline cannot be find if they are not official packages
+    # therefore where the ngreport being called should be added into sys.path
+    # currently is a hack. More elegant way should be used
+    sys.path.append(os.path.abspath('.'))
+    logger.debug(
+        "Inject current path into sys.path. "
+        "Now find packages under paths: {!r}".format(sys.path)
     )
 
     generate(pipe_report_cls, job_dir, out_dir)
