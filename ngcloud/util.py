@@ -29,17 +29,6 @@ def open(path_like, *args, **kwargs):
         return open(path_like, *args, **kwargs)
 
 
-def abspath(path_like):
-    """Custom abspath() that accepts both str and Path object.
-
-    Internally it calls :py:func:`os.path.abspath`
-    """
-    if isinstance(path_like, Path):
-        return op.abspath(path_like.as_posix())
-    else:
-        return op.abspath(path_like)
-
-
 def expanduser(path_like):
     """Custom expanduser() that accepts both str and Path object.
 
