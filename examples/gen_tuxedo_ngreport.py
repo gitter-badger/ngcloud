@@ -1,12 +1,10 @@
 from pathlib import Path
-import logging
 import shutil
 from ngcloud.report import generate
 from ngcloud.util import strify_path
 from ngcloud import _create_logger
 
 logger = _create_logger(__name__)
-logger.setLevel(logging.DEBUG)
 
 def cleanup_output(output_root):
     if not output_root.exists():
