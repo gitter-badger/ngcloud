@@ -9,7 +9,7 @@ import logging
 from docopt import docopt
 import jinja2
 import ngcloud as ng
-from ngcloud.util import strify_path, open, is_pathlike
+from ngcloud.util import strify_path, open, is_pathlike, merged_copytree
 from ngcloud.info import JobInfo
 from ngcloud.pipe import get_shared_static_root
 
@@ -203,12 +203,13 @@ class Report(metaclass=abc.ABCMeta):
             _static_roots = [self.static_roots]
         else:
             _static_roots = self.static_roots
-        for sr in _static_roots:
-            logger.debug(".. copying {!s}".format(sr))
-            shutil.copytree(
-                strify_path(Path(sr)),
-                strify_path(self.report_root / 'static')
-            )
+        # for sr in _static_roots:
+        #     logger.debug(".. copying {!s}".format(sr))
+        #     shutil.copytree(
+        #         strify_path(Path(sr)),
+        #         strify_path(self.report_root / 'static')
+        #     )
+        merged_copytree(_static_roots, self.report_root / 'static')
 
     def output_report(self):
         """Output rendered htmls to output directory.
