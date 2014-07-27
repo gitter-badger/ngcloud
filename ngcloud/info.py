@@ -2,7 +2,7 @@ from pathlib import Path
 import yaml
 import ngcloud as ng
 from ngcloud.util import (
-    open, abspath, expanduser,
+    open, expanduser,
     _val_bool_or_none,
 )
 
@@ -99,7 +99,7 @@ class JobInfo:
     """
 
     def __init__(self, root_path):
-        self.root_path = Path(abspath(expanduser(root_path)))
+        self.root_path = Path(root_path).resolve()
         logger.debug("Reading info from path: {!s}".format(self.root_path))
 
         self._raw = self._read_yaml()
