@@ -221,7 +221,7 @@ class Report(metaclass=abc.ABCMeta):
             .format(job_dir, out_dir)
         )
         self.job_info = JobInfo(job_dir)
-        self.out_dir = out_dir
+        self.out_dir = Path(out_dir)
 
         self.report_root = self.out_dir / ('report_%s' % self.job_info.id)
         logger.info(
