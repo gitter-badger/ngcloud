@@ -24,8 +24,7 @@ High level NGCloud result parser can be accessed by both ways,
 
 .. seealso::
 
-    To use the parser inside a Python program, call
-    :py:func:`ngcloud.report.gen_report(pipe_cls, job_dir, out_dir)` directly.
+    To use the parser inside a Python program, call :py:func:`ngcloud.report.gen_report` directly.
 
 
 It takes three main arguments to run:
