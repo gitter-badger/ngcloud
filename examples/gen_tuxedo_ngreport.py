@@ -1,6 +1,6 @@
 from pathlib import Path
 import shutil
-from ngcloud.report import generate
+from ngcloud.report import gen_report
 from ngcloud.util import strify_path
 from ngcloud import _create_logger
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     output_root = Path('output')
     cleanup_output(output_root)
 
-    generate(
+    gen_report(
         pipe_report_cls='ngcloud.pipe.tuxedo.TuxedoReport',
         job_dir=Path("job_9527_tuxedo_minimal"),
         out_dir=output_root

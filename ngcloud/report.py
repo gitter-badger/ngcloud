@@ -359,7 +359,7 @@ class Report(metaclass=abc.ABCMeta):
         self.static_roots = [get_shared_static_root()]
 
 
-def generate(pipe_report_cls, job_dir, out_dir):
+def gen_report(pipe_report_cls, job_dir, out_dir):
     """Generate a NGCloud report.
 
     For :ref:`normal usage <ngreport>`, one can use :command:`ngreport` command
@@ -498,7 +498,8 @@ def main():
         "Now find packages under paths: {!r}".format(sys.path)
     )
 
-    generate(pipe_report_cls, job_dir, out_dir)
+    # called real function to generate report
+    gen_report(pipe_report_cls, job_dir, out_dir)
 
     logger.info("Job successfully end. Print message")
     print(_CAVEAT_MSG.format(out_dir))
