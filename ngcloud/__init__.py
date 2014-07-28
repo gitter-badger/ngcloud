@@ -1,6 +1,6 @@
 import logging
 
-__version__ = '0.0.8'
+__version__ = '0.0.9'
 
 def _create_logger(name):
     logger = logging.getLogger(name)
