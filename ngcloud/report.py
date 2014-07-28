@@ -273,12 +273,6 @@ class Report(metaclass=abc.ABCMeta):
             _static_roots = [self.static_roots]
         else:
             _static_roots = self.static_roots
-        # for sr in _static_roots:
-        #     logger.debug(".. copying {!s}".format(sr))
-        #     shutil.copytree(
-        #         strify_path(Path(sr)),
-        #         strify_path(self.report_root / 'static')
-        #     )
         merged_copytree(_static_roots, self.report_root / 'static')
 
     def output_report(self):
