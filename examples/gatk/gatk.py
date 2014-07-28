@@ -17,7 +17,7 @@ class GATKBaseStage(Stage):
     ]
 
 class IndexStage(GATKBaseStage):
-    template_entrancename = 'index.html'
+    template_entrances = 'index.html'
 
 class QCStage(tuxedo.QCStage):
     template_find_paths = GATKBaseStage.template_find_paths
@@ -26,10 +26,10 @@ class QCStage(tuxedo.QCStage):
     )
 
 class AlignStage(GATKBaseStage):
-    template_entrancename = 'align.html'
+    template_entrances = 'align.html'
 
 class GATKStage(GATKBaseStage):
-    template_entrancename = 'gatk.html'
+    template_entrances = 'gatk.html'
 
 class GATKReport(Report):
     def template_config(self):

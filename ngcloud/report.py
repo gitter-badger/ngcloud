@@ -2,7 +2,6 @@
 import sys
 import os.path
 import importlib
-import shutil
 from pathlib import Path
 import abc
 import logging
@@ -54,15 +53,17 @@ Quick remainder for serving current folder through http:
 
 
 class Stage(metaclass=abc.ABCMeta):
-    template_entrancename = 'stage.html'
+    template_entrances = ['stage.html']
     template_find_paths = ['report/templates']
 
     def __init__(self, job_info, report_root):
         logger.debug("New stage {} initiated".format(type(self).__name__))
         self._setup_jinja2()
-        self._template = self._env.get_template(
-            self.template_entrancename
-        )
+        if is_pathlike(self.template_entrances):
+            tpls = [self.template_entrances]
+        else:
+            tpls = self.template_entrances
+        self._templates = {tpl: self._env.get_template(tpl) for tpl in tpls}
         self.job_info = job_info
         self.report_root = report_root
 
@@ -87,7 +88,10 @@ class Stage(metaclass=abc.ABCMeta):
         return 'static/%s' % path
 
     def render(self):
-        return self._template.render(job_info=self.job_info)
+        return {
+            tpl_name: tpl.render(job_info=self.job_info)
+            for tpl_name, tpl in self._templates.items()
+        }
 
     def copy_static(self):
         """Copy stage-specific static files under report folder."""
@@ -190,7 +194,7 @@ class Report(metaclass=abc.ABCMeta):
         """Put real results into report template and return rendered html."""
         self.report_html = dict()
         for stage in self._stages:
-            self.report_html[stage.template_entrancename] = stage.render()
+            self.report_html.update(stage.render())
 
     def copy_static(self):
         """Copy template statics files to output dir.

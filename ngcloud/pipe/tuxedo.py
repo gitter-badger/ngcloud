@@ -15,11 +15,11 @@ _find_paths = [
 ]
 
 class IndexStage(Stage):
-    template_entrancename = 'index.html'
+    template_entrances = 'index.html'
     template_find_paths = _find_paths
 
 class QCStage(Stage):
-    template_entrancename = 'qc.html'
+    template_entrances = 'qc.html'
     template_find_paths = _find_paths
 
     def copy_static(self):
@@ -67,7 +67,7 @@ class QCStage(Stage):
 
 
 class TophatStage(Stage):
-    template_entrancename = 'tophat.html'
+    template_entrances = 'tophat.html'
     template_find_paths = _find_paths
 
 
