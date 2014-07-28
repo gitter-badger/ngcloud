@@ -130,23 +130,22 @@ def merged_copytree(src_list, dst):
     for src in src_list:
         src_p = Path(src)
         for current_root, dirs, files in os.walk(strify_path(src)):
-            # logger.debug(
-            #     'current_root: {}, dirs: {}, files: {}'
-            #     .format(current_root, dirs, files)
-            # )
             current_p = Path(current_root)
             rel_to_src_root = current_p.relative_to(src_p)
             dst_current_d = dst_p / rel_to_src_root
             if not dst_current_d.exists():
+                dst_current_d.mkdir()
+            else:
                 logger.debug(
-                    "Destination dir: {!s} not existed, created."
+                    "Dest. dir: {!s} existed, keeping its files"
                     .format(dst_current_d)
                 )
-                dst_current_d.mkdir()
+            logger.debug(
+                '{2} files: {0!s} -> {1!s}'
+                .format(current_p, dst_current_d, len(files))
+            )
             for f in files:
                 src_f = current_p / f
-                dst_f = dst_current_d / f
-                logger.debug('{!s} -> {!s}'.format(src_f, dst_f))
                 try:
                     copy(src_f, dst_current_d)
                 except FileExistsError as e:
