@@ -53,10 +53,60 @@ Quick remainder for serving current folder through http:
 
 
 class Stage(metaclass=abc.ABCMeta):
+    """base class of NGCloud stage of a report.
+
+    A stage in report usually maps to a NGS tool used in a pipeline,
+    and this tool generates meaningfull output of log files that are need for
+    further analysis.
+
+    :py:class:`Stage` is a connection between Jinja2's template system
+    with NGS results. Therefore one can write the logics about how to extract
+    information out of a tool(stage) output and pass those information to
+    Jinja2's template with some variables.
+
+    Attributes
+    ----------
+    template_entrances : (list of) str
+        Template names passed to Jinja2 to call render()
+    template_find_paths : (list of) path-like object
+        Paths in order to load templates
+    job_info : JobInfo object
+        Information about how the NGS result is run
+    report_root : Path object
+        Path to where report will be under
+    """
+    #: Name of templates that will trigger :py:func:`Jinja2.Template.render`.
+    #:
+    #: In most cases, there will be only *one* entry point, so a stage
+    #: correspond to one HTML page in report.
+    #: However, if this attributes contains a list of template name
+    #: then multiple HTML pages will be produced.
     template_entrances = ['stage.html']
+
+    #: Path to root of templates.
+    #:
+    #: These paths will be passed to
+    #: Jinja2's FileSystemLoader in order. One should refer to Jinja2's
+    #: documentation to see how it works.
+    #: Generally if one is going to extend a NGCloud pipeline,
+    #: then one shoud supply the NGCloud's template root path and
+    #: custom templates path. See :ref:`extend_builtin_pipe` for more info.
     template_find_paths = ['report/templates']
 
     def __init__(self, job_info, report_root):
+        """Initiate a Stage object.
+
+        Here NGS result info and path to gerenerate report is passed.
+
+        .. py:attribute:: job_info
+
+            :py:class:`~ngcloud.info.JobInfo` object.
+
+        .. py:attribute:: report_root
+
+            :py:class:`~pathlib.Path` object.
+
+        """
         logger.debug("New stage {} initiated".format(type(self).__name__))
         self._setup_jinja2()
         if is_pathlike(self.template_entrances):
@@ -88,13 +138,29 @@ class Stage(metaclass=abc.ABCMeta):
         return 'static/%s' % path
 
     def render(self):
+        """Render the templates of this stages
+
+        Override me to parse NGS results and passed extract variable into
+        template.
+
+        Returns
+        -------
+        :py:class:`dict`
+        mapping template name to rendered template HTML content
+        """
         return {
             tpl_name: tpl.render(job_info=self.job_info)
             for tpl_name, tpl in self._templates.items()
         }
 
     def copy_static(self):
-        """Copy stage-specific static files under report folder."""
+        """Copy stage-specific static files under report folder.
+
+        If the figures, text files, some output of a NGS tool are needed in
+        report display, override me to copy these files here.
+
+        By default, nothing will be copied for stage-specific static files.
+        """
         pass
 
 
@@ -124,7 +190,7 @@ class Report(metaclass=abc.ABCMeta):
     """
 
     def __init__(self):
-        """Call :py:func:`template_config`."""
+        """Call :py:func:`template_config`. Don't override me."""
         logger.debug(
             "New report {} object has been initiated"
             .format(type(self).__name__)
@@ -198,7 +264,7 @@ class Report(metaclass=abc.ABCMeta):
 
     def copy_static(self):
         """Copy template statics files to output dir.
-[M#Ç
+
         Files under each path specifed by :py:attr:`static_roots`
         will be copied to folder :file:`static` below :py:attr:`report_root`.
         """
@@ -244,7 +310,7 @@ class Report(metaclass=abc.ABCMeta):
                 self.static_roots = '/path/to/my/static'
 
         One could also put the extra logics here for custom report,
-        since this function will always be called by :py:func:`!__init__`
+        since this function will always be called by :py:func:`__init__`
 
         .. py:attribute:: stage_template_cls
 

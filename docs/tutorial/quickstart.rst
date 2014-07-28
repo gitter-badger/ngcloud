@@ -72,7 +72,9 @@ You need to replace :file:`{ngcloud_src}` with the path you put the NGCloud sour
 
 Click on other pages such as *Quality Control* to quick peek the report. Now you have finish the first run using NGCloud. Congrats!
 
-If you want to see what's going on during the report generation, pass an extra ``-v`` argument to :command:`ngreport` to increase the verbosity.
+If you want to see what's going on during the report generation, pass an extra ``-v`` argument to :command:`ngreport` to increase the verbosity. A colorful log output will be produced by extra ``--color`` argument, which requires colorlog_ or install NGCloud with ``pip install ngcloud[color]``.
+
+.. _colorlog: https://github.com/borntyping/python-colorlog
 
 Further Reading
 ---------------
