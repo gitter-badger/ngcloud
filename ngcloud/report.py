@@ -307,7 +307,7 @@ class Report(metaclass=abc.ABCMeta):
 
             def template_config(self):
                 self.stage_template_cls = [MyIndexStage, MyStage]
-                self.static_roots = '/path/to/my/static'
+                self.static_roots = ['/path/to/my/static']
 
         One could also put the extra logics here for custom report,
         since this function will always be called by :py:func:`__init__`
@@ -350,13 +350,13 @@ class Report(metaclass=abc.ABCMeta):
                 from ngcloud.pipe import get_shared_static_root
 
                 self.static_roots = [
-                    get_shared_static_root()
+                    get_shared_static_root(),
                     '/path/to/my/static'
                 ]
 
         """
         self.stage_template_cls = [Stage, Stage]
-        self.static_roots = get_shared_static_root()
+        self.static_roots = [get_shared_static_root()]
 
 
 def generate(pipe_report_cls, job_dir, out_dir):
