@@ -36,6 +36,12 @@ Dependencies
 .. _docopt: https://github.com/docopt/docopt
 .. _Jinja2: http://jinja.pocoo.org/docs/
 
+If one wants to have colorful logging messages, extra packages are required:
+
+- colorlog_
+- (or colorlog[windows] on Windows)
+
+.. _colorlog: https://github.com/borntyping/python-colorlog
 
 Install from PyPI
 -----------------
