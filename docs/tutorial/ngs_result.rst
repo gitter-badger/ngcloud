@@ -10,7 +10,7 @@ Organize the result folder
 
 A standard result folder is like::
 
-    job_9527_tuxedo
+    job_tuxedo_minimal
     ├── 1_fastqc
     │   ├── output
     │   └── overall
@@ -29,7 +29,7 @@ Specify the ``job_info.yaml``
 
 ``job_info.yaml`` follows YAML_ syntax, which stores how the NGS analysis pipeline is performed and the sample information. YAML_ is a human readable format to store natural data structure.
 
-.. literalinclude:: ../../examples/job_9527_tuxedo_minimal/job_info.yaml
+.. literalinclude:: ../../examples/job_tuxedo_minimal/job_info.yaml
     :language: yaml
     :linenos:
 
