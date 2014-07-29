@@ -15,6 +15,9 @@ Through *pip*. For latest stable release,
 
     pip install ngcloud
 
-Or install the `development version <github-dev>`_
+Or install the `development version
+<https://github.com/ccwang002/ngcloud/archive/master.zip#egg=ngcloud-dev>`_ through
 
-.. _github-dev: https://github.com/ccwang002/ngcloud/archive/master.zip#egg=ngcloud-dev
+::
+
+    pip install --allow-unverified ngcloud ngcloud==dev
