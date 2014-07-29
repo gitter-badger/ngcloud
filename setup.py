@@ -49,7 +49,14 @@ setup(
 
     url='https://github.com/ccwang002/ngcloud',
     classifiers=[
-        'Development Status :: 3 - Beta',
+        'Development Status :: 4 - Beta',
+        'Environment :: Console',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
     keywords='ngs',
 
