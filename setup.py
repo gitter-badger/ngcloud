@@ -47,7 +47,7 @@ setup(
     author='Liang Bo Wang',
     author_email='r02945054@ntu.edu.tw',
 
-    url='https://github.com/ccwang002/ngcloud',
+    url='https://github.com/ccwang002/ngcloud#egg=ngcloud-dev',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -76,6 +76,7 @@ setup(
     package_data={
         'ngcloud.pipe': pipe_template_data,
     },
+    zip_safe=False,
     test_suite='nose.collector',
     entry_points={
         'console_scripts': [
