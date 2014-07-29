@@ -47,7 +47,7 @@ setup(
     author='Liang Bo Wang',
     author_email='r02945054@ntu.edu.tw',
 
-    url='https://github.com/ccwang002/ngcloud#egg=ngcloud-dev',
+    url='https://github.com/ccwang002/ngcloud',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
