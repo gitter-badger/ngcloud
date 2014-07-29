@@ -4,15 +4,17 @@ NGCloud
 
 Documentation: http://ngcloud.readthedocs.org/
 
-Works on Python 3.4+
+Requires Python 3.4+
 
 Installation
 ============
 
-*Not available* through PyPI now. To use NGCloud, install from source.
+Through *pip*. For latest stable release,
 
 ::
 
-    git clone https://github.com/ccwang002/ngcloud.git
-    cd ngcloud
-    python setup.py install
+    pip install ngcloud
+
+Or install the `development version <github-dev>`_
+
+.. _github-dev: https://github.com/ccwang002/ngcloud/archive/master.zip#egg=ngcloud-dev

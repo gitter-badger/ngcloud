@@ -43,26 +43,32 @@ If one wants to have colorful logging messages, extra packages are required:
 
 .. _colorlog: https://github.com/borntyping/python-colorlog
 
-Install from PyPI
------------------
+Install latest stable version
+-----------------------------
 
-*Not yet supported*
+.. code:: bash
+
+    pip install ngcloud
 
 
-Install from source
--------------------
+Install development version
+---------------------------
 
 Through one-liner,
 
 .. code:: bash
 
+    pip install ngcloud==dev
+    # or
     pip install git+https://github.com/ccwang002/ngcloud.git@master
 
-or clone the source then run
+or clone `the source <github-src>`_ then run
 
 .. code:: bash
 
     python setup.py install
+
+.. _github-src: https://github.com/ccwang002/ngcloud
 
 
 Run test
