@@ -123,8 +123,13 @@ class Stage(metaclass=abc.ABCMeta):
         else:
             tpls = self.template_entrances
         self._templates = {tpl: self._env.get_template(tpl) for tpl in tpls}
+
         self.job_info = job_info
         self.report_root = report_root
+        self.result_info = dict()
+
+        logger.debug("Parse NGS result info")
+        self.parse()
 
     def _setup_jinja2(self):
         try:
@@ -145,19 +150,6 @@ class Stage(metaclass=abc.ABCMeta):
 
     def _template_static_path(self, path):
         return 'static/%s' % path
-
-    def parse(self):
-        """Parse the NGS result and store in :attr:`self.result_info <result_info>`
-
-        By default, only a emty dict :class:`!dict` is given.
-
-        .. py:attribute:: result_info
-
-            A :class:`!dict` object to store NGS result info.
-
-            .. note:: Key names should follow Python argument naming rule.
-        """
-        self.result_info = dict()
 
     def render(self):
         """Render the templates of this stages
@@ -203,6 +195,13 @@ class Stage(metaclass=abc.ABCMeta):
             tpl_name: tpl.render(job_info=self.job_info, **self.result_info)
             for tpl_name, tpl in self._templates.items()
         }
+
+    def parse(self):
+        """Parse the NGS result and store in :attr:`self.result_info <result_info>`
+
+        By default, no action is taken in this method.
+        """
+        pass
 
     def copy_static(self):
         """Copy stage-specific static files under report folder.
