@@ -135,19 +135,61 @@ class Stage(metaclass=abc.ABCMeta):
     def _template_static_path(self, path):
         return 'static/%s' % path
 
+    def parse(self):
+        """Parse the NGS result and store in :attr:`self.result_info <result_info>`
+
+        By default, only a emty dict :class:`!dict` is given.
+
+        .. py:attribute:: result_info
+
+            A :class:`!dict` object to store NGS result info.
+
+            .. note:: Key names should follow Python argument naming rule.
+        """
+        self.result_info = dict()
+
     def render(self):
         """Render the templates of this stages
 
-        Override me to parse NGS results and passed extract variable into
-        template.
+        It calls each template's render() function
+        with arguments :py:attr:`self.job_info <job_info>`
+        and unpacked :py:attr:`self.result_info <result_info>`.
+        So one can use `job_info`, and keys of `result_info` as variable names
+        in their templates.
+        Internally, it calls :py:meth:`jinja2.Template.render`.
+
+        How it works can be simplified as
+
+        .. code-block:: python3
+
+            return tpl.render(job_info=self.job_info, **self.result_info)
 
         Returns
         -------
-        :py:class:`dict`
-        mapping template name to rendered template HTML content
+        :class:`!dict` object
+
+            Key-value pairs that maps entrance template name
+            to rendered template HTML content
+
+        Examples
+        --------
+
+        If now a stage has NGS results parsed,
+
+            >>> mystage = Stage()
+            >>> mystage.result_info = {
+            ...     'map_rate': '0.556', 'idfy_genes': '633'}
+            >>> mystage.render()
+
+        What beneath being passed to Jinja2's render are
+
+            >>> tpl.render(
+            ...     job_info=mystage.job_info,
+            ...     map_rate='0.556', idfy_genes='633')
+
         """
         return {
-            tpl_name: tpl.render(job_info=self.job_info)
+            tpl_name: tpl.render(job_info=self.job_info, **self.result_info)
             for tpl_name, tpl in self._templates.items()
         }
 
