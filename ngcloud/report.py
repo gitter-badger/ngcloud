@@ -180,8 +180,8 @@ class Stage(metaclass=abc.ABCMeta):
         If now a stage has NGS results parsed,
 
             >>> mystage = Stage()
-            >>> mystage.result_info = {
-            ...     'map_rate': '0.556', 'idfy_genes': '633'}
+            >>> mystage.result_info.update(
+            ...     {'map_rate': '0.556', 'idfy_genes': '633'})
             >>> mystage.render()
 
         What beneath being passed to Jinja2's render are
