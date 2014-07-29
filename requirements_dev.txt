@@ -1,2 +1,4 @@
 flake8 > 2.0
 nose
+wheel
+twine
