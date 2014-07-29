@@ -14,13 +14,23 @@ _find_paths = [
     _get_builtin_template_root() / 'tuxedo',
 ]
 
-class IndexStage(Stage):
-    template_entrances = 'index.html'
+class TuxedoBaseStage(Stage):
     template_find_paths = _find_paths
 
-class QCStage(Stage):
+    def parse(self):
+        self.result_info['stage_mapping'] = [
+            ('summary', 'index.html', 'Summary'),
+            ('qc', 'qc.html', 'Quality Control'),
+            ('tophat', 'tophat.html', 'Alignment'),
+            ('cufflinks', 'cufflinks.html', 'Expression Quantification'),
+        ]
+
+class IndexStage(TuxedoBaseStage):
+    template_entrances = 'index.html'
+
+
+class QCStage(TuxedoBaseStage):
     template_entrances = 'qc.html'
-    template_find_paths = _find_paths
 
     def copy_static(self):
         """Copy needed file for report in QC stage.
@@ -66,9 +76,8 @@ class QCStage(Stage):
                 copy(f, sp_dest_root)
 
 
-class TophatStage(Stage):
+class TophatStage(TuxedoBaseStage):
     template_entrances = 'tophat.html'
-    template_find_paths = _find_paths
 
 
 class TuxedoReport(Report):
