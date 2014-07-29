@@ -75,19 +75,17 @@ class Stage(metaclass=abc.ABCMeta):
     report_root : Path object
         Path to where report will be under
     """
-    #: Name of templates that will trigger :py:func:`Jinja2.Template.render`.
+    #: Name of templates that will trigger :py:meth:`render`.
     #:
-    #: In most cases, there will be only *one* entry point, so a stage
-    #: correspond to one HTML page in report.
-    #: However, if this attributes contains a list of template name
+    #: In most cases, there is only *one* entry point, so a stage
+    #: corresponds to one HTML page in report.
+    #: However, if this attribute contains a list of template names
     #: then multiple HTML pages will be produced.
     template_entrances = ['stage.html']
 
     #: Path to root of templates.
     #:
-    #: These paths will be passed to
-    #: Jinja2's FileSystemLoader in order. One should refer to Jinja2's
-    #: documentation to see how it works.
+    #: These paths are passed to :py:class:`jinja2.FileSystemLoader` in order.
     #: Generally if one is going to extend a NGCloud pipeline,
     #: then one shoud supply the NGCloud's template root path and
     #: custom templates path. See :ref:`extend_builtin_pipe` for more info.
@@ -169,7 +167,7 @@ class Report(metaclass=abc.ABCMeta):
 
     To combind custom pipeline with :command:`ngreport`,
     :py:meth:`__init__` signature must match :py:class:`Report`.
-    Setup the custom logics in :py:func:`template_config`
+    Setup the custom logics in :py:meth:`template_config`
 
     Attributes
     ----------
@@ -203,13 +201,13 @@ class Report(metaclass=abc.ABCMeta):
         The whole process breaks down into follwoing parts:
 
         1. read NGS result as :py:class:`~ngcloud.info.JobInfo`
-        2. render report, covered by :py:func:`render_report`
+        2. render report, covered by :py:meth:`render_report`
         3. copy template-related static files such as JS and CSS
-           into output dir, covered by :py:func:`copy_static`
+           into output dir, covered by :py:meth:`copy_static`
         4. copy stage-related static files into output dir.
-           Call each :py:func:`Stage.copy_static` respectively
+           Call each :py:meth:`Stage.copy_static` respectively
         5. output rendered reports into output dir, covered by
-           :py:func:`output_report`
+           :py:meth:`output_report`
 
         Notes
         -----
