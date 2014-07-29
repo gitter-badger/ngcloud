@@ -21,6 +21,11 @@ def find_version(*path_parts):
 
     raise RuntimeError("Unable to find version string.")
 
+with utf8_open("README.rst") as readme_f:
+    with utf8_open("CHANGES.rst") as changes_f:
+        long_description = readme_f.read() + '\n' + changes_f.read()
+
+
 # recursively find all files under ngcloud/pipe/report
 pipe_template_data = [
     p.relative_to('ngcloud/pipe').as_posix()
@@ -43,6 +48,7 @@ setup(
 
     license='MIT',
     description='NGCloud result parser',
+    long_description=long_description,
 
     author='Liang Bo Wang',
     author_email='r02945054@ntu.edu.tw',
