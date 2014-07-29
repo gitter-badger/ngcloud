@@ -74,6 +74,8 @@ class Stage(metaclass=abc.ABCMeta):
         Information about how the NGS result is run
     report_root : Path object
         Path to where report will be under
+    result_info : dict object
+        Key-value pairs storing parsed NGS result
     """
     #: Name of templates that will trigger :py:meth:`render`.
     #:
@@ -97,12 +99,21 @@ class Stage(metaclass=abc.ABCMeta):
         Here NGS result info and path to gerenerate report is passed.
 
         .. py:attribute:: job_info
+            :annotation: = job_info
 
             :py:class:`~ngcloud.info.JobInfo` object.
 
         .. py:attribute:: report_root
+            :annotation: = report_root
 
             :py:class:`~pathlib.Path` object.
+
+        .. py:attribute:: result_info
+            :annotation: = dict()
+
+            A :class:`!dict` object to store NGS result info.
+
+            .. note:: Key names should follow Python argument naming rule.
 
         """
         logger.debug("New stage {} initiated".format(type(self).__name__))
