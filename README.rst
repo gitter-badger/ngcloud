@@ -4,10 +4,15 @@ NGCloud
 
 Documentation: http://ngcloud.readthedocs.org/
 
-Requires Python 3.4+
+Requires Python 3.3+
+
+.. _pathlib: https://pypi.python.org/pypi/pathlib
 
 Installation
 ============
+
+For Python 3.3 and below, requires pathlib_ installed prior to NGCloud's installation.
+See `doc <install>`_ for more information.
 
 Through *pip*. For latest stable release,
 
@@ -21,3 +26,5 @@ Or install the `development version
 ::
 
     pip install --allow-unverified ngcloud ngcloud==dev
+
+.. _install: http://ngcloud.readthedocs.org/en/latest/install.html

@@ -1,10 +1,15 @@
 Installation
 ============
 
-Require Python 3.4+, setuptools, and pip. Other Python versions are not tested.
+Require Python 3.3+, setuptools, and pip. Other Python versions are not tested. On version below 3.4, pathlib_ is required during installation, try
 
+.. code::
 
-.. note:: Python 3.4+ should come along with setuptools and pip, but that's not always the case on some Linux Platform. For Debian/Ubuntu, to install setuptools and pip,
+    pip install pathlib
+
+before installation
+
+.. note:: Python 3.4 should come along with setuptools and pip, but that's not always the case on some Linux Platform. For Debian/Ubuntu, to install setuptools and pip,
 
     .. code::
 
@@ -16,7 +21,7 @@ Require Python 3.4+, setuptools, and pip. Other Python versions are not tested.
 
         python3 -m ensurepip
 
-    For older versions, download `get-pip.py <get-pip>`_ and run it.
+    For older Python versions, download `get-pip.py <get-pip>`_ and run it.
 
     .. code::
 
@@ -28,10 +33,12 @@ Require Python 3.4+, setuptools, and pip. Other Python versions are not tested.
 Dependencies
 ------------
 
+- pathlib_ (for Python 3.3 and below)
 - PyYAML_
 - docopt_
 - Jinja2_
 
+.. _pathlib: https://pypi.python.org/pypi/pathlib
 .. _PyYAML: http://pyyaml.org/
 .. _docopt: https://github.com/docopt/docopt
 .. _Jinja2: http://jinja.pocoo.org/docs/
