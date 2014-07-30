@@ -16,20 +16,38 @@ The whole process can be considered as three main steps:
 You will create your first pipe after this section. Here we are going to create a new pipeline with two stages. See :file:`{ngcloud_src}/examples/my_first_pipe` for the final result.
 
 
-Folder structure
-""""""""""""""""
+Goal
+----
 
-We begins with the recommended folder structure::
+In this pipeline, there will be two stages:
+
+- **index**: shows hello message and the job ID
+- **mystage**: lists sample in use and show the overall alignment rate
+
+Overall alignment rate is logged inside a output file :file:`summary.txt`, represented as some NGS results we'd like to extract and shown them in our reports.
+
+
+General folder structure
+------------------------
+
+We organize all the files needed in our recommended folder structure::
 
     my_first_pipe/
-    ├── mypipe.py
-    └── report/
-        ├── static/
-        └── templates/
-            ├── base.html
-            └── mystage.html
+    ├── report/
+    │   ├── static/
+    │   └── templates/
+    │       ├── base.html
+    │       ├── index.html
+    │       └── mystage.html
+    ├── job_demo_result/
+    │   ├── my_stage/
+    │   │   └── summary.txt
+    │   └── job_info.yaml
+    └── mypipe.py
 
 **mypipe.py** is where Python scripts and report logics are stored. The filename *mypipe* needs to match the Python module naming rule so later we could import it.
+
+**job_demo_result** we fake a NGS result, assuming it follows the `mypipe` pipeline.
 
 **report/** folder keeps all the template-related files.
 
@@ -37,18 +55,42 @@ Insides report folder, all templates go under **templates/**, if you have some e
 
 Other files such as CSS or JS that decorate the reports go under **static/**. These are stuff that we used in the report but we aren't likely to modify it. Therefore they are called as static files.
 
+We will explain each part in the following sections.
+
 .. _Jinja2: http://jinja2.pocoo.org/
 
 
-Write stage template
-""""""""""""""""""""
+Organize the NGS result
+-----------------------
 
-First we decide what we want for our first pipeline:
+Since we only have a stage `mystage` that holds output files, the result folder is rather simple.
+We set the root folder as **job_demo_result**. The folder looks like this::
+
+    my_first_pipe/job_demo_result/
+    ├── my_stage/
+    │   └── summary.txt
+    └── job_info.yaml
+
+**summary.txt** holds the NGS output by my_stage, and is where we need to extract the overall alignment rate from.
+
+.. literalinclude:: ../../examples/my_first_pipe/job_demo_result/my_stage/summary.txt
+
+**job_info.yaml** stores how the result is performed. Currently only the sample info is stored.
+
+.. literalinclude:: ../../examples/my_first_pipe/job_demo_result/job_info.yaml
+    :language: yaml
+
+Two samples are used, ngs_A is pair-end while ngs_B is single-ended. ID and job type are also stated.
+
+
+Write stage template
+--------------------
+
+First we look back on what we want for our first pipeline:
 
 - An index page (**index.html**) shows hello message
 - A stage page (**mystage.html**) prints some value from our fake NGS results.
 
-B
 Before we really touch these two templates, first we create a base template to store the common part. You will soon see the benefit maintaining such templates. We called it **base.html**.
 
 .. literalinclude:: ../../examples/my_first_pipe/report/templates/base.html
@@ -66,7 +108,7 @@ First we extend the base templates and overwrite the *title* block. As for *cont
 
 In **mystage.html** we will use this variable passing mechanism more extensively.
 
-Since job_info contains the sample list, we would like to print them out. Also, There are some NGS results we'd like to extract and shown them in our reports, say there is a :file:`summary.txt` that contains the overall alignment rate, we wish to display this value.
+Since job_info contains the sample list, we would like to print them out. Also, we wish to display the overall alignment rate.
 
 Here is how to get it done. First we make the sample list,
 
@@ -89,3 +131,6 @@ Then we join these two piece together in a same *content* block. And we finished
 .. seealso:: :py:meth:`ngcloud.report.Stage.render` talks more about the mechanism passing **job_info** and **result_info**.
 
 .. _jinja-for: http://jinja.pocoo.org/docs/templates/#for
+
+Write the report logics
+-----------------------

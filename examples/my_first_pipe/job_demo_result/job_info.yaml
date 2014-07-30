@@ -1,9 +1,9 @@
 job_type: mypipe
 job_id: My First Stage DEMO
 sample_list:
-    - sample_A:
+    - ngs_A:
         pair_end: R1
-    - sample_A:
+    - ngs_A:
         pair_end: R2
-    - sample_B:
+    - ngs_B:
         pair_end: False
