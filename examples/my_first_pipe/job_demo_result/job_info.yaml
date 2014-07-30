@@ -1,0 +1,9 @@
+job_type: mystage
+job_id: My First Stage DEMO
+sample_list:
+    - sample_A:
+        pair_end: R1
+    - sample_A:
+        pair_end: R2
+    - sample_B:
+        pair_end: False
