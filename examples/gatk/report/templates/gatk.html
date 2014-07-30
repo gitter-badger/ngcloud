@@ -16,20 +16,25 @@ Variant (Calling by GATK)
 
 {% block stage_note %}
 <h2>Variant Calling(using GATK)</h2>
-<p>Ipsum est alias nisi laboriosam tempore iste modi, fuga, ipsum. Et nihil harum veniam dicta recusandae. Natus ipsum hic nemo aspernatur quis exercitationem animi reiciendis atque. Accusamus impedit similique voluptatum modi accusamus commodi. Eaque facere necessitatibus pariatur aperiam officia consequatur? Quos ex numquam adipisci sit unde neque sequi eum sequi!</p>
+<p>Variant discovery, genotyping and filtering            
+Finding sequence variation within and between samples is fairly straightforward. Distinguishing what part of that variation is real and assigning the right genotypes is a heck of a lot more difficult. These variant discovery, genotyping and filtering workflows and protocols help you choose the parameters that are most appropriate for your dataset and guides you through the necessary steps to produce a variant callset that you can trust. Various options are available depending on whether you're working with whole genomes or exomes and according to the type, number and coverage depth of your samples.</p>
 <p class="text-right lead">more information on <a href="#">this page</a>.</p>
 {% endblock %}
 
 {% block panel %}
 <div class="container-fluid">
   <h2>Results of Variants Calling</h2>
+  <!--base on customer's setting -->
   <h3>Filtering criteria</h3>
   <div class="row">
     <div class="col-sm-12">
-   <p>Lorem atque esse atque soluta minima odio neque! Sequi iste sequi animi sunt cupiditate, amet, nemo in porro. Ullam accusantium aliquam suscipit aspernatur perspiciatis! Unde neque reiciendis ipsum iste nihil.</p>
-</div>
-</div>
+      <p>
+      Customized Setting!
+      Lorem atque esse atque soluta minima odio neque! Sequi iste sequi animi sunt cupiditate, amet, nemo in porro. Ullam accusantium aliquam suscipit aspernatur perspiciatis! Unde neque reiciendis ipsum iste nihil.</p>
+    </div>
+  </div>
   <div class="table-responsive">
+## 
     <table class="table table-hover">
       <thead>
         <tr>
@@ -74,26 +79,52 @@ Variant (Calling by GATK)
   <div class="row">
     <div class="col-sm-12">
        {% include "tables/table_filter1.html"%}
-     <div class="table-responsive">
-        {% include "tables/ap2_t.html" %}
+     <div class="table-responsive"
+       <!-- maybe include "table/vcftools_output.html"-->  
+       {% include "tables/ap2_t.html" %}
       </div>
     </div>
   </div>
-
-
-    <h3>Identified point variants and per-sample information</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Lorem quod odit quasi aspernatur tenetur totam architecto enim hic!</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Sit lorem accusamus earum magni quaerat porro accusantium atque iste quam necessitatibus. Inventore corrupti in at delectus quia velit eius cupiditate dignissimos! Reiciendis earum error culpa voluptas iste! Laudantium inventore mollitia ut sequi quas, laboriosam libero nulla, exercitationem adipisci illum? Ut earum earum eos illum dicta libero minus officia consectetur?</p>
-  </div></div>
-
-
   
-
+  <h3>Identified point variants and per-sample information</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+      Detail information in the VCF file:
+      </p>
+        <ul>
+          <li>Average per-sample depth of bases with Phred score >= 15</li>
+          <li>Number of samples called reference (wild-type)</li>
+          <li>Number of samples called heterozygous-variant</li>
+          <li>Number of samples called homozygous-variant</li>
+          <li>Number of samples not called</li>
+          <li>Less than 10% or more than 90% of variant supporting reads on one strand</li>
+          <li>Likely artifact due to INDEL reads at this position</li>
+          <li>Genotype</li>
+          <li>Genotype quality</li>
+          <li>Raw Read Depth as reported by SAMtools</li>
+          <li>Quality Read Depth of bases with Phred score >= 15</li>
+          <li>Depth of reference-supporting bases (reads1)</li>
+          <li>Depth of variant-supporting bases (reads2)</li>
+          <li>Variant allele frequency</li>
+          <li>P-value from Fisher's Exact Test</li>
+          <li>Average quality of reference-supporting bases (qual1)</li>
+          <li>Average quality of variant-supporting bases (qual2)</li>
+          <li>Depth of reference-supporting bases on forward strand (reads1plus)</li>
+          <li>Depth of reference-supporting bases on reverse strand (reads1minus)</li>
+          <li>Depth of variant-supporting bases on forward strand (reads2plus)</li>
+          <li>Depth of variant-supporting bases on reverse strand (reads2minus)</li>
+        </ul>
+      </div>
+      <!-- let user download this vcf file-->
+      <div>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          VCF File(in zip)
+        </button>
+      </div>  
+  </div>
+    
 
 <h3>Annotation of identified point variants</h3>
   <div class="row"><div class="col-sm-12">
@@ -102,56 +133,27 @@ Variant (Calling by GATK)
     <p>Sit praesentium!</p>
     <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
   </div>
-  <p>Sit animi sapiente excepturi suscipit sint et totam! Odio soluta vel aperiam a deleniti magnam. Cum obcaecati ducimus voluptatibus.</p>
+  <p>SNPnexus can help you! Try it!</p>
   </div></div>
 
  
-  <img class="img-responsive" src="{{ static("var_pic/2.png") }}" alt="">
-  
-
-<h3>Function prediction of identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Dolor est quos nulla velit molestias accusantium dolores neque!</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
+  <h3>Optional Service</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+      Other Service We can Provide, You can try in Promotion!
+      </p>
+      <ul>
+        <li>Function prediction of identified point variants </li>
+        <li>Regulatory elements on identified point variants</li>
+        <li>Diseases associated with identified point variants </li>
+      </ul>
+    </div>
   </div>
-  <p>Consectetur tempora veniam nesciunt quam praesentium deserunt! Cum nobis doloremque molestiae accusamus asperiores aspernatur veritatis delectus vero? Placeat asperiores nulla similique distinctio similique provident fugit repudiandae eum! Doloribus quia blanditiis laudantium optio quo pariatur. Praesentium obcaecati architecto quas maiores sequi ipsam eaque.</p>
-  </div></div>
 
 
-  <img class="img-responsive" src="{{ static("var_pic/3.png") }}" alt="">
 
-
-<h3>Regulatory elements on identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Elit molestias ducimus soluta amet deleniti. Dolorum tempore ab doloribus quidem dicta.</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Elit iure omnis tempora in optio! Accusantium aspernatur magnam ipsa perferendis distinctio. Optio vitae natus molestiae sunt illo culpa corrupti! Ratione atque delectus hic?</p>
-  </div></div>
-
-
-  <img class="img-responsive" src="{{ static("var_pic/4.png") }}" alt="">
-
-
-<h3>Diseases associated with identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Sit dolore amet nihil consequuntur nihil. Libero assumenda doloribus soluta eveniet?</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Adipisicing fugit saepe unde harum laborum soluta libero. Ut eveniet sed temporibus sunt voluptatibus aliquid ex voluptatum vero neque quisquam. Dolor deserunt corrupti ipsa fuga rem architecto aliquam numquam necessitatibus natus. Molestias libero rem aut aliquam id perspiciatis debitis vero quia incidunt tempora. Sequi explicabo deleniti placeat qui vel culpa nostrum. Facilis quibusdam aspernatur aliquid optio qui impedit nobis. Atque dignissimos molestias ipsum impedit error suscipit cum dolorem. Voluptatibus numquam optio soluta voluptatem in. Culpa labore aperiam possimus inventore est exercitationem pariatur vitae dolores. Eos voluptate eligendi aliquid error.</p>
-</div></div>
-  
-
-<img class="img-responsive" src="{{ static("var_pic/5.png") }}" alt="">
-
- </div>
-{% endblock %}
+   {% endblock %}
 
 {% block extra_js %}
 <!-- DataTables -->
@@ -159,37 +161,13 @@ Variant (Calling by GATK)
 <script src="{{ static('vendor/datatable/js/dataTables.bootstrap.js') }}"> </script>
 
 <script>
-/* Custom filtering function which will search data in column four between two values */
-{% include "tables/range1.html"%}
-
 
 $(document).ready(function() { 
 
-    var table = $('#example').DataTable();
- 
-    $("#example tfoot th").each( function () {
-        var select = $('<select><option value=""></option></select>')
-            .appendTo( $(this).empty() )
-            .on( 'change', function () {
-                table.column( i )
-                    .search( $(this).val() )
-                    .draw();
-            } );
- 
-        table.column().data().unique().sort().each( function ( d, j ) {
-            select.append( '<option value="'+d+'">'+d+'</option>' )
-        } );
-    } );
-
-   
- 
-   //  Event listener to the two range filtering inputs to redraw on input
-    $('#min, #max').keyup( function() {
-        table.draw();
-    } );
+    $('#example').DataTable();
 } );
 
-console.log("Fuck")
+console.log("test")
 </script>
 
 {% endblock %}
