@@ -1,7 +1,9 @@
 Installation
 ============
 
-Require Python 3.3+, setuptools, and pip. Other Python versions are not tested. On version below 3.4, pathlib_ is required during installation, try
+Require Python 3.3+, setuptools, and pip. Other Python versions have not been tested.
+
+On versions below 3.4, pathlib_ is required during installation. Install it through
 
 .. code::
 
@@ -9,7 +11,7 @@ Require Python 3.3+, setuptools, and pip. Other Python versions are not tested. 
 
 before installation
 
-.. note:: Python 3.4 should come along with setuptools and pip, but that's not always the case on some Linux Platform. For Debian/Ubuntu, to install setuptools and pip,
+.. note:: Python 3.4+ should come along with setuptools and pip, but that's not always the case on some Linux Platform. For Debian/Ubuntu, to install setuptools and pip,
 
     .. code::
 
@@ -57,6 +59,11 @@ Install latest stable version
 
     pip install ngcloud
 
+To get colorful logging message dependencies as well, use
+
+.. code:: bash
+
+    pip install ngcloud[color]
 
 Install development version
 ---------------------------
@@ -65,7 +72,7 @@ Through one-liner,
 
 .. code:: bash
 
-    pip install ngcloud==dev
+    pip install --allow-unverified ngcloud ngcloud[all]==dev
     # or
     pip install git+https://github.com/ccwang002/ngcloud.git@master
 
