@@ -1,0 +1,173 @@
+{% extends 'stage.html' %}
+
+{% block title %}
+Variant (Calling by GATK)
+{% endblock %}
+
+
+
+{% block extra_css %}
+  <style>
+    /* body { font-size: 100%; }   */
+  </style>
+  <link rel="stylesheet" type="text/css" href="{{ static('vendor/datatable/css/jquery.dataTables.css') }}" >
+  <link rel="stylesheet" type="text/css" href="{{ static('vendor/datatable/css/dataTables.bootstrap.css') }}">
+{% endblock %}
+
+{% block stage_note %}
+<h2>Variant Calling(using GATK)</h2>
+<p>Variant discovery, genotyping and filtering            
+Finding sequence variation within and between samples is fairly straightforward. Distinguishing what part of that variation is real and assigning the right genotypes is a heck of a lot more difficult. These variant discovery, genotyping and filtering workflows and protocols help you choose the parameters that are most appropriate for your dataset and guides you through the necessary steps to produce a variant callset that you can trust. Various options are available depending on whether you're working with whole genomes or exomes and according to the type, number and coverage depth of your samples.</p>
+<p class="text-right lead">more information on <a href="#">this page</a>.</p>
+{% endblock %}
+
+{% block panel %}
+<div class="container-fluid">
+  <h2>Results of Variants Calling</h2>
+  <!--base on customer's setting -->
+  <h3>Filtering criteria</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+      Customized Setting!
+      Lorem atque esse atque soluta minima odio neque! Sequi iste sequi animi sunt cupiditate, amet, nemo in porro. Ullam accusantium aliquam suscipit aspernatur perspiciatis! Unde neque reiciendis ipsum iste nihil.</p>
+    </div>
+  </div>
+  <div class="table-responsive">
+## 
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Setting</th>
+        </tr>
+
+      </thead>
+      <tbody>
+        <tr>
+          <th>Minimum read depth</th>
+          <td>100</td>
+        </tr>
+        <tr>
+          <th>Minimum base quality</th>
+          <td>15</td>
+        </tr>
+          <tr>
+          <th>Minimum alternative readas</th>
+          <td>20</td>
+        </tr><tr>
+          <th>Minimum alternative allele frequency</th>
+          <td>15%</td>
+        </tr><tr>
+          <th>Minimum minor allele frequency</th>
+          <td>--</td>
+        </tr>       
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Detailed statistics of pairs alignment output</h3>
+  <div class="row"><div class="col-sm-12">
+  <div class="alert alert-info alert-dismissable pull-right closable-note">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <p>Lorem quod odit quasi aspernatur tenetur totam architecto enim hic!</p>
+    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
+  </div>
+  <p>Sit lorem accusamus earum magni quaerat porro accusantium atque iste quam necessitatibus. Inventore corrupti in at delectus quia velit eius cupiditate dignissimos! Reiciendis earum error culpa voluptas iste! Laudantium inventore mollitia ut sequi quas, laboriosam libero nulla, exercitationem adipisci illum? Ut earum earum eos illum dicta libero minus officia consectetur?</p>
+  </div></div><!-- /row -->
+
+  <div class="row">
+    <div class="col-sm-12">
+       {% include "tables/table_filter1.html"%}
+     <div class="table-responsive"
+       <!-- maybe include "table/vcftools_output.html"-->  
+       {% include "tables/ap2_t.html" %}
+      </div>
+    </div>
+  </div>
+  
+  <h3>Identified point variants and per-sample information</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+      Detail information in the VCF file:
+      </p>
+        <ul>
+          <li>Average per-sample depth of bases with Phred score >= 15</li>
+          <li>Number of samples called reference (wild-type)</li>
+          <li>Number of samples called heterozygous-variant</li>
+          <li>Number of samples called homozygous-variant</li>
+          <li>Number of samples not called</li>
+          <li>Less than 10% or more than 90% of variant supporting reads on one strand</li>
+          <li>Likely artifact due to INDEL reads at this position</li>
+          <li>Genotype</li>
+          <li>Genotype quality</li>
+          <li>Raw Read Depth as reported by SAMtools</li>
+          <li>Quality Read Depth of bases with Phred score >= 15</li>
+          <li>Depth of reference-supporting bases (reads1)</li>
+          <li>Depth of variant-supporting bases (reads2)</li>
+          <li>Variant allele frequency</li>
+          <li>P-value from Fisher's Exact Test</li>
+          <li>Average quality of reference-supporting bases (qual1)</li>
+          <li>Average quality of variant-supporting bases (qual2)</li>
+          <li>Depth of reference-supporting bases on forward strand (reads1plus)</li>
+          <li>Depth of reference-supporting bases on reverse strand (reads1minus)</li>
+          <li>Depth of variant-supporting bases on forward strand (reads2plus)</li>
+          <li>Depth of variant-supporting bases on reverse strand (reads2minus)</li>
+        </ul>
+      </div>
+      <!-- let user download this vcf file-->
+      <div>
+        <button type="button" class="btn btn-default">
+          <span class="glyphicon glyphicon-file"></span>
+          VCF File(in zip)
+        </button>
+      </div>  
+  </div>
+    
+
+<h3>Annotation of identified point variants</h3>
+  <div class="row"><div class="col-sm-12">
+  <div class="alert alert-info alert-dismissable pull-right closable-note">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <p>Sit praesentium!</p>
+    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
+  </div>
+  <p>SNPnexus can help you! Try it!</p>
+  </div></div>
+
+ 
+  <h3>Optional Service</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+      Other Service We can Provide, You can try in Promotion!
+      </p>
+      <ul>
+        <li>Function prediction of identified point variants </li>
+        <li>Regulatory elements on identified point variants</li>
+        <li>Diseases associated with identified point variants </li>
+      </ul>
+    </div>
+  </div>
+
+
+
+   {% endblock %}
+
+{% block extra_js %}
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="{{ static('vendor/datatable/js/jquery.dataTables.js') }}"></script>
+<script src="{{ static('vendor/datatable/js/dataTables.bootstrap.js') }}"> </script>
+
+<script>
+
+$(document).ready(function() { 
+
+    $('#example').DataTable();
+} );
+
+console.log("test")
+</script>
+
+{% endblock %}

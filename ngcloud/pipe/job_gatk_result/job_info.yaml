@@ -1,0 +1,20 @@
+job_type: GATK
+job_id: 3323
+sample_list:
+# TODO: accept conditions, sample_group
+     - 1107T_L001:
+        pair_end:R1
+    - 1107T_L001:
+        pair_end:R2 
+    - 1107T_L002:
+        pair_end:R1 
+    - 1107T_L002:
+        pair_end:R2 
+    - 1107T_L003:
+        pair_end:R1 
+    - 1107T_L003:
+        pair_end:R2 
+    - 1107T_L004:
+        pair_end:R1
+    - 1107T_L004:
+        pair_end:R2 
