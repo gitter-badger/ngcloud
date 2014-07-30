@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}My Stage{% endblock %}
+
+{% block content %}
+  <h2>Sample being used</h2>
+  <ul>
+  {% for sample in job_info.sample_list %}
+    <li>{{ sample.full_name }}</li>
+  {% endfor %}
+  </ul>
+
+  <h2>Alignment Summary</h2>
+  <p>Overall mapped rate: {{ result_info.mapped_rate }}</p>
+{% endblock %}
