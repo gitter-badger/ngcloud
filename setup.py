@@ -77,7 +77,10 @@ setup(
     },
 
     packages=find_packages(
-        exclude=['contrib', 'docs', 'test*']
+        exclude=[
+            'contrib', 'docs', 'examples',
+            '*.tests', '*.tests.*', 'tests.*', 'tests',
+        ]
     ),
     package_data={
         'ngcloud.pipe': pipe_template_data,
