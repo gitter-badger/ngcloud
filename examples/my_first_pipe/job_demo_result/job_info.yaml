@@ -1,4 +1,4 @@
-job_type: mystage
+job_type: mypipe
 job_id: My First Stage DEMO
 sample_list:
     - sample_A:
