@@ -1,9 +1,13 @@
+import sys
+import re
+from os import path
 from setuptools import setup, find_packages
 from codecs import open
-from os import path
-from pathlib import Path
-import re
-import sys
+
+try:
+    from pathlib import Path
+except ImportError:
+    sys.exit("NGCloud requires pathlib. Try pip install pathlib")
 
 here = path.abspath(path.dirname(__file__))
 
