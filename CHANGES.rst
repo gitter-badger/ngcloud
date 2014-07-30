@@ -2,6 +2,14 @@
 CHANGES
 =======
 
+-----
+0.1.1
+-----
+
+- add Python 3.3 support
+- extensive doc update,
+  add example to write a new pipeline from ground up
+
 ---
 0.1
 ---
