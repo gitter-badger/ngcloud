@@ -2,6 +2,12 @@
 CHANGES
 =======
 
+---
+0.2
+---
+
+- drop using ``self.template_config()``
+
 -----
 0.1.1
 -----

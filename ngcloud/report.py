@@ -9,7 +9,6 @@ import jinja2
 import ngcloud as ng
 from ngcloud.util import strify_path, open, is_pathlike, merged_copytree
 from ngcloud.info import JobInfo
-from ngcloud.pipe import get_shared_static_root
 
 logger = ng._create_logger(__name__)
 
@@ -107,10 +106,17 @@ class Stage(metaclass=abc.ABCMeta):
 
             :py:class:`~pathlib.Path` object.
 
+            .. warning::
+
+                Don't hard-coded any path in report using **report_root**.
+                Users will copy report and move it around.
+                Using report_root in report as link will be easily broken.
+
         .. py:attribute:: result_info
             :annotation: = dict()
 
-            A :class:`!dict` object to store NGS result info.
+            A :class:`!dict` object to store NGS result info. See :meth:`parse`
+            for more information.
 
             .. note:: Key names should follow Python argument naming rule.
 
@@ -151,43 +157,50 @@ class Stage(metaclass=abc.ABCMeta):
         return 'static/%s' % path
 
     def render(self):
-        """Render the templates of this stages
+        """Render the templates of this stages and return HTML output.
 
-        It calls each template's render() function
-        with arguments :py:attr:`self.job_info <job_info>`
-        and unpacked :py:attr:`self.result_info <result_info>`.
-        So one can use `job_info`, and keys of `result_info` as variable names
-        in their templates.
+        It calls each template's render() functio with arguments
+        :attr:`self.job_info <job_info>`, :attr:`self.result_info
+        <result_info>` and unpacked :attr:`self.result_info <result_info>`.
+        So one can use `job_info`, `result_info` and keys of `result_info`
+        as variable names in their templates.
+
         Internally, it calls :py:meth:`jinja2.Template.render`.
 
-        How it works can be simplified as
+        How it works can be simplified as::
 
-        .. code-block:: python3
+            return tpl.render(
+                job_info=self.job_info, result_info=self.result_info,
+                **self.result_info)
 
-            return tpl.render(job_info=self.job_info, **self.result_info)
+        Each templates specified in :attr:`template_entrances`
+        will be rendered. The HTML output will be stored in a dict
+        with key using its filename::
+
+            {'stage.html': '<html>...</html>'}
+
 
         Returns
         -------
         :class:`!dict` object
 
-            Key-value pairs that maps entrance template name
-            to rendered template HTML content
+            Key-value pairs that maps entrance template name to
+            rendered template HTML content.
 
         Examples
         --------
 
-        If now a stage has NGS results parsed,
+        If a stage has NGS results parsed,
 
             >>> mystage = Stage()
             >>> mystage.result_info.update(
             ...     {'map_rate': '0.556', 'idfy_genes': '633'})
             >>> mystage.render()
 
-        What beneath being passed to Jinja2's render are
+        What beneath being passed to Jinja2's render are::
 
-            >>> tpl.render(
-            ...     job_info=mystage.job_info,
-            ...     map_rate='0.556', idfy_genes='633')
+            tpl.render(job_info=mystage.job_info, result_info=result_info,
+                       map_rate='0.556', idfy_genes='633')
 
         """
         return {
@@ -222,12 +235,12 @@ class Report(metaclass=abc.ABCMeta):
 
     Attributes
     ----------
-    job_info
-    out_dir
-    report_root
+    job_info : Path object
+    out_dir : Path object
+    report_root : Path object
     stage_template_cls : list of class
         List of stage class name in order used in for this pipeline report.
-    static_roots : Path
+    static_roots : Path object
         Path to the template static file dir
 
     Raises
@@ -236,6 +249,40 @@ class Report(metaclass=abc.ABCMeta):
         When initiate this class directly,
         or subclass does not implement :py:func:`!template_config`
 
+    """
+    stage_template_cls = [Stage]
+    """(List of class name) Store the sequence of stages in use.
+
+    Specify names of subclass of :py:class:`Stage`.
+    One only needs to pass names of the stage class,
+    don't initiate the stage class.
+    ::
+
+        stage_template_cls = [IndexStage, QCStage]
+
+    See :py:class:`Stage` for how to write a new stage class
+    """
+
+    static_roots = ['']
+    """(list of) path-like object to root dir of report static files,
+    such as JS, CSS files for making html pages.
+
+    For example,
+    ::
+
+        static_roots = Path('my/report/static')
+
+    where below :file:`my/report/static` has needed js, css, img files.
+
+    A common case will be to extend existed pipelines, then both
+    shared static files and custom static files can be uesd
+    by giving a list of paths to root of static files.
+    ::
+
+        from ngcloud.pipe import get_shared_static_root  # get builtin static
+        static_roots = [get_shared_static_root(), '/path/to/my/static']
+
+    See :ref:`extend_builtin_pipe` for more inforation.
     """
 
     def __init__(self):
@@ -260,9 +307,9 @@ class Report(metaclass=abc.ABCMeta):
         5. output rendered reports into output dir, covered by
            :py:meth:`output_report`
 
-        Notes
-        -----
-        **Override this function with care.** You might break the logic.
+        .. warning::
+
+            **Override this function with care.** You might break the logic.
 
         """
         logger.info(
@@ -333,73 +380,13 @@ class Report(metaclass=abc.ABCMeta):
             with open(self.report_root / '{}'.format(name), 'w') as f:
                 f.write(content)
 
-    @abc.abstractmethod
     def template_config(self):
         """Setup configuration for report templates.
 
-        *Always* override this method.
-        Also, two instance attributes should be setted here:
-
-        - :py:attr:`stage_template_cls`
-        - :py:attr:`static_roots`
-
-        Examples
-        --------
-
-        .. code-block:: python3
-
-            def template_config(self):
-                self.stage_template_cls = [MyIndexStage, MyStage]
-                self.static_roots = ['/path/to/my/static']
-
         One could also put the extra logics here for custom report,
         since this function will always be called by :py:func:`__init__`
-
-        .. py:attribute:: stage_template_cls
-
-            (List of class name) Store the sequence of stages in use.
-            Specify names of subclass of :py:class:`Stage`
-
-            For example,
-
-            .. code-block:: python3
-
-                from ngcloud.pipe.common import InextStage, QCStage
-
-                self.stage_template_cls = [IndexStage, QCStage]
-
-            One only needs to pass in the name of the stage class,
-            not initiate the stage class.
-            See :py:class:`Stage` for how to write a new stage class
-
-        .. py:attribute:: static_roots
-
-            (list of) path-like object to root dir of report static files,
-            such as JS, CSS files for making html pages.
-
-            For example,
-
-            .. code-block:: python3
-
-                self.static_roots = Path('ngreport/static')
-                # below it has js/, css/, imgs/ subfolders
-
-            A common case will be to extend existed pipelines, then both
-            shared static files and custom static files can be uesd
-            by giving a list of paths to root of static files.
-
-            .. code-block:: python3
-
-                from ngcloud.pipe import get_shared_static_root
-
-                self.static_roots = [
-                    get_shared_static_root(),
-                    '/path/to/my/static'
-                ]
-
         """
-        self.stage_template_cls = [Stage, Stage]
-        self.static_roots = [get_shared_static_root()]
+        pass
 
 
 def gen_report(pipe_report_cls, job_dir, out_dir):
@@ -459,6 +446,11 @@ def gen_report(pipe_report_cls, job_dir, out_dir):
 
 
 def main():
+    """Store the logics for :command:`ngreport`.
+
+    If one wants to use :command:`ngreport`'s functionality, try calling
+    :func:`gen_report` not this function.
+    """
     # setup console logging
     console = logging.StreamHandler()
     pkg_logger = logging.getLogger("ngcloud")
@@ -477,17 +469,13 @@ def main():
     pkg_logger.setLevel(loglevel)
 
     # set log format
-    log_fmt = (
-        '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] '
-        '%(message)s'
-    )
+    log_fmt = '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] %(message)s'
+
     if args['--log-time']:
         log_fmt = '[%(asctime)s]' + log_fmt
     color_log_fmt = (
-        '%(log_color)s%(levelname)-7s%(reset)s '
-        '%(cyan)s%(name)-8s%(reset)s '
-        '%(log_color)s[%(funcName)s]%(reset)s '
-        '%(message)s'
+        '%(log_color)s%(levelname)-7s%(reset)s %(cyan)s%(name)-8s%(reset)s '
+        '%(log_color)s[%(funcName)s]%(reset)s %(message)s'
     )
     if args['--log-time']:
         color_log_fmt = '%(asctime)s ' + color_log_fmt
