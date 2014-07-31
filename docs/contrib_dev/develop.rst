@@ -42,9 +42,18 @@ Then watchdog will monitor the doc folder and run :command:`make html` when any 
 Deploy to PyPI
 ==============
 
+Original version:
+
 .. code-block:: bash
 
-    python setup.py egg_info -RDb '' sdist wheel --universal
+    python setup.py egg_info -RDb '' sdist --formats="gztar,zip" bdist_wheel --universal
     python setup.py egg_info -RDb '' register
     twine upload dist/*
 
+Simplified version:
+
+.. code-block:: bash
+
+    python setup.py release sdist bdist_wheel   # check output
+    python setup.py release register
+    twine upload dist/*
