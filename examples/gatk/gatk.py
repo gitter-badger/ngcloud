@@ -32,14 +32,10 @@ class GATKStage(GATKBaseStage):
     template_entrances = 'gatk.html'
 
 class GATKReport(Report):
-    def template_config(self):
-        self.stage_classnames = [
-            IndexStage,
-            QCStage,
-            AlignStage,
-            GATKStage
-        ]
-        self.static_roots = [
-            _here / 'report' / 'static',
-            get_shared_static_root(),
-        ]
+    stage_classnames = [
+        IndexStage, QCStage, AlignStage, GATKStage
+    ]
+    static_roots = [
+        _here / 'report' / 'static',
+        get_shared_static_root(),
+    ]

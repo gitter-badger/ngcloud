@@ -26,6 +26,5 @@ class MyStage(Stage):
         self.result_info['mapped_rate'] = mapped_rate
 
 class MyReport(Report):
-    def template_config(self):
-        self.stage_classnames = [IndexStage, MyStage]
-        self.static_roots = here / "report" / "static"
+    stage_classnames = [IndexStage, MyStage]
+    static_roots = here / "report" / "static"

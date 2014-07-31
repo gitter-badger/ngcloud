@@ -83,11 +83,7 @@ class TophatStage(TuxedoBaseStage):
 class TuxedoReport(Report):
     """NGCloud report class of Tuxedo pipeline."""
 
-    def template_config(self):
-        self.stage_classnames = [
-            IndexStage,
-            QCStage,
-            TophatStage,
-            # CufflinkStage,
-        ]
-        self.static_roots = get_shared_static_root()
+    stage_classnames = [
+        IndexStage, QCStage, TophatStage,  # CufflinkStage,
+    ]
+    static_roots = get_shared_static_root()
