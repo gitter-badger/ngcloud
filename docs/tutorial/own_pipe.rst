@@ -140,6 +140,16 @@ Write the report logics
 
 Finally, we are going to connect all parts together by writing a Python module **mypipe.py** that inherits NGCloud architecture. Stage and pipeline have their corresponding class in NGCloud: :py:class:`~ngcloud.report.Stage` and :py:class:`~ngcloud.report.Report`.
 
+.. warning::
+    You should write the following Python code in a script file (in this example it is named as ``mypipe.py``).
+    Copy-pasting into a Python interpreter will easily fail::
+
+        >>> from pathlib import Path
+        >>> Path(__file__).parent
+        Traceback (most recent call last):
+          File "<stdin>", line 1, in <module>
+        NameError: name '__file__' is not defined
+
 Index stage
 """""""""""
 
