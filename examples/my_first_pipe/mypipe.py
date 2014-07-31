@@ -27,5 +27,5 @@ class MyStage(Stage):
 
 class MyReport(Report):
     def template_config(self):
-        self.stage_template_cls = [IndexStage, MyStage]
+        self.stage_classnames = [IndexStage, MyStage]
         self.static_roots = here / "report" / "static"

@@ -238,7 +238,7 @@ class Report(metaclass=abc.ABCMeta):
     job_info : Path object
     out_dir : Path object
     report_root : Path object
-    stage_template_cls : list of class
+    stage_classnames : list of class
         List of stage class name in order used in for this pipeline report.
     static_roots : Path object
         Path to the template static file dir
@@ -250,7 +250,7 @@ class Report(metaclass=abc.ABCMeta):
         or subclass does not implement :py:func:`!template_config`
 
     """
-    stage_template_cls = [Stage]
+    stage_classnames = [Stage]
     """(List of class name) Store the sequence of stages in use.
 
     Specify names of subclass of :py:class:`Stage`.
@@ -258,7 +258,7 @@ class Report(metaclass=abc.ABCMeta):
     don't initiate the stage class.
     ::
 
-        stage_template_cls = [IndexStage, QCStage]
+        stage_classnames = [IndexStage, QCStage]
 
     See :py:class:`Stage` for how to write a new stage class
     """
@@ -336,7 +336,7 @@ class Report(metaclass=abc.ABCMeta):
         # create stage instances
         self._stages = [
             Stage(self.job_info, self.report_root)
-            for Stage in self.stage_template_cls
+            for Stage in self.stage_classnames
         ]
 
         logger.info("Render report templates")

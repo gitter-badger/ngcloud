@@ -33,7 +33,7 @@ class GATKStage(GATKBaseStage):
 
 class GATKReport(Report):
     def template_config(self):
-        self.stage_template_cls = [
+        self.stage_classnames = [
             IndexStage,
             QCStage,
             AlignStage,

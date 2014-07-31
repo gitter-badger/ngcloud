@@ -84,7 +84,7 @@ class TuxedoReport(Report):
     """NGCloud report class of Tuxedo pipeline."""
 
     def template_config(self):
-        self.stage_template_cls = [
+        self.stage_classnames = [
             IndexStage,
             QCStage,
             TophatStage,

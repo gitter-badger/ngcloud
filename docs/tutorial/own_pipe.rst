@@ -215,9 +215,9 @@ Finally, we combine all defined stages into our first pipeline, **MyReport**:
     :language: python3
     :lines: 28-
 
-The configuration is as simple as what we've done with stages. **stage_template_cls** specifies the class name of stages to be used, and **static_roots** points to the static file folder.
+The configuration is as simple as what we've done with stages. **stage_classnames** specifies the class name of stages to be used, and **static_roots** points to the static file folder.
 
-.. warning:: Make sure it is **class name** and initiated objects specified in **stage_template_cls**. Stage objects are created automatically during runtime.
+.. warning:: Make sure it is **class name** and initiated objects specified in **stage_classnames**. Stage objects are created automatically during runtime.
 
 
 Generate the report

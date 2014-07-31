@@ -6,7 +6,8 @@ CHANGES
 0.2
 ---
 
-- drop using ``self.template_config()``
+- no self.template_config() needed
+- rename Report.stage_template_cls to Report.stage_classnames
 
 -----
 0.1.1
