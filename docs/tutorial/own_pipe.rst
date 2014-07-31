@@ -218,14 +218,14 @@ Finally, we combine all defined stages into our first pipeline, **MyReport**:
 
 The configuration is as simple as what we've done with stages. **stage_classnames** specifies the class name of stages to be used, and **static_roots** points to the static file folder.
 
-.. warning:: Make sure it is **class name** and initiated objects specified in **stage_classnames**. Stage objects are created automatically during runtime.
+.. warning:: Make sure it *is* **class name** *not* initiated objects specified in **stage_classnames**. Stage objects are created automatically during runtime.
 
 .. seealso:: See :py:class:`ngcloud.report.Report` for all the functionalities it provides.
 
 Generate the report
 -------------------
 
-Congrats! Now this is a fully working pipeline. Get the result by running the following command at the same folder as **mypipe.py**::
+Congrats! Now this is a fully working pipeline. Checkout your results with our example under :file:`examples/my_first_pipe`. Get the result by running the following command at the same folder as **mypipe.py**::
 
     ngreport -p mypipe.MyReport job_demo_result
 
