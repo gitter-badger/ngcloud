@@ -190,6 +190,7 @@ First we achieve our goal in a cheating way,
 
 By adding a new key in **result_info** during MyStage's :py:meth:`~ngcloud.report.Stage.parse`, the key will be passed as a template variable when rendering.
 
+.. seealso:: See :py:class:`ngcloud.report.Stage` for all the functionalities it provides.
 
 Reading result info
 """""""""""""""""""
@@ -219,6 +220,7 @@ The configuration is as simple as what we've done with stages. **stage_classname
 
 .. warning:: Make sure it is **class name** and initiated objects specified in **stage_classnames**. Stage objects are created automatically during runtime.
 
+.. seealso:: See :py:class:`ngcloud.report.Report` for all the functionalities it provides.
 
 Generate the report
 -------------------
