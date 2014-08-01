@@ -2,6 +2,17 @@
 Welcome to NGCloud's documentation!
 ***********************************
 
+.. image:: https://pypip.in/py_versions/ngcloud/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/ngcloud
+
+.. image:: https://pypip.in/wheel/ngcloud/badge.svg?style=flat
+    :target: https://pypi.python.org/pypi/ngcloud
+
+.. image:: http://img.shields.io/pypi/l/ngcloud.svg?style=flat
+    :target: https://pypi.python.org/pypi/ngcloud
+
+|
+
 **Version**: |version|
 
 **Last update**: |today|
