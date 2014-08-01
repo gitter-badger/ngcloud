@@ -40,11 +40,8 @@ Contents
     contrib_dev/develop
     contrib_dev/contributing
 
+Change Log
+==========
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+.. include:: ../CHANGES.rst
+    :start-line: 4
