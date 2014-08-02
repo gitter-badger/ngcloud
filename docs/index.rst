@@ -39,9 +39,5 @@ Contents
     module_api/ngcloud
     contrib_dev/develop
     contrib_dev/contributing
+    changelog
 
-Change Log
-==========
-
-.. include:: ../CHANGES.rst
-    :start-line: 4
