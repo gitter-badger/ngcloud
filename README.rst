@@ -21,7 +21,7 @@ Through *pip*. For latest stable release,
     pip install ngcloud
 
 Or install the `development version
-<https://github.com/ccwang002/ngcloud/archive/master.zip#egg=ngcloud-dev>`_ through
+<https://github.com/BioCloud-TW/ngcloud/archive/master.zip#egg=ngcloud-dev>`_ through
 
 ::
 

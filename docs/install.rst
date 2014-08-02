@@ -74,7 +74,7 @@ Through one-liner,
 
     pip install --allow-unverified ngcloud ngcloud[all]==dev
     # or
-    pip install git+https://github.com/ccwang002/ngcloud.git@master
+    pip install git+https://github.com/BioCloud-TW/ngcloud.git@master
 
 or clone `the source <github-src>`_ then run
 
@@ -82,7 +82,7 @@ or clone `the source <github-src>`_ then run
 
     python setup.py install
 
-.. _github-src: https://github.com/ccwang002/ngcloud
+.. _github-src: https://github.com/BioCloud-TW/ngcloud
 
 
 Run test
