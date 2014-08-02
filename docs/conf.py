@@ -215,7 +215,9 @@ latex_elements = {
 #'pointsize': '10pt',
 
 # Additional stuff for the LaTeX preamble.
-#'preamble': '',
+'inputenc': '',
+'utf8extra': '',
+'preamble': '\usepackage{fontspec}',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -238,7 +240,7 @@ latex_documents = [
 #latex_show_pagerefs = False
 
 # If true, show URL addresses after external links.
-#latex_show_urls = False
+latex_show_urls = True
 
 # Documents to append as an appendix to all manuals.
 #latex_appendices = []
