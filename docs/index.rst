@@ -37,7 +37,7 @@ Contents
     install
     tutorial/index.rst
     module_api/ngcloud
-    contrib_dev/develop
-    contrib_dev/contributing
+    develop
+    contributing
     changelog
 
