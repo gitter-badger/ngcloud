@@ -3,13 +3,16 @@ Welcome to NGCloud's documentation!
 ***********************************
 
 .. image:: https://pypip.in/py_versions/ngcloud/badge.svg?style=flat
-        :target: https://pypi.python.org/pypi/ngcloud
+    :target: https://pypi.python.org/pypi/ngcloud
+    :width: 103px
 
 .. image:: https://pypip.in/wheel/ngcloud/badge.svg?style=flat
     :target: https://pypi.python.org/pypi/ngcloud
+    :width: 73px
 
 .. image:: http://img.shields.io/pypi/l/ngcloud.svg?style=flat
     :target: https://pypi.python.org/pypi/ngcloud
+    :width: 80px
 
 |
 
