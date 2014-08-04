@@ -8,7 +8,7 @@ Code Style
 
 Follows PEP8_.
 
-NGCloud use use flake8_ as syntax and style checker.
+NGCloud use flake8_ as syntax and style checker.
 
 
 Version Control
