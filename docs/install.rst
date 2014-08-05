@@ -117,6 +117,13 @@ NGCloud source is needed. To install them,
 
 Documentation will be under ``docs/_build/html/index.html``
 
+For PDF requires XeLaTeX_,
+
+.. code:: bash
+
+    make xelatex
+
 .. _Sphinx: http://sphinx-doc.org
 .. _numpydoc: https://github.com/numpy/numpydoc
 .. _sphinx_rtd_theme: https://github.com/snide/sphinx_rtd_theme
+.. _xelatex: http://www.xelatex.org
