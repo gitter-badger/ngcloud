@@ -1,10 +1,7 @@
 from pathlib import Path
 from ngcloud import _create_logger
 from ngcloud.report import Stage, Report
-from ngcloud.pipe import (
-    get_shared_template_root, get_shared_static_root,
-    _get_builtin_template_root
-)
+from ngcloud.pipe import get_shared_template_root, get_shared_static_root
 from ngcloud.pipe import tuxedo
 
 logger = _create_logger(__name__)
@@ -20,9 +17,13 @@ class IndexStage(GATKBaseStage):
     template_entrances = 'index.html'
 
 class QCStage(tuxedo.QCStage):
-    template_find_paths = GATKBaseStage.template_find_paths
-    template_find_paths.append(
-        _get_builtin_template_root() / 'tuxedo'
+    # template_find_paths = GATKBaseStage.template_find_paths
+    # template_find_paths.append(
+    #     _get_builtin_template_root() / 'tuxedo'
+    # )
+    template_find_paths = (
+        GATKBaseStage.template_find_paths[:1] +
+        tuxedo.QCStage.template_find_paths
     )
 
 class AlignStage(GATKBaseStage):
