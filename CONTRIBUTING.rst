@@ -9,7 +9,13 @@ Code Style
 
 Follows PEP8_.
 
-NGCloud use flake8_ as syntax and style checker.
+NGCloud use flake8_ as syntax and style checker, run
+
+::
+
+    python setup.py flake8
+
+If no errors, it is good to commit.
 
 
 Version Control
