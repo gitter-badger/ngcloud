@@ -2,23 +2,28 @@
 Welcome to NGCloud's documentation!
 ***********************************
 
-.. image:: https://pypip.in/py_versions/ngcloud/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/ngcloud
-    :width: 103px
+.. only:: html
 
-.. image:: https://pypip.in/wheel/ngcloud/badge.svg?style=flat
-    :target: https://pypi.python.org/pypi/ngcloud
-    :width: 73px
+    .. image:: https://pypip.in/py_versions/ngcloud/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/ngcloud
+        :width: 103px
+        :alt: python 3.3+
 
-.. image:: http://img.shields.io/pypi/l/ngcloud.svg?style=flat
-    :target: https://pypi.python.org/pypi/ngcloud
-    :width: 80px
+    .. image:: https://pypip.in/wheel/ngcloud/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/ngcloud
+        :width: 73px
+        :alt: wheel supported
 
-|
+    .. image:: https://pypip.in/license/ngcloud/badge.svg?style=flat
+        :target: https://pypi.python.org/pypi/ngcloud
+        :width: 79px
+        :alt: MIT
 
-**Version**: |version|
+    |
 
-**Last update**: |today|
+    **Version**: |version|
+
+    **Last update**: |today|
 
 
 Introduction
