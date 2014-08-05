@@ -1,4 +1,4 @@
-installation
+Installation
 ============
 
 Require Python 3.3+, setuptools, and pip. Other Python versions have not been tested.
