@@ -75,21 +75,23 @@ class Stage(metaclass=abc.ABCMeta):
     result_info : dict object
         Key-value pairs storing parsed NGS result
     """
-    #: Name of templates that will trigger :py:meth:`render`.
-    #:
-    #: In most cases, there is only *one* entry point, so a stage
-    #: corresponds to one HTML page in report.
-    #: However, if this attribute contains a list of template names
-    #: then multiple HTML pages will be produced.
     template_entrances = ['stage.html']
+    """Name of templates that will trigger :py:meth:`render`.
 
-    #: Path to root of templates.
-    #:
-    #: These paths are passed to :py:class:`jinja2.FileSystemLoader` in order.
-    #: Generally if one is going to extend a NGCloud pipeline,
-    #: then one shoud supply the NGCloud's template root path and
-    #: custom templates path. See :ref:`extend_builtin_pipe` for more info.
+    In most cases, there is only *one* entry point, so a stage
+    corresponds to one HTML page in report.
+    However, if this attribute contains a list of template names
+    then multiple HTML pages will be produced.
+    """
+
     template_find_paths = ['report/templates']
+    """Path to root of templates.
+
+    These paths are passed to :py:class:`jinja2.FileSystemLoader` in order.
+    Generally if one is going to extend a NGCloud pipeline,
+    then one shoud supply the NGCloud's template root path and
+    custom templates path. See :ref:`extend_builtin_pipe` for more info.
+    """
 
     def __init__(self, job_info, report_root):
         """Initiate a Stage object.
@@ -105,12 +107,6 @@ class Stage(metaclass=abc.ABCMeta):
             :annotation: = report_root
 
             :py:class:`~pathlib.Path` object.
-
-            .. warning::
-
-                Don't hard-coded any path in report using **report_root**.
-                Users will copy report and move it around.
-                Using report_root in report as link will be easily broken.
 
         .. py:attribute:: result_info
             :annotation: = dict()
