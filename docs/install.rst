@@ -65,24 +65,30 @@ To get colorful logging message dependencies as well, use
 
     pip install ngcloud[color]
 
-Install development version
----------------------------
 
-Through one-liner,
+Build from source
+-----------------
 
-.. code:: bash
+NGCloud use Gulp.js_, CoffeeScript_, and Stylus_ to build report templates' CSS and JS
+with building automation. All frontend dependencies are independently mangaed by npm_.
 
-    pip install --allow-unverified ngcloud ngcloud[all]==dev
-    # or
-    pip install git+https://github.com/BioCloud-TW/ngcloud.git@master
+To build from source, Node.js_ and npm_ are required.
+Check their homepage for their installation.
 
-or clone `the source <github-src>`_ then run
+.. code-block:: bash
 
-.. code:: bash
+    git clone https://github.com/BioCloud-TW/ngcloud.git
+    cd template_dev
+    npm install
 
+    cd ..  # back to ngcloud source root
     python setup.py install
 
-.. _github-src: https://github.com/BioCloud-TW/ngcloud
+.. _node.js: http://nodejs.org/
+.. _npm: https://www.npmjs.org
+.. _gulp.js: http://gulpjs.com/
+.. _coffeescript: http://coffeescript.org/
+.. _stylus: http://learnboost.github.io/stylus/
 
 
 Run test
