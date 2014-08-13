@@ -3,6 +3,7 @@ import re
 import subprocess as sp
 from os import path
 from setuptools import setup, find_packages, Command
+from setuptools.command.install import install
 from codecs import open
 
 try:
@@ -26,25 +27,54 @@ def find_version(*path_parts):
 
     raise RuntimeError("Unable to find version string.")
 
+def _build_frontend():
+    p = sp.Popen(['gulp', 'release'], cwd="template_dev")
+    p.wait()
+    if p.returncode:
+        sys.exit("Building CSS/JS fails, "
+                 "try `npm install` under template_dev/")
+
+def _check_frontend_build():
+    print("Checking if all generated CSS/JSs exist")
+    frontend_patterns = [
+        (Path('ngcloud/pipe/report/static/css'), '*.css')
+    ]
+    all_built = all(any(p.glob(files)) for p, files in frontend_patterns)
+    if not all_built:
+        print("Some built CSS/JSs are missing, rebuild all")
+        _build_frontend()
+
 
 class build_frontend(Command):
     description = (
         'build CSS/JS from Stylus/Coffeescript, '
         'Node.js dev environment required'
     )
-    user_options = []
+    user_options = [
+        ("skip-if-exist", None, "skip whole building if files exist")
+    ]
 
     def initialize_options(self):
-        pass
+        self.skip_if_exist = None
 
     def finalize_options(self):
         pass
 
     def run(self):
-        p = sp.Popen(['gulp', 'release'], cwd="template_dev")
-        p.wait()
-        if p.returncode:
-            sys.exit("Building CSS/JS fails")
+        if self.skip_if_exist:
+            _check_frontend_build()
+        else:
+            print("rebuilding all generated CSS/JSs")
+            _build_frontend()
+
+
+# We are not using this!
+class Install(install):
+    def do_egg_install(self):
+        # pure hack, see http://stackoverflow.com/questions/20194565
+        _check_frontend_build()
+        install.run(self)
+
 
 with utf8_open("README.rst") as readme_f:
     with utf8_open("CHANGES.rst") as changes_f:
