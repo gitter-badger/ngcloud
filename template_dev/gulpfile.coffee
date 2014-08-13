@@ -3,11 +3,19 @@ gutil = require 'gulp-util'
 plumber = require 'gulp-plumber'  # robust error handler
 stylus = require 'gulp-stylus'
 coffee = require 'gulp-coffee'
+rimraf = require 'gulp-rimraf'
 gcolors = gutil.colors
 
+releaseDest = '../ngcloud/pipe/report/static/'
 paths =
     coffee: ['./src/**/*.coffee']
     stylus: ['./src/**/*.styl']
+    clean: [
+        releaseDest + 'js/*.js',
+        releaseDest + 'css/*.css',
+        './js/*.js',
+        './css/*.css'
+    ]
 
 gulp.task 'coffee', ->
     gulp.src paths.coffee
@@ -45,7 +53,6 @@ gulp.task 'watch', ->
     gulp.watch paths.stylus, ['stylus']
 
 gulp.task 'release', ->
-    releaseDest = '../ngcloud/pipe/report/static/'
     gulp.src paths.coffee
         .pipe coffee
             bare: true
@@ -58,5 +65,8 @@ gulp.task 'release', ->
             use: [nib()]
         .pipe gulp.dest releaseDest + 'css'
 
+gulp.task 'clean', (cb) ->
+    gulp.src paths.clean, read: false
+        .pipe rimraf force: true
 
 gulp.task 'default', ['coffee', 'stylus']

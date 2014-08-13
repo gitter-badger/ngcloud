@@ -13,6 +13,7 @@
     "gulp": "3.x",
     "gulp-coffee": "2.x",
     "gulp-plumber": "0.6.x",
+    "gulp-rimraf": "0.x",
     "gulp-stylus": "1.x",
     "gulp-util": "3.x",
     "nib": "1.x"
