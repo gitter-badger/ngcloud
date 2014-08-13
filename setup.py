@@ -1,7 +1,8 @@
 import sys
 import re
+import subprocess as sp
 from os import path
-from setuptools import setup, find_packages
+from setuptools import setup, find_packages, Command
 from codecs import open
 
 try:
@@ -25,10 +26,29 @@ def find_version(*path_parts):
 
     raise RuntimeError("Unable to find version string.")
 
+
+class build_frontend(Command):
+    description = (
+        'build CSS/JS from Stylus/Coffeescript, '
+        'Node.js dev environment required'
+    )
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        p = sp.Popen(['gulp', 'release'], cwd="template_dev")
+        p.wait()
+        if p.returncode:
+            sys.exit("Building CSS/JS fails")
+
 with utf8_open("README.rst") as readme_f:
     with utf8_open("CHANGES.rst") as changes_f:
         long_description = readme_f.read() + '\n' + changes_f.read()
-
 
 # recursively find all files under ngcloud/pipe/report
 pipe_template_data = [
@@ -70,6 +90,10 @@ setup(
         'Topic :: Scientific/Engineering :: Bio-Informatics',
     ],
     keywords='ngs',
+
+    cmdclass={
+        'build_frontend': build_frontend,
+    },
 
     install_requires=[
         'docopt > 0.6',
