@@ -1,15 +1,11 @@
 import sys
 import re
 import subprocess as sp
-from os import path
+from os import path, walk
+from glob import glob
 from setuptools import setup, find_packages, Command
 from setuptools.command.install import install
 from codecs import open
-
-try:
-    from pathlib import Path
-except ImportError:
-    sys.exit("NGCloud requires pathlib. Try pip install pathlib")
 
 here = path.abspath(path.dirname(__file__))
 
@@ -37,9 +33,9 @@ def _build_frontend():
 def _check_frontend_build():
     print("Checking if all generated CSS/JSs exist")
     frontend_patterns = [
-        (Path('ngcloud/pipe/report/static/css'), '*.css')
+        'ngcloud/pipe/report/static/css/*.css'
     ]
-    all_built = all(any(p.glob(files)) for p, files in frontend_patterns)
+    all_built = all(any(glob(pattern)) for pattern in frontend_patterns)
     if not all_built:
         print("Some built CSS/JSs are missing, rebuild all")
         _build_frontend()
@@ -82,10 +78,15 @@ with utf8_open("README.rst") as readme_f:
 
 # recursively find all files under ngcloud/pipe/report
 pipe_template_data = [
-    p.relative_to('ngcloud/pipe').as_posix()
-    for p in Path('ngcloud/pipe/report').glob("**/*")
-    if not p.is_dir()
+    path.relpath(path.join(root, f), 'ngcloud/pipe')
+    for root, _, files in walk('ngcloud/pipe/report')
+    for f in files
 ]
+
+# define pacakge dependencies
+pkg_deps = ['docopt > 0.6', 'PyYAML', 'Jinja2 > 2']
+if sys.version_info[:2] < (3, 4):
+    pkg_deps.append('pathlib')
 
 if sys.platform.startswith("win32"):
     color_dep = ['colorlog[windows]']
@@ -125,11 +126,7 @@ setup(
         'build_frontend': build_frontend,
     },
 
-    install_requires=[
-        'docopt > 0.6',
-        'PyYAML',
-        'Jinja2 > 2',
-    ],
+    install_requires=pkg_deps,
     extras_require={
         'color': color_dep,
         'all': all_dep,
