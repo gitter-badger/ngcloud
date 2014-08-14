@@ -2,6 +2,13 @@
 CHANGES
 =======
 
+---
+0.3
+---
+
+- Use Gulp.js for frontend development (#11)
+- No pathlib required during installation (#12)
+
 -----
 0.2.1
 -----
