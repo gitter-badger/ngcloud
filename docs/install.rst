@@ -3,15 +3,10 @@ Installation
 
 Require Python 3.3+, setuptools, and pip. Other Python versions have not been tested.
 
-On versions below 3.4, pathlib_ is required during installation. Install it through
+.. note::
 
-.. code::
-
-    pip install pathlib
-
-before installation
-
-.. note:: Python 3.4+ should come along with setuptools and pip, but that's not always the case on some Linux Platform. For Debian/Ubuntu, to install setuptools and pip,
+    Python 3.4+ should bundle with setuptools and pip, but that's not always the case on some Linux Platform.
+    For Debian/Ubuntu to install setuptools and pip,
 
     .. code::
 
