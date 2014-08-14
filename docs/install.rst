@@ -47,8 +47,7 @@ Dependencies
 
 If one wants to have colorful logging messages, extra packages are required:
 
-- colorlog_
-- (or colorlog[windows] on Windows)
+- colorlog_ (or colorlog[windows] on Windows)
 
 .. _colorlog: https://github.com/borntyping/python-colorlog
 

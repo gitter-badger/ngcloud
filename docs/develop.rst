@@ -78,8 +78,8 @@ Requires watchdog_. Take building docs as example, under :file:`docs` run:
 .. code-block:: bash
 
     watchmedo shell-command \
-        --interval 10 --wait --drop \
-        --recursive --paterns="*.rst" \
+        --interval 3 --wait --drop \
+        --recursive --patterns="*.rst" \
         --command='make html' .
 
 Then watchdog will monitor the doc folder and run :command:`make html` when any rst file changes.
