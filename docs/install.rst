@@ -79,6 +79,7 @@ Check their homepage for their installation.
 
     git clone https://github.com/BioCloud-TW/ngcloud.git
     cd template_dev
+    npm install -g gulp
     npm install
 
     cd ..  # back to ngcloud source root
