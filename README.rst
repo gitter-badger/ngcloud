@@ -22,7 +22,7 @@ Through *pip*. For latest stable release,
 
 
 To build from source, Node.js_ and npm_ are required to set up the frontend
-development environment to rebuild report templates' CSS/JS.
+development environment.
 
 .. code-block:: bash
 
