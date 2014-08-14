@@ -2,6 +2,7 @@ import re
 import sys
 import os.path
 import importlib
+import shutil
 from pathlib import Path
 import abc
 import logging
@@ -368,13 +369,13 @@ class Report(metaclass=abc.ABCMeta):
             "id: {0.id} type: {0.type}".format(self.job_info)
         )
 
-        if not self.report_root.exists():
-            self.report_root.mkdir(parents=True)
-        else:
+        if self.report_root.exists():
             logger.warn(
-                "Report root {!s} has already existed!"
+                "Report root {!s} has already existed! Overwriting..."
                 .format(self.report_root)
             )
+            shutil.rmtree(self.report_root.as_posix())
+        self.report_root.mkdir(parents=True)
 
         # create stage instances
         self._stages = [
@@ -563,6 +564,7 @@ def main():
     out_dir = Path(
         args['<out_dir>'] if args['<out_dir>'] else args['--outdir']
     )
+
     # FIXME: custom pipeline cannot be find if they are not official packages
     # therefore where the ngreport being called should be added into sys.path
     # currently is a hack. More elegant way should be used
