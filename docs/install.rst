@@ -70,7 +70,7 @@ Build from source
 -----------------
 
 NGCloud use Gulp.js_, CoffeeScript_, and Stylus_ to build report templates' CSS and JS
-with building automation. All frontend dependencies are independently mangaed by npm_.
+with building automation. All frontend dependencies are managed independently by npm_.
 
 To build from source, Node.js_ and npm_ are required.
 Check their homepage for their installation.
@@ -102,7 +102,6 @@ Require nose_
     nosetest ngcloud
 
 .. _nose: https://nose.readthedocs.org/
-
 
 
 Build this doc
