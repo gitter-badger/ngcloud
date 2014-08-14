@@ -24,7 +24,7 @@ def find_version(*path_parts):
     raise RuntimeError("Unable to find version string.")
 
 def _build_frontend():
-    p = sp.Popen(['gulp', 'release'], cwd="template_dev", shell=True)
+    p = sp.Popen("gulp release", cwd="template_dev", shell=True)
     p.wait()
     if p.returncode:
         sys.exit("Building CSS/JS fails, "
