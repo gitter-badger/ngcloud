@@ -1,10 +1,7 @@
 from pathlib import Path
 import yaml
 import ngcloud as ng
-from ngcloud.util import (
-    open, expanduser,
-    _val_bool_or_none,
-)
+from ngcloud.util import open, _val_bool_or_none
 
 logger = ng._create_logger(__name__)
 
