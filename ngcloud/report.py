@@ -9,7 +9,10 @@ import logging
 from docopt import docopt
 import jinja2
 import ngcloud as ng
-from ngcloud.util import strify_path, open, is_pathlike, merged_copytree
+from ngcloud.util import (
+    strify_path, open, is_pathlike, merged_copytree,
+    copy, discover_file_by_patterns
+)
 from ngcloud.info import JobInfo
 
 logger = ng._create_logger(__name__)
@@ -95,6 +98,14 @@ class Stage(metaclass=abc.ABCMeta):
     Generally if one is going to extend a NGCloud pipeline,
     then one shoud supply the NGCloud's template root path and
     custom templates path. See :ref:`extend_builtin_pipe` for more info.
+    """
+
+    embed_result_joint = []
+    """List of description for joint result embedded into report.
+    """
+
+    embed_result_persample = []
+    """List of description for per sample result embedded into report.
     """
 
     result_foldername = ''
@@ -248,7 +259,9 @@ class Stage(metaclass=abc.ABCMeta):
 
         """
         return {
-            tpl_name: tpl.render(job_info=self.job_info, **self.result_info)
+            tpl_name: tpl.render(
+                job_info=self.job_info, result_info=self.result_info,
+                **self.result_info)
             for tpl_name, tpl in self._templates.items()
         }
 
@@ -267,7 +280,35 @@ class Stage(metaclass=abc.ABCMeta):
 
         By default, nothing will be copied for stage-specific static files.
         """
-        pass
+        self.copy_static_joint()
+        self.copy_static_persample()
+
+    def copy_static_joint(self):
+        for desc in self.embed_result_joint:
+            src_root = self.result_root / desc['src']
+            dest_root = self.report_root / 'static' / desc['dest']
+            if not dest_root.exists():
+                dest_root.mkdir(parents=True)
+
+            file_list = discover_file_by_patterns(src_root, desc['patterns'])
+            for fp in file_list:
+                copy(fp, dest_root)
+
+    def copy_static_persample(self):
+        for desc in self.embed_result_persample:
+            all_src_root = self.result_root / desc['src']
+            all_dest_root = self.report_root / 'static'
+
+            for sample in self.job_info.sample_list:
+                # TODO: fuzzy match sample.name
+                sp_src_root = all_src_root / sample.full_name
+                sp_dest_root = all_dest_root / desc['dest'] / sample.full_name
+                sp_dest_root.mkdir(parents=True)
+
+                file_list = discover_file_by_patterns(
+                    sp_src_root, desc['patterns'])
+                for fp in file_list:
+                    copy(fp, sp_dest_root)
 
 
 class Report(metaclass=abc.ABCMeta):
