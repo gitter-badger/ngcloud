@@ -102,10 +102,14 @@ class Stage(metaclass=abc.ABCMeta):
 
     embed_result_joint = []
     """List of description for joint result embedded into report.
+
+    .. versionadded:: 0.3
     """
 
     embed_result_persample = []
     """List of description for per sample result embedded into report.
+
+    .. versionadded:: 0.3
     """
 
     result_foldername = ''
@@ -114,6 +118,8 @@ class Stage(metaclass=abc.ABCMeta):
     Number prefix of the folder can be excluded. Therefore, setting
     **"mystage"** can recognized all following folders:
     mystage, 3_mystage, 05_mystage.
+
+    .. versionadded:: 0.3
     """
 
     def __init__(self, job_info, report_root):
@@ -275,15 +281,52 @@ class Stage(metaclass=abc.ABCMeta):
     def copy_static(self):
         """Copy stage-specific static files under report folder.
 
-        If the figures, text files, some output of a NGS tool are needed in
-        report display, override me to copy these files here.
+        It calls :meth:`copy_static_joint` and
+        :meth:`copy_static_persample` to copy static files,
+        their behavior differ slightly.
 
-        By default, nothing will be copied for stage-specific static files.
+        - **copy_static_joint()** copy those files that are *jointly* produced
+          based on all samples. So those files should uniquely exist in this
+          stage.
+
+          For example, differential expression comparison for each pairs
+          of samples. The comparison result no longer belongs to any sample
+          alone but stage-wide.
+
+          It takes the file description from :attr:`embed_result_joint`.
+
+        - **copy_static_persample()** copy those files of *each sample*.
+          If there are total 4 samples, then there should be 4 sets of such
+          files.
+
+          For example, quality check stage will check each sample and produce
+          their own quality information.
+
+          It takes the file description from :attr:`embed_result_persample`.
+
+        By default, nothing will be copied because both embbed_result are
+        default to empty list.
+
+        Notes
+        -----
+
+        If a stage doesn't not need to copy any static files or one type of the
+        static files is not required, one could simply passing a empty list to
+        **embed_result_joint** or **embed_result_persample** to skip copying.
+        There is no need to override this function.
+
+        .. versionchanged:: 0.3
+            Add default behavior
+
         """
         self.copy_static_joint()
         self.copy_static_persample()
 
     def copy_static_joint(self):
+        """
+
+        .. versionadded:: 0.3
+        """
         for desc in self.embed_result_joint:
             src_root = self.result_root / desc['src']
             dest_root = self.report_root / 'static' / desc['dest']
@@ -295,6 +338,10 @@ class Stage(metaclass=abc.ABCMeta):
                 copy(fp, dest_root)
 
     def copy_static_persample(self):
+        """
+
+        .. versionadded:: 0.3
+        """
         for desc in self.embed_result_persample:
             all_src_root = self.result_root / desc['src']
             all_dest_root = self.report_root / 'static'
