@@ -214,8 +214,8 @@ class Stage(metaclass=abc.ABCMeta):
                 .format(stage_result_path, self.result_foldername))
         return stage_result_path[0]
 
-    def _template_static_path(self, path):
-        return 'static/%s' % path
+    def _template_static_path(self, *path_parts):
+        return Path('static', *path_parts).as_posix()
 
     def render(self):
         """Render the templates of this stages and return HTML output.
