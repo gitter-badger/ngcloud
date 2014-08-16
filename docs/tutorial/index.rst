@@ -9,3 +9,4 @@ Tutorial
     ngs_result
     own_pipe
     extend_pipe
+    template_design
