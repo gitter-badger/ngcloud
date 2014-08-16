@@ -67,20 +67,62 @@ class Stage(metaclass=abc.ABCMeta):
     information out of a tool(stage) output and pass those information to
     Jinja2's template with some variables.
 
+    Examples
+    --------
+    A minimal stage for rendering single template, no static file copying::
+
+        class SimpleStage(Stage):
+            template_find_paths = ['path/to/templates']
+            template_entrances = 'simple.html'
+            # so it render template 'path/to/templates/simple.html'
+
+    With static file copying
+
+    .. code-block:: python3
+
+        class CopyStaticStage(Stage):
+            template_find_paths = ['path/to/templates']
+            template_entrances = 'copy_static.html'
+
+            # all related result files are under
+            # <result_root>/copy_static/
+            result_foldername = 'copy_static'
+            embed_result_joint = [{
+                'src': 'joint',
+                'patterns': ['foo'],
+                'dest': 'copy_static'
+            }]
+            # will copy <result_root>/copy_static/joint/foo
+            #   -> <report_root>/static/copy_static/foo
+
+            embed_result_persample = [{
+                'src': 'each',
+                'patterns': ['baz']
+                'dest': 'copy_static'
+            }]
+            # for every sample <sample>, copy
+            # <result_root>/copy_static/each/<sample>/baz
+            #   -> <report_root>/static/copy_static/<sample>/baz
+
     Attributes
     ----------
     template_entrances : (list of) str
         Template names passed to Jinja2 to call render()
     template_find_paths : (list of) path-like object
         Paths in order to load templates
+    report_root : Path object
+        Path to where report will be under
+    embed_result_joint : list of dict
+        Embeded joint static file copying description
+    embed_result_persample : list of dict
+        Embedded per sample static file copying description
     result_foldername : str
         Folder name to the NGS result of this stage
     job_info : JobInfo object
         Information about how the NGS result is run
-    report_root : Path object
-        Path to where report will be under
     result_info : dict object
         Key-value pairs storing parsed NGS result
+
     """
     template_entrances = ['stage.html']
     """Name of templates that will trigger :py:meth:`render`.
@@ -103,11 +145,52 @@ class Stage(metaclass=abc.ABCMeta):
     embed_result_joint = []
     """List of description for joint result embedded into report.
 
+    Each element of list (say *desc*) is a dict having structure::
+
+        desc = {
+            'src': 'in_result',
+            'patterns': ['foo*', '**/bar'],
+            'dest': 'in_report/deep'
+        }
+        embed_result_joint = [descA, descB, ...]
+
+    - **src**: path appended after :attr:`self.result_root <result_root>`
+    - **patterns**: list of file patterns support
+      ``*``, ``**``, ``?`` globbing syntax
+    - **dest**: path appended under report static files, usually
+      ``<report_root>/static/``
+
+    All files matching *patterns* under *src* will be copied to *dest*.
+
+    :meth:`copy_static_joint` accesses this attribute.
+
     .. versionadded:: 0.3
     """
 
     embed_result_persample = []
     """List of description for per sample result embedded into report.
+
+    Its structure is similar to :attr:`embed_result_persample` while how
+    it works is quite different. If we use the above example::
+
+        desc = {
+            'src': 'in_result',
+            'patterns:': ['foo*', '**/bar'],
+            'dest': 'in_report/deep'
+        }
+        embed_result_persample = [descA, descB, ...]
+
+    They differ in how NGCloud find the paths:
+
+    - **src**: path appended after :attr:`self.result_root <result_root>`
+      *plus* sample's full name
+    - **dest**: path appended under report static files *plus* samples's
+      full name.
+
+    And whole procedure will be performed for each sample, so one will
+    get multiple sets of files matching *patterns*.
+
+    :meth:`copy_static_persample` accesses this attribute.
 
     .. versionadded:: 0.3
     """
