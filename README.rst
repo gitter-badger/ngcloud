@@ -10,10 +10,6 @@ Requires Python 3.3+
 Installation
 ============
 
-For Python 3.3 and below, pathlib_ is required prior to the installation.
-See `doc <http://ngcloud.readthedocs.org/en/latest/install.html>`_
-for more information.
-
 Through *pip*. For latest stable release,
 
 ::
@@ -21,7 +17,10 @@ Through *pip*. For latest stable release,
     pip install ngcloud
 
 
-To build from source, Node.js_ and npm_ are required to set up the frontend
+Build from source
+-----------------
+
+Node.js_ and npm_ are required to set up the frontend
 development environment.
 
 .. code-block:: bash
@@ -29,6 +28,7 @@ development environment.
     git clone https://github.com/BioCloud-TW/ngcloud.git
     cd template_dev
     npm install
+    npm install -g gulp
 
     cd ..  # back to ngcloud source root
     python setup.py install
