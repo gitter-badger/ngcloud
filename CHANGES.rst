@@ -8,6 +8,7 @@ CHANGES
 
 - Use Gulp.js for frontend development (#11)
 - No pathlib required during installation (#12)
+- Add API for stage static file copying (#8)
 
 -----
 0.2.1
