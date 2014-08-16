@@ -1,7 +1,7 @@
 import sys
 import re
 import subprocess as sp
-from os import path, walk
+from os import path, walk, environ
 from glob import glob
 from setuptools import setup, find_packages, Command
 from setuptools.command.install import install
@@ -58,6 +58,10 @@ class build_frontend(Command):
 
     def run(self):
         if self.skip_if_exist:
+            on_rtd = environ.get('READTHEDOCS', None) == 'True'
+            if on_rtd:
+                print("on ReadtheDocs, skip building")
+                return
             _check_frontend_build()
         else:
             print("rebuilding all generated CSS/JSs")
