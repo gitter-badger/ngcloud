@@ -64,8 +64,5 @@ Quality Control
 {% endblock %}
 
 {% block extra_js %}
-$('#sampleTab a').click(function (e) {
-e.preventDefault()
-$(this).tab('show')
-})
+<script src="{{ static('js/qc.js') }}" type="text/javascript" charset="utf-8"></script>
 {% endblock %}
