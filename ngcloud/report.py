@@ -778,8 +778,11 @@ def main(argv=None):
     .. code-block:: python3
 
         console = logging.StreamHandler()
+        console.setFormatter(logging.Formatter(
+            "[%(levelname)s][%(name)s] %(message)s"))
         ng_logger = logging.getLogger("ngcloud")
         ng_logger.addHandler(console)
+        ng_logger.setLevel(logging.INFO)
 
     .. seealso::
 
