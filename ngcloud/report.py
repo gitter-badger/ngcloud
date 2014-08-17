@@ -286,7 +286,9 @@ class Stage(metaclass=abc.ABCMeta):
             )
             return self.job_info.root_path
 
-        folder_pattern = r"^\d+_{}$".format(self.result_foldername)
+        folder_pattern = r"^(\d+_|){}$".format(self.result_foldername)
+        logger.debug(
+            "Result foldername regex pattern: {}".format(folder_pattern))
         valid_name = re.compile(folder_pattern).match
 
         stage_result_path = [
