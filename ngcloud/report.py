@@ -816,9 +816,14 @@ def main(argv=None):
 
     # set log format
     log_fmt = '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] %(message)s'
-
     if args['--log-time']:
         log_fmt = '[%(asctime)s]' + log_fmt
+
+    log_formatter = logging.Formatter(
+        log_fmt,
+        '%Y-%m-%d %H:%M:%S'
+    )
+
     color_log_fmt = (
         '%(log_color)s%(levelname)-7s%(reset)s %(cyan)s%(name)-8s%(reset)s '
         '%(log_color)s[%(funcName)s]%(reset)s %(message)s'
@@ -826,11 +831,6 @@ def main(argv=None):
     if args['--log-time']:
         color_log_fmt = '%(asctime)s ' + color_log_fmt
 
-    # set color log output
-    log_formatter = logging.Formatter(
-        log_fmt,
-        '%Y-%m-%d %H:%M:%S'
-    )
     if args['--color']:
         try:
             import colorlog
