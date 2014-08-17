@@ -9,8 +9,8 @@ from ngcloud.pipe import (
 logger = ng._create_logger(__name__)
 _here = Path(__file__).parent
 _find_paths = [
-    get_shared_template_root(),
     _get_builtin_template_root() / 'tuxedo',
+    get_shared_template_root(),
 ]
 
 
