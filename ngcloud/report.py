@@ -737,19 +737,68 @@ def gen_report(pipe_report_cls, job_dir, out_dir):
     report.generate(job_dir, out_dir)
 
 
-def main():
+def main(argv=None):
     """Store the logics for :command:`ngreport`.
 
-    If one wants to use :command:`ngreport`'s functionality, try calling
+    If one just wants the :command:`ngreport`'s functionality, try call
     :func:`gen_report` not this function.
+
+    Anyway, If **args** is passed, it runs like **ngreport** is called.
+    *args* should be a list that passes to :func:`subprocess.check_call`
+    excluding the first element (program name),
+
+        >>> main(argv=['-p', 'ext_pipe.myReport', 'job_mine', '--color'])
+
+    Notes
+    -----
+    If one wants to emit log messages in their custom modules, NGClouds now
+    recognizes them by default.
+
+    .. code-block:: python3
+
+        # in ext_pipe.py
+        import logging
+        logger = logging.getLogger("external.{}".format(__name__))
+        from ngcloud.report import main as _main
+
+        class MyStage(Stage):
+            def parse(self):
+                logger.warning("My custom warnning")  # will appear in the log
+
+        def main():
+            argv = ["some", "args", "to", "ngreport"]
+            _main(argv=argv)  # If argv not specified, read from sys.argv[1:]
+
+    However, the logging messages will *pollutes* stderr.
+    If that is not desired, use :func:`gen_report`.
+    You can get all NGCloud's log to stderr by
+
+    .. code-block:: python3
+
+        console = logging.StreamHandler()
+        ng_logger = logging.getLogger("ngcloud")
+        ng_logger.addHandler(console)
+
+    .. seealso::
+
+        See module Python standard library :py:mod:`logging` for its flexible
+        logging functionality. You are encouraged to use it.
+
+    .. versionchanged:: 0.3
+
+        Add **argv**; include external loggers.
+
     """
     # setup console logging
     console = logging.StreamHandler()
-    pkg_logger = logging.getLogger("ngcloud")
-    pkg_logger.addHandler(console)
+    all_loggers = logging.getLogger()
+    all_loggers.addHandler(console)
 
     # read arguments from command line
-    args = docopt(_SCRIPT_DOC, version=ng.__version__)
+    if argv:
+        args = docopt(_SCRIPT_DOC, argv=argv, version=ng.__version__)
+    else:
+        args = docopt(_SCRIPT_DOC, version=ng.__version__)
 
     # set logging level
     if args['--verbose'] == 1:
@@ -758,7 +807,7 @@ def main():
         loglevel = logging.DEBUG
     else:
         loglevel = logging.WARNING
-    pkg_logger.setLevel(loglevel)
+    all_loggers.setLevel(loglevel)
 
     # set log format
     log_fmt = '[%(levelname)-7s][%(name)-8s][%(funcName)-8s] %(message)s'
