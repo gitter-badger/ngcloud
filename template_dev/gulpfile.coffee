@@ -13,8 +13,8 @@ paths =
     clean: [
         releaseDest + 'js/*.js',
         releaseDest + 'css/*.css',
-        './js/*.js',
-        './css/*.css'
+        'public/js/*.js',
+        'public/css/*.css'
     ]
 
 gulp.task 'coffee', ->
@@ -29,7 +29,7 @@ gulp.task 'coffee', ->
                         '\n          ',
                         gcolors.red(err.name), gcolors.yellow(err.message),
                 .pipe coffee bare: true
-                .pipe gulp.dest './js'
+                .pipe gulp.dest 'public/js'
 
 nib = require 'nib'
 gulp.task 'stylus', ->
@@ -44,9 +44,8 @@ gulp.task 'stylus', ->
                         '\n          ',
                         gcolors.red(err.name), gcolors.yellow(err.message),
                 .pipe stylus
-                    compress: true
                     use: [nib()]
-                .pipe gulp.dest './css'
+                .pipe gulp.dest 'public/css'
 
 gulp.task 'watch', ->
     gulp.watch paths.coffee, ['coffee']
