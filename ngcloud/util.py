@@ -147,9 +147,19 @@ def merged_copytree(src_list, dst):
             for f in files:
                 src_f = current_p / f
                 try:
+                    dst_f = dst_current_d / f
+                    if dst_f.exists():
+                        logger.warning(
+                            "File {} existed, overwritten by {}"
+                            .format(dst_f, src_f)
+                        )
+                        dst_f.unlink()
                     copy(src_f, dst_current_d)
-                except FileExistsError as e:
-                    logger.warn("Copying error {!r}".format(e))
+                except Exception as e:
+                    logger.warn(
+                        "Copying {} caught error {!r}, skipped"
+                        .format(src_f, e)
+                    )
 
 def strify_path(path_like):
     """Normalized path-like object to POSIX style str.
