@@ -89,6 +89,8 @@ class JobInfo:
     type : str
     sample_list : list
         Lists of :class:`Sample` in this job
+    root_path : Path object
+        path to result root
 
     Parameters
     ----------

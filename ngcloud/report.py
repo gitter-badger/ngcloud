@@ -122,7 +122,8 @@ class Stage(metaclass=abc.ABCMeta):
         Information about how the NGS result is run
     result_info : dict object
         Key-value pairs storing parsed NGS result
-
+    result_root : Path object
+        Path to stage's result dir
     """
     template_entrances = ['stage.html']
     """Name of templates that will trigger :py:meth:`render`.
