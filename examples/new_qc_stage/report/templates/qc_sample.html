@@ -1,38 +1,13 @@
 {% set _sample_path = static('qc_sample/pics', sample.full_name) %}
-<div class="row">
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-remove"></span> By Base</h3>
-  <img class="img-responsive" src="{{ _sample_path }}/per_base_quality.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-ok"></span> Per sequence quality scores</h3>
-  <img class="img-responsive" src="{{_sample_path}}/per_sequence_quality.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-ok"></span> Per base sequence content</h3>
-  <img class="img-responsive" src="{{_sample_path}}/per_base_sequence_content.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-remove"></span> Per base GC content</h3>
-  <img class="img-responsive" src="{{_sample_path}}/per_base_gc_content.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-remove"></span> Per sequence GC content</h3>
-  <img class="img-responsive" src="{{_sample_path}}/per_sequence_gc_content.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-remove"></span> Per base N content</h3>
-  <img class="img-responsive" src="{{_sample_path}}/per_base_n_content.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-ok"></span> Sequence Length Distribution</h3>
-  <img class="img-responsive" src="{{_sample_path}}/sequence_length_distribution.png" alt="">
-</div>
-<div class="col-md-6">
-  <h3><span class="glyphicon glyphicon-question-sign"></span> Sequence Duplication Levels</h3>
-  <img class="img-responsive" src="{{_sample_path}}/duplication_levels.png" alt="">
-</div>
-</div><!-- /.row -->
+{% for qc_desc, qc_status in qc_info[sample.full_name].items() if qc_desc not in FASTQC_NOFILE %}
+{% if loop.cycle('odd', 'even') == 'odd' %}<div class="row">{% endif %}
+  <div class="col-md-6">
+    <h3><span class="glyphicon {{ FASTQC_GLYPH.get(qc_status, 'glyphicon-ban-circle') }}"></span> {{ qc_desc }}</h3>
+    <img class="img-responsive" src="{{ _sample_path }}/{{ FASTQC_FILENAME[qc_desc] }}" alt="{{ qc_desc }}">
+  </div>
+{% if loop.cycle('odd', 'even') == 'even' %}</div><!-- /.row -->{% endif %}
+{% endfor %}
+
 <div class="row">
   <h3><span class="glyphicon glyphicon-remove"></span> Overrepresented sequences</h3>
   <div class="table-responsive">
