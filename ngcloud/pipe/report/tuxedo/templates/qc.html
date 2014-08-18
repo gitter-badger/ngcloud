@@ -17,26 +17,20 @@ Quality Control
 {% set all_samples = job_info.sample_list %}
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="sampleTab">
-  <li class="active"><a href="#overall" data-toggle="tab">Overall</a></li>
   {% for sample in all_samples %}
-  <li><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample.full_name }}</a></li>
+  <li {% if loop.first %}class="active"{% endif %}><a href="#sample{{ loop.index }}" data-toggle="tab">{{ sample.full_name }}</a></li>
   {% endfor %}
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="overall">
-    <div class="container-fluid">
-      {% include "qc_overall.html" %}
-    </div>
-  </div>
-  {% for sample in all_samples %}
-  <div class="tab-pane" id="sample{{ loop.index }}">
+{% for sample in all_samples %}
+<div class="tab-pane {% if loop.first %}active{% endif %}" id="sample{{ loop.index }}">
     <div class="container-fluid">
       {% include "qc_sample.html" %}
     </div>
   </div>
-  {% endfor %}
+{% endfor %}
 </div>
 {% endblock %}
 
