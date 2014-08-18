@@ -2,6 +2,21 @@
 CHANGES
 =======
 
+-----
+0.3.1
+-----
+
+- Add true funcionality of FastQC page (finally)
+- Change templates' internal folder structure.
+  Backward compatible but internal API has changed
+  (e.g. _get_builtin_template_root -> _get_builtin_report_root)
+- jQuery v2.1.1 now bundles in NGCloud
+- Re-design frontend development (e.g. gulpfile.coffee)
+- Improve Report.copy_static() function
+- Make easier for external loggers embedded into ngreport
+- Fix tuxedo template path priority and its block layout, CSS
+- Fix result folder finding without digit prefix
+
 ---
 0.3
 ---
