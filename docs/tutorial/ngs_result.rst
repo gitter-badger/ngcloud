@@ -14,15 +14,13 @@ A standard result folder is like::
     ├── 1_fastqc
     │   ├── output
     │   └── overall
-    ├── 2_tophat_176
-    │   ├── output
-    │   └── run.log
-    ├── 3_tophat_183
+    ├── 2_tophat
     │   ├── output
     │   └── run.log
     │   (skip other stages) ...
     └── job_info.yaml
 
+Each subfolder corresponds to a stage, the prefix number (Ex ``1_``, ``2_``) has no meaning but merely enhances readability. Folder name excluding prefix should match :py:attr:`Stage.result_foldername <ngcloud.report.Stage.result_foldername>` specified by the stage.
 
 Specify the ``job_info.yaml``
 =============================

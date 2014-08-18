@@ -42,7 +42,7 @@ By now, just follow our steps and use our bundled minimal example. We shipped a 
 
 .. TODO:: add guide how to make a new pipeline and input pipline by its class name
 
-A full help message can be get by ``ngreport -h``.
+Full help message can be obtained by ``ngreport -h``.
 
 
 .. _minmal-example:
@@ -77,7 +77,7 @@ If you want to see what's going on during the report generation, pass an extra `
 Further Reading
 ---------------
 
-On the next page, we will show you how to organize your own NGS result to feed in NGCloud. Also, a detailed explanation will be given to show what's under the hood.
+On the following sections, we will show you how to organize your own NGS result to feed in NGCloud. Also, a detailed explanation will be given to show what's under the hood.
 
 If your NGS analysis pipeline is not supported by NGCloud, you can add it your own, combining the existed NGCloud report templates. This tutorial will show you how to write your own pipeline. You will need :ref:`NGCloud API documentation <package-api>` for more information.
 

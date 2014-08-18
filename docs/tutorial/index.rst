@@ -10,3 +10,4 @@ Tutorial
     own_pipe
     extend_pipe
     template_design
+    template_dev

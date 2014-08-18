@@ -91,7 +91,7 @@ First we look back on what we want for our first pipeline:
 - An index page (**index.html**) shows hello message
 - A stage page (**mystage.html**) prints some value from our fake NGS results.
 
-Before we really touch these two templates, first we create a base template to store the common part. You will soon see the benefit maintaining such templates. We called it **base.html**.
+Before we really touch these two templates, first we create a base template to store the common part. You will soon see the benefit maintaining such template. Let's call it **base.html**.
 
 .. literalinclude:: ../../examples/my_first_pipe/report/templates/base.html
     :language: jinja
@@ -118,21 +118,24 @@ Here is how to get it done. First we make the sample list,
     :language: jinja
     :lines: 5-11,15
 
-By using `Jinja2's for-loop <jinja-for>`_ control structure, we could extract the sample list from job_info, in each is a :py:class:`~ngcloud.info.Sample` object. So we use sample's full name to display our sample list.
+By using `Jinja2's for-loop <http://jinja.pocoo.org/docs/templates/#for>`_ control structure, we could extract the sample list from job_info, in which each element is a :py:class:`~ngcloud.info.Sample` object. So we use sample's full name to display our sample list.
 
-As for showing the overall alignment rate, since it is not some default information, we need to create our own variables and passed it into templates explicitly.
+Showing the overall alignment rate requires some extra parsing code. Since it is not some default information, we need to create our own variables and passed it into templates explicitly.
 
-By default, a dict-like variable **result_info** will always be passed and all its keys will be exposed for access, and we could modify the key-value pairs it holds during :py:meth:`ngcloud.report.Stage.parse`. We name the key representing the overall alignment rate as **mapped_rate**. Therefore in template we could
+By default, a dict-like variable **result_info** will always be passed and all its keys will be exposed for access. So we could modify the key-value pairs it holds during :py:meth:`ngcloud.report.Stage.parse`. We name the key representing the overall alignment rate as **mapped_rate**. Therefore in template we could
 
 .. literalinclude:: ../../examples/my_first_pipe/report/templates/mystage.html
     :language: jinja
     :lines: 5, 13-15
 
-Then we join these two piece together in a same *content* block. And we finished our first pipeline template design.
+Then we join these two piece together in a same *content* block. The full :file:`mystage.html` code is shown in below.
+
+.. literalinclude:: ../../examples/my_first_pipe/report/templates/mystage.html
+    :language: jinja
+
+We just finished our first pipeline template design. You can also compare your result with files under :file:`examples/my_first_pipe`.
 
 .. seealso:: :py:meth:`ngcloud.report.Stage.render` talks more about the mechanism passing **job_info** and keys of **result_info**.
-
-.. _jinja-for: http://jinja.pocoo.org/docs/templates/#for
 
 
 Write the report logics
