@@ -2,70 +2,79 @@ gulp = require 'gulp'
 gutil = require 'gulp-util'
 plumber = require 'gulp-plumber'  # robust error handler
 stylus = require 'gulp-stylus'
+nib = require 'nib'
 coffee = require 'gulp-coffee'
 rimraf = require 'gulp-rimraf'
+rename = require 'gulp-rename'
 gcolors = gutil.colors
+path = require 'path'
 
-releaseDest = '../ngcloud/pipe/report/static/'
+releaseRoot = '../ngcloud/pipe/report/'
+devRoot = './dev/'
+
 paths =
-    coffee: ['./src/**/*.coffee']
-    stylus: ['./src/**/*.styl']
-    clean: [
-        releaseDest + 'js/*.js',
-        releaseDest + 'css/*.css',
-        'public/js/*.js',
-        'public/css/*.css'
-    ]
+    shared: './src/shared'
+    newqc: './src/newqc'
 
-gulp.task 'coffee', ->
-    gulp.src paths.coffee
+released = ['shared']
+
+prettyLog = (err) ->
+    gutil.log \
+        gcolors.red('Error'),
+        "from '#{gcolors.cyan err.plugin}'",
+        "in #{gcolors.magenta file.path}",
+        '\n          ',
+        gcolors.red(err.name), gcolors.yellow(err.message),
+
+compileCoffee = (pth, dest) ->
+    gulp.src pth
         .on 'data', (file) ->           # to get the processing file
             gulp.src file.path          # restart the pipe
-                .pipe plumber (err) ->  # use plumber to handle error not to stop full task
-                    gutil.log \
-                        gcolors.red('Error'),
-                        "from '#{gcolors.cyan err.plugin}'",
-                        "in #{gcolors.magenta file.path}",
-                        '\n          ',
-                        gcolors.red(err.name), gcolors.yellow(err.message),
-                .pipe coffee bare: true
-                .pipe gulp.dest 'public/js'
+                .pipe plumber prettyLog # use plumber to handle error not to stop full task
+                .pipe coffee
+                    bare: true
+                .pipe gulp.dest dest
 
-nib = require 'nib'
-gulp.task 'stylus', ->
-    gulp.src paths.stylus
+compileStylus = (pth, dest, compress=false) ->
+    gulp.src pth
         .on 'data', (file) ->
             gulp.src file.path
-                .pipe plumber (err) ->
-                    gutil.log \
-                        gcolors.red('Error'),
-                        "from '#{gcolors.cyan err.plugin}'",
-                        "in #{gcolors.magenta file.path}",
-                        '\n          ',
-                        gcolors.red(err.name), gcolors.yellow(err.message),
+                .pipe plumber prettyLog
                 .pipe stylus
+                    compress: compress
                     use: [nib()]
-                .pipe gulp.dest 'public/css'
+                .pipe gulp.dest dest
 
-gulp.task 'watch', ->
-    gulp.watch paths.coffee, ['coffee']
-    gulp.watch paths.stylus, ['stylus']
+gulp.task 'coffee', ->
+    for subproj, subpath of paths
+        compileCoffee pth=path.join(subpath, '*.coffee'),
+            dest=path.join(devRoot, subproj, 'js')
+
+gulp.task 'stylus', ->
+    for subproj, subpath of paths
+        compileStylus pth=(path.join subpath, '*.styl'),
+            dest=path.join(devRoot, subproj, 'css')
 
 gulp.task 'release', ->
-    gulp.src paths.coffee
-        .pipe coffee
-            bare: true
-        .on 'error', gutil.log
-        .pipe gulp.dest releaseDest + 'js'
+    for subproj, subpath of paths when subproj in released
+        gulp.src path.join(subpath, '*.coffee')
+            .pipe coffee
+                bare:true
+            .on 'error', gutil.log
+            .pipe gulp.dest path.join(releaseRoot, subproj, 'static', 'js')
 
-    gulp.src paths.stylus
-        .pipe stylus
-            compress: true
-            use: [nib()]
-        .pipe gulp.dest releaseDest + 'css'
+        gulp.src path.join(subpath, '*.styl')
+            .pipe stylus
+                compress: true
+                use: [nib()]
+            .pipe gulp.dest path.join(releaseRoot, subproj, 'static', 'css'),
 
-gulp.task 'clean', (cb) ->
-    gulp.src paths.clean, read: false
+gulp.task 'clean', ->
+    toClean = Array::concat (path.join devRoot, subproj, 'js/*.js' for subproj of paths),
+        (path.join devRoot, subproj, 'css/*.css' for subproj of paths),
+        (path.join releaseRoot, subproj, 'static', 'js/*.js' for subproj of paths when subproj in released),
+        (path.join releaseRoot, subproj, 'static', 'css/*.css' for subproj of paths when subproj in released)
+    gulp.src toClean, read: false
         .pipe rimraf force: true
 
 gulp.task 'default', ['coffee', 'stylus']
