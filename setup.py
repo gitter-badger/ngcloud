@@ -4,7 +4,6 @@ import subprocess as sp
 from os import path, walk, environ
 from glob import glob
 from setuptools import setup, find_packages, Command
-from setuptools.command.install import install
 from codecs import open
 
 here = path.abspath(path.dirname(__file__))
@@ -66,14 +65,6 @@ class build_frontend(Command):
         else:
             print("rebuilding all generated CSS/JSs")
             _build_frontend()
-
-
-# We are not using this!
-class Install(install):
-    def do_egg_install(self):
-        # pure hack, see http://stackoverflow.com/questions/20194565
-        _check_frontend_build()
-        install.run(self)
 
 
 with utf8_open("README.rst") as readme_f:
