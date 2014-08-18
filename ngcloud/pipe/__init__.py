@@ -2,14 +2,14 @@ from pathlib import Path
 
 _here = Path(__file__).parent
 
-def _get_builtin_template_root():
-    return _here / 'report' / 'templates'
+def _get_builtin_report_root():
+    return _here / 'report'
 
 def get_shared_static_root():
     """Return path to shared static files of builtin NGCloud report.
 
     """
-    return _here / 'report' / 'static'
+    return _get_builtin_report_root() / 'shared' / 'static'
 
 def get_shared_template_root():
     """Return path to shared template root of builtin NGCloud report.
@@ -34,4 +34,4 @@ def get_shared_template_root():
     -------
     :py:class:`~pathlib.Path` object
     """
-    return _get_builtin_template_root() / 'shared'
+    return _get_builtin_report_root() / 'shared' / 'templates'

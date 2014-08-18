@@ -33,7 +33,7 @@ def _build_frontend():
 def _check_frontend_build():
     print("Checking if all generated CSS/JSs exist")
     frontend_patterns = [
-        'ngcloud/pipe/report/static/css/*.css'
+        'ngcloud/pipe/report/shared/static/css/*.css'
     ]
     all_built = all(any(glob(pattern)) for pattern in frontend_patterns)
     if not all_built:

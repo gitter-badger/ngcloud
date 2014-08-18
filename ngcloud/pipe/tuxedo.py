@@ -2,14 +2,14 @@ from pathlib import Path
 import ngcloud as ng
 from ngcloud.report import Stage, Report
 from ngcloud.pipe import (
-    _get_builtin_template_root,
+    _get_builtin_report_root,
     get_shared_template_root, get_shared_static_root
 )
 
 logger = ng._create_logger(__name__)
 _here = Path(__file__).parent
 _find_paths = [
-    _get_builtin_template_root() / 'tuxedo',
+    _get_builtin_report_root() / 'tuxedo' / 'templates',
     get_shared_template_root(),
 ]
 
@@ -54,4 +54,7 @@ class TuxedoReport(Report):
     stage_classnames = [
         IndexStage, QCStage, TophatStage,  # CufflinkStage,
     ]
-    static_roots = get_shared_static_root()
+    static_roots = [
+        get_shared_static_root(),
+        _get_builtin_report_root() / 'tuxedo' / 'static',
+    ]
