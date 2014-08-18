@@ -9,7 +9,7 @@
 {% endfor %}
 
 <div class="row">
-  <h3><span class="glyphicon glyphicon-remove"></span> Overrepresented sequences</h3>
+  <h3><span class="glyphicon {{ FASTQC_GLYPH.get(qc_info[sample.full_name]['Overrepresented sequences'], 'glyphicon-ban-circle') }}"></span> Overrepresented sequences</h3>
   <div class="table-responsive">
     <table class="table table-hover">
       <thead>
@@ -20,16 +20,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>GATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATGC</td>
-          <td>343018 / 0.34</td>
-          <td>TruSeq Adapter, Index 1 (100% over 50bp)</td>
-        </tr>
-        <tr>
-          <td>AGATCGGAAGAGCACACGTCTGAACTCCAGTCACATCACGATCTCGTATG</td>
-          <td>195943 / 0.12</td>
-          <td>TruSeq Adapter, Index 1 (100% over 49bp)</td>
-        </tr>
+{% for oseq in over_seq[sample.full_name][:10] %}
+  <tr>
+    <td>{{ oseq.seq }}</td>
+    <td>{{ oseq.count }} / {{ oseq.percentage | float | round(2) }}</td>
+    <td>{{ oseq.possible_source }}</td>
+  </tr>
+{% endfor %}
       </tbody>
     </table>
   </div>
