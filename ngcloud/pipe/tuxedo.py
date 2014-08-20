@@ -45,7 +45,7 @@ class QCStage(TuxedoBaseStage):
     #      'dest': 'qc_overall'},
     # ]
     embed_result_persample = [
-        {'src': 'output',
+        {'src': '',
          'patterns': ['Images/*.png'],
          'dest': 'qc_sample/pics'},
     ]
@@ -74,8 +74,7 @@ class QCStage(TuxedoBaseStage):
         qc_info = OrderedDict()
         over_seq = []
         qc_desc = None
-        qc_data_pth = (self.result_root / 'output' /
-                       sample.full_name / 'fastqc_data.txt')
+        qc_data_pth = self.result_root / sample.full_name / 'fastqc_data.txt'
         with open(qc_data_pth) as qc_data:
             # parse FASTQC by brute force
             for line in qc_data:
