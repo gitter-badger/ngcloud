@@ -31,30 +31,36 @@ Extra dependencies are required to enable syntax checking::
 Building frontend CSS/JS
 ========================
 
-Javascript and CSS for builtin templates are built from CoffeeScript_ and Stylus_ sources under :file:`template_dev/src`, which provide succinct and maintainable syntax.
+Javascript and CSS for builtin templates are built from CoffeeScript_ and Stylus_ source files under :file:`template_dev/src`, grouped by pipeline name.
+Their syntax provides succinct and maintainable code base.
 
 From a frontend developer's point of view, their building process has been well-defined in **gulpfile.coffee** and been managed by Gulp.js_,
 
 .. code-block:: bash
 
     # under template_dev
-    gulp coffee     # generate js files under ./js
-    gulp stylus     # generate css files under ./css
+    gulp coffee     # generate js files under ./dev/<pipe_name>/js
+    gulp stylus     # generate css files under ./dev/<pipe_name>/css
     gulp            # generate both js and css
 
-    gulp release    # generate both js and css under ngcloud/pipe/report/static
+    gulp release    # generate both to ngcloud/pipe/report/<pipe_name>/static
 
     gulp clean
 
-From a Python developer's point of view, learning the frontend knowledge requires great effort. So these details have been hidden inside **setup.py**.
 
-Every time source are updated and new CSS/JS build is required, run
+Therefore, by appending ``template_dev/dev/<pipe_name>`` to :py:attr:`Report.static_roots <ngcloud.report.Report.static_roots>` so the latest CSS/JSs can overwrite older versions. For example, putting path ``template_dev/dev/shared`` *after* :py:func:`~ngcloud.pipe.get_shared_static_root` will overwrite built-in shared CSS/JSs.
+
+**<pipe_name>** is defined inside **gulpfile.coffee**.
+
+From a Python developer's point of view, learning the frontend knowledge requires great effort. So these details have been hidden inside **setup.py**. One may not be interested what's going on for template changes but just want to test the new ones.
+
+Then every time source are updated and new CSS/JS build is required, run
 
 .. code-block:: bash
 
     python setup.py build_frontend
 
-This will have the same effect as **gulp release**.
+This will have the same effect as **gulp release**, which *replaces* the old CSS/JSs with new ones.
 
 .. warning::
 
@@ -94,7 +100,7 @@ There are plenty of ways to watch their source change. Under :file:`template_dev
 .. code-block:: bash
 
     gulp watch  # it ingores events of new file created
-    make        # below it calls the watchmedo then calls gulp
+    make        # below it calls the watchmedo then calls gulp watch
 
 
 Deploy to PyPI
