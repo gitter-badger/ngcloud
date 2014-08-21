@@ -18,6 +18,19 @@ _find_paths = [
 __doc__ = """\
 Built-in report templates for Tuxedo pipeline.
 
+.. autosummary::
+    :nosignatures:
+
+    TuxedoReport
+    IndexStage
+    QCStage
+    TophatStage
+
+The following are helper classes:
+
+- :class:`TuxedoBaseStage`
+- :class:`OverSeq`
+
 """
 
 OverSeq = namedtuple(
