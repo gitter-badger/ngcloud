@@ -3,4 +3,3 @@
 
 .. automodule:: ngcloud.pipe
     :undoc-members:
-    :private-members:

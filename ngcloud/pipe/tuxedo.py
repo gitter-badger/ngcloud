@@ -14,9 +14,14 @@ _find_paths = [
     _get_builtin_report_root() / 'tuxedo' / 'templates',
     get_shared_template_root(),
 ]
+
+__doc__ = """\
+Built-in report templates for Tuxedo pipeline.
+
+"""
+
 OverSeq = namedtuple(
     "OverSeq", ["seq", "count", "percentage", "possible_source"])
-
 
 class TuxedoBaseStage(Stage):
     template_find_paths = _find_paths
