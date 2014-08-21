@@ -6,7 +6,7 @@ Tutorial
     :maxdepth: 2
 
     quickstart
-    ngs_result
+    prepare_result
     own_pipe
     extend_pipe
     template_design
