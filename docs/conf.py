@@ -293,7 +293,7 @@ intersphinx_mapping = {
 
 # -- Options for Numpydoc -------------------------------------------------
 numpydoc_class_members_toctree = False
-
+numpydoc_show_class_members = False
 
 autodoc_member_order = 'bysource'
 autodoc_default_flags = ['members', ]

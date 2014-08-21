@@ -54,6 +54,16 @@ Quick remainder for serving current folder through http:
     # Serving HTTP on 0.0.0.0 port 8000 ...
 '''
 
+__doc__ = """\
+Base classes to produce NGCloud report
+
+.. autosummary::
+
+    Stage
+    Report
+    gen_report
+    main
+"""
 
 class Stage(metaclass=abc.ABCMeta):
     """base class of NGCloud stage of a report.
@@ -124,6 +134,16 @@ class Stage(metaclass=abc.ABCMeta):
         Key-value pairs storing parsed NGS result
     result_root : Path object
         Path to stage's result dir
+
+    Methods
+    -------
+    __init__
+    copy_static
+    copy_static_joint
+    copy_static_persample
+    parse
+    render
+
     """
     template_entrances = ['stage.html']
     """Name of templates that will trigger :py:meth:`render`.
@@ -528,6 +548,12 @@ class Report(metaclass=abc.ABCMeta):
     :py:meth:`__init__` signature must match :py:class:`Report`.
     Setup the custom logics in :py:meth:`template_config`
 
+    Raises
+    ------
+    TypeError
+        When initiate this class directly,
+        or subclass does not implement :py:func:`!template_config`
+
     Attributes
     ----------
     job_info : Path object
@@ -538,11 +564,14 @@ class Report(metaclass=abc.ABCMeta):
     static_roots : Path object
         Path to the template static file dir
 
-    Raises
-    ------
-    TypeError
-        When initiate this class directly,
-        or subclass does not implement :py:func:`!template_config`
+    Methods
+    -------
+    __init__
+    template_config
+    generate
+    render_report
+    copy_static
+    output_report
 
     """
     stage_classnames = [Stage]
