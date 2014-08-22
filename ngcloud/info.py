@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from pathlib import Path
 import yaml
 import ngcloud as ng
@@ -87,10 +88,12 @@ class JobInfo:
     ----------
     id : str
     type : str
+    root_path : Path
+        path to result root
     sample_list : list
         Lists of :class:`Sample` in this job
-    root_path : Path object
-        path to result root
+    sample_group : OrderedDict
+        Ordered mapping by grouping pair-end samples
 
     Parameters
     ----------
@@ -108,6 +111,7 @@ class JobInfo:
             "JobInfo created (id: {0.id} type: {0.type})".format(self)
         )
         self.sample_list = self._parse_sample_list()
+        self.sample_group = self._group_sample()
 
     def _read_yaml(self):
         logger.info("Reading job_info.yaml")
@@ -121,6 +125,14 @@ class JobInfo:
             name, info = next(iter(sample.items()))  # now a dict with one key
             # TODO: if user input SRR5566_R1 but no R2, needs to check
             sample_list.append(Sample(name, **info))
-
         return sample_list
+
+    def _group_sample(self):
+        sample_group = OrderedDict()
+        for sample in self.sample_list:
+            if sample.name in sample_group:
+                sample_group[sample.name].append(sample)
+            else:
+                sample_group[sample.name] = [sample]
+        return sample_group
 
