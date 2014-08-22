@@ -37,11 +37,20 @@ class TophatStage(tuxedo.TophatStage):
     template_find_paths = tuxedo.TuxedoBaseStage.template_find_paths[:]
     template_find_paths.insert(0, Path('templates'))
 
+    DETAIL_SEP = [
+        ('Input', 'input'),
+        ('Mapped', 'map'),
+        ('Multi', 'multimap'),
+        ('Multi Count', 'multicount')
+    ]
+
     def parse(self):
         super().parse()
+        self.result_info['detail_info'] = dict()
+        self.result_info['DETAIL_SEP'] = TophatStage.DETAIL_SEP
         for group, sample_list in self.job_info.sample_group.items():
-            info = self.parse_sample(group, sample_list)
-            logger.debug("Get info: {!r}".format(info))
+            detail_info = self.parse_sample(group, sample_list)
+            self.result_info['detail_info'][group] = detail_info
 
     def parse_sample(self, group, sample_list):
         logger.debug("Reading align_summary.txt")
@@ -68,7 +77,10 @@ class TuxedoReport(tuxedo.TuxedoReport):
         tuxedo.IndexStage, tuxedo.QCStage, TophatStage
     ]
     static_roots = tuxedo.TuxedoReport.static_roots[:]
-    static_roots.append('../../template_dev/tuxedo')
+    static_roots.extend([
+        '../../template_dev/dev/shared',
+        '../../template_dev/dev/tuxedo'
+    ])
 
 def main():
     argv = [

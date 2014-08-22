@@ -1,0 +1,51 @@
+{% extends 'stage.html' %}
+
+{% block title %}
+Alignment (using Tophat)
+{% endblock %}
+
+{% set active='tophat' %}
+
+{% block stage_note %}
+<h2>Alignment (using Tophat)</h2>
+<p>Ipsum est alias nisi laboriosam tempore iste modi, fuga, ipsum. Et nihil harum veniam dicta recusandae. Natus ipsum hic nemo aspernatur quis exercitationem animi reiciendis atque. Accusamus impedit similique voluptatum modi accusamus commodi. Eaque facere necessitatibus pariatur aperiam officia consequatur? Quos ex numquam adipisci sit unde neque sequi eum sequi!</p>
+<p class="text-right lead">more information on <a href="#">this page</a>.</p>
+{% endblock %}
+
+{% block panel %}
+<div class="container-fluid">
+  <h3>Summary</h3>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-info alert-dismissable pull-right closable-note">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p>Find more about <strong><a href="#">Tophat detail table</a></strong>.</p>
+      </div><!-- /.alert -->
+      <p>Lorem atque esse atque soluta minima odio neque! Sequi iste sequi animi sunt cupiditate, amet, nemo in porro. Ullam accusantium aliquam suscipit aspernatur perspiciatis! Unde neque reiciendis ipsum iste nihil.</p>
+    </div><!-- /.col-sm-12 -->
+  </div><!-- /.row -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="table-responsive" id="tophat-detail">
+        {% include "tophat_detail_table.html" %}
+      </div><!-- /.table-responsive -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+</div><!-- /.container-fluid -->
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ static('css/tophat.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+var data = google.visualization.arrayToDataTable([
+    ['Alignment', 'Percentage'],
+    ['Both mapped',     82411062],
+    ['Single mapped',     558406],
+    ['Multiple aligned', 5165148],
+    ['Unalinged',       30000000]
+    ]);
+</script>
+{% endblock %}

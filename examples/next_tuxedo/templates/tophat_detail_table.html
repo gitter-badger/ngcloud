@@ -1,0 +1,41 @@
+{% block detail_table %}
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr class="sample-group">
+      <th></th>
+      {% for group in detail_info %}
+      {% if job_info.sample_group[group] | length == 2 %}
+      <th colspan="2">{{ group }}</th>
+      {% else %}
+      <th>{{ job_info.sample_group[group][0].full_name }}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    <tr class="sample">
+      <th></th>
+      {% for group in detail_info %}
+      {% if job_info.sample_group[group] | length  == 2 %}
+      <th>Left (R1)</th><th>Right (R2)</th>
+      {% else %}
+      <th>{{ job_info.sample_group[group][0].full_name }}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for name, suffix in DETAIL_SEP %}
+    <tr>
+      <th>{{name}}</th>
+      {% for group, info in detail_info.items() %}
+      {% if job_info.sample_group[group] | length  == 2 %}
+      <td>{{ "{:,d}".format(info.get('left_' + suffix)) }}</td>
+      <td>{{ "{:,d}".format(info.get('right_' + suffix)) }}</td>
+      {% else %}
+      <th><em>Not Supported</em></th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
