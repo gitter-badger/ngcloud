@@ -14,9 +14,10 @@ devRoot = './dev/'
 
 paths =
     shared: './src/shared'
+    shared: './src/tuxedo'
     newqc: './src/newqc'
 
-released = ['shared']
+released = ['shared', 'tuxedo']
 
 prettyLog = (err) ->
     gutil.log \
