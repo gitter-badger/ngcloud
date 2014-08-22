@@ -9,7 +9,6 @@ Tuxedo pipeline
 
 .. autoclass:: TuxedoReport
     :show-inheritance:
-    :noindex:
 
 .. autoclass:: IndexStage
     :show-inheritance:
@@ -22,6 +21,7 @@ Tuxedo pipeline
 
 
 Helper classes:
+---------------
 
 .. autoclass:: TuxedoBaseStage
 

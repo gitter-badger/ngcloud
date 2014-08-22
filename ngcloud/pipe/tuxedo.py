@@ -18,6 +18,8 @@ _find_paths = [
 __doc__ = """\
 Built-in report templates for Tuxedo pipeline.
 
+Class created for the pipeline
+------------------------------
 .. autosummary::
     :nosignatures:
 
@@ -26,7 +28,30 @@ Built-in report templates for Tuxedo pipeline.
     QCStage
     TophatStage
 
-The following are helper classes:
+Result folder structure
+-----------------------
+
+.. code::
+
+    <Report.job_info.root_path>
+    ├── fastqc/
+    │   └── <sample.full_name>/     # Original FastQC result
+    ├── tophat/
+    │   └── <sample.name>/          # Original Tophat result
+    ├── cufflinks/
+    │   └── <sample.name>/          # Original Cufflinks result
+
+Job info special attributes
+---------------------------
+
+.. code-block:: yaml
+
+    # (skip common attibutes)
+    pipe_parameters:
+        tophat:
+        cufflinks:
+
+Miscellaneous:
 
 - :class:`TuxedoBaseStage`
 - :class:`OverSeq`
@@ -48,10 +73,12 @@ class TuxedoBaseStage(Stage):
         ]
 
 class IndexStage(TuxedoBaseStage):
+    """Index page for Tuxedo pipeline"""
     template_entrances = 'index.html'
 
 
 class QCStage(TuxedoBaseStage):
+    """QC page for Tuxedo pipeline from output of FastQC"""
     template_entrances = 'qc.html'
     result_foldername = 'fastqc'
     # embed_result_joint = [
@@ -128,6 +155,7 @@ class QCStage(TuxedoBaseStage):
 
 
 class TophatStage(TuxedoBaseStage):
+    """Tophat stage for Tuxedo pipeline"""
     template_entrances = 'tophat.html'
 
 
