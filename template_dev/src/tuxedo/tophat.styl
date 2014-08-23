@@ -10,5 +10,12 @@
                 text-align: right
     tbody
         tr th
-        tr td:not(:first-child)
+        tr:not(.paired) td:not(:first-child)
             text-align: right
+        tr.paired td
+            text-align: center
+
+        tr.paired-first
+            th
+            td
+                border-top-width: 2px
