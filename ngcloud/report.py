@@ -726,11 +726,6 @@ def gen_report(pipe_report_cls, job_dir, out_dir):
     job_dir: path-like object
     out_dir: path-like object
 
-    Notes
-    -----
-    To extend NGCloud with your custom pipeline,
-    inherit :py:class:`Report` and call this function manually.
-
     """
     # read in the pipeline class
     logger.debug("Get pipeline class: {}".format(pipe_report_cls))

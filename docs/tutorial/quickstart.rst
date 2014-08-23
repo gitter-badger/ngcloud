@@ -24,14 +24,14 @@ High level NGCloud report generator can be accessed by both ways,
 
 .. seealso::
 
-    To use the parser inside a Python program, call :py:func:`ngcloud.report.gen_report` directly.
-
+    To use the parser inside a Python program, call :py:func:`ngcloud.report.gen_report` directly,
+    or call :py:func:`ngcloud.report.main` and pass the console arugments.
 
 It takes three main arguments to run:
 
-- **Valid pipeline name** (default: tuxedo)
+- **Valid pipeline name** (default: ``tuxedo``)
 - **Path to job folder** (required)
-- **Path to output folder** (default: :file:`./output`)
+- **Path to output folder** (default: ``./output``)
 
 Currently, only Tuxedo pipeline is valid, so it is the default option. You can still pass ``-p tuxedo`` or ``-p ngcloud.pipe.tuxedo.TuxedoReport`` to tell :command:`ngreport` to generate the report of Tuxedo pipeline.
 
@@ -79,6 +79,6 @@ Further Reading
 
 On the following sections, we will show you how to organize your own NGS result to feed in NGCloud. Also, a detailed explanation will be given to show what's under the hood.
 
-If your NGS analysis pipeline is not supported by NGCloud, you can add it your own, combining the existed NGCloud report templates. This tutorial will show you how to write your own pipeline. You will need :ref:`NGCloud API documentation <package-api>` for more information.
+If your NGS analysis pipeline is not supported by NGCloud, you can add it your own, combining the existed NGCloud report templates. :ref:`custom_pipe_groundup` and :ref:`extend_builtin_pipe` will show you how to write your own pipeline. You will need :ref:`NGCloud API documentation <package-api>` for more information.
 
-Finally, If you enjoy using NGCloud and hope it gets better, the best support will be contributing back to NGCloud. See :ref:`contributing` to get involved.
+Finally, If you enjoy using NGCloud and hope it gets better, the best support will be contributing back to NGCloud. See :ref:`developing` and :ref:`contributing` to get involved.
