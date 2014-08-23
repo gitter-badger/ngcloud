@@ -43,14 +43,23 @@ class TophatStage(tuxedo.TophatStage):
         ('Multi', 'multimap'),
         ('Multi Count', 'multicount')
     ]
+    DETAIL_PAIR = [
+        ('Aligned pairs', 'pair'),
+        ('Mutli-align pairs', 'multi'),
+        ('Discordants pairs', 'discord')
+    ]
 
     def parse(self):
         super().parse()
+        self.set_const()
         self.result_info['detail_info'] = dict()
-        self.result_info['DETAIL_SEP'] = TophatStage.DETAIL_SEP
         for group, sample_list in self.job_info.sample_group.items():
             detail_info = self.parse_sample(group, sample_list)
             self.result_info['detail_info'][group] = detail_info
+
+    def set_const(self):
+        for const in ['DETAIL_SEP', 'DETAIL_PAIR']:
+            self.result_info[const] = getattr(TophatStage, const)
 
     def parse_sample(self, group, sample_list):
         logger.debug("Reading align_summary.txt")
