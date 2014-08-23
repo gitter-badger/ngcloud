@@ -3,6 +3,14 @@ CHANGES
 =======
 
 -----
+0.3.2
+-----
+
+- Add true functionality of Tophat page (#17)
+- More unified result structure (#13, #14)
+- Add doc for Tuxedo pipeline (#16)
+
+-----
 0.3.1
 -----
 
