@@ -14,7 +14,7 @@ devRoot = './dev/'
 
 paths =
     shared: './src/shared'
-    shared: './src/tuxedo'
+    tuxedo: './src/tuxedo'
     newqc: './src/newqc'
 
 released = ['shared', 'tuxedo']
