@@ -199,7 +199,7 @@ class TophatStage(TuxedoBaseStage):
     def parse(self):
         super().parse()
         self.set_const()
-        self.result_info['detail_info'] = dict()
+        self.result_info['detail_info'] = OrderedDict()
         for group, sample_list in self.job_info.sample_group.items():
             detail_info = self.parse_sample(group, sample_list)
             self.result_info['detail_info'][group] = detail_info
