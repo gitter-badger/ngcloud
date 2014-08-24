@@ -7,9 +7,16 @@ from ngcloud.util import open  # flake8: noqa
 
 logger = logging.getLogger("external.%s" % __name__)
 
-class TophatStage(tuxedo.TophatStage):
+class TuxedoBaseStage(tuxedo.TuxedoBaseStage):
     template_find_paths = tuxedo.TuxedoBaseStage.template_find_paths[:]
     template_find_paths.insert(0, Path('templates'))
+
+    @property
+    def sample_group(self):
+        return self.job_info.sample_group
+
+class TophatStage(TuxedoBaseStage, tuxedo.TophatStage):
+    pass
 
 class TuxedoReport(tuxedo.TuxedoReport):
     stage_classnames = [
