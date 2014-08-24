@@ -537,6 +537,26 @@ class Stage(metaclass=abc.ABCMeta):
                 for fp in file_list:
                     copy(fp, sp_dest_root)
 
+class SummaryStage(Stage):
+    """Special stage class that can access other normal stages's result_info.
+
+    In summary stages, one can access normal stages' result_info through
+    **normal_stages** key of ``self.result_info``.
+
+    For example, access a key **some_info** of normal stage **MyStage**'s
+    result_info from a summary stage will be
+
+        >>> my_stage = self.result_info['normal_stages']['MyStage']
+        >>> my_stage['some_info']  # return value of some_info
+
+    Of course, **normal_stages** can be accessed in summary stage's template
+    like all other keys of result_info
+
+    .. code-block:: jinja2
+
+        <p>Some info of MyStage: {{ normal_stages.MyStage.some_info }}</p>
+
+    """
 
 class Report(metaclass=abc.ABCMeta):
     """NGCloud report base class of every pipeline.
@@ -687,9 +707,30 @@ class Report(metaclass=abc.ABCMeta):
             stage.parse()
 
     def render_report(self):
-        """Put real results into report template and return rendered html."""
+        """Put real results into report template and return rendered html.
+
+        First normal stages (those inherits :class:`Stage`) will be rendered.
+        Then summary stages (those inherits :class:`SummaryStage` will be
+        rendered, and result_info dict of normal stages will be passed during
+        the initiation.
+
+        See :class:`SummaryStage` for its usage.
+        """
         self.report_html = dict()
+        norm_stages = [
+            stg for stg in self._stages if not isinstance(stg, SummaryStage)
+        ]
+        logger.debug(
+            'Normal stages are {!r}, collecting their result_infos'
+            .format([stg.__class__.__name__ for stg in norm_stages])
+        )
+        all_norm_result_info = {
+            stage.__class__.__name__: stage.result_info
+            for stage in norm_stages
+        }
         for stage in self._stages:
+            if stage not in norm_stages:
+                stage.result_info['normal_stages'] = all_norm_result_info
             self.report_html.update(stage.render())
 
     def copy_static(self):
