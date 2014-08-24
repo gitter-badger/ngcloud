@@ -276,7 +276,6 @@ class Stage(metaclass=abc.ABCMeta):
         self.result_info = dict()
         logger.debug("... Loacate result folder path")
         self.result_root = self._locate_result_folder()
-        self.parse()
         logger.debug("... stage initiated".format(type(self).__name__))
 
     def _setup_jinja2(self):
@@ -662,6 +661,9 @@ class Report(metaclass=abc.ABCMeta):
             for Stage in self.stage_classnames
         ]
 
+        logger.debug("Parse NGS result info")
+        self.parse()
+
         logger.info("Render report templates")
         self.render_report()
 
@@ -674,6 +676,15 @@ class Report(metaclass=abc.ABCMeta):
 
         logger.info("Write rendered templates to file")
         self.output_report()
+
+    def parse(self):
+        """Parse NGS results for each stage.
+
+        Call :meth:`Stage.parse`.
+        """
+        for stage in self._stages:
+            logger.debug("Call {}'s parse()".format(type(stage).__name__))
+            stage.parse()
 
     def render_report(self):
         """Put real results into report template and return rendered html."""
