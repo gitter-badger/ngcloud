@@ -263,7 +263,7 @@ class Stage(metaclass=abc.ABCMeta):
             This attribute is automatically set by finding the matched
             foldername based on :attr:`result_foldername`
         """
-        logger.debug("New stage {} initiated".format(type(self).__name__))
+        logger.info("Initating new stage {}".format(type(self).__name__))
         self._setup_jinja2()
         if is_pathlike(self.template_entrances):
             tpls = [self.template_entrances]
@@ -274,12 +274,10 @@ class Stage(metaclass=abc.ABCMeta):
         self.job_info = job_info
         self.report_root = report_root
         self.result_info = dict()
-
-        logger.debug("Loacate result folder path")
+        logger.debug("... Loacate result folder path")
         self.result_root = self._locate_result_folder()
-
-        logger.debug("Parse NGS result info")
         self.parse()
+        logger.debug("... stage initiated".format(type(self).__name__))
 
     def _setup_jinja2(self):
         try:
@@ -622,7 +620,8 @@ class Report(metaclass=abc.ABCMeta):
 
         The whole process breaks down into follwoing parts:
 
-        1. read NGS result as :py:class:`~ngcloud.info.JobInfo`
+        1. read job info as :py:class:`~ngcloud.info.JobInfo`
+        2. parse NGS result, covered by :meth:`parse`
         2. render report, covered by :py:meth:`render_report`
         3. copy template-related static files such as JS and CSS
            into output dir, covered by :py:meth:`copy_static`
@@ -688,7 +687,6 @@ class Report(metaclass=abc.ABCMeta):
         Files under each path specifed by :py:attr:`static_roots`
         will be copied to folder :file:`static` below :py:attr:`report_root`.
         """
-        logger.info("Copying report static files")
         if is_pathlike(self.static_roots):
             _static_roots = [self.static_roots]
         else:
