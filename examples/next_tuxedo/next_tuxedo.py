@@ -1,7 +1,7 @@
 import re
 import logging
 from pathlib import Path
-from ngcloud.report import main as _main
+from ngcloud.report import SummaryStage, main as _main
 from ngcloud.pipe import tuxedo
 from ngcloud.util import open  # flake8: noqa
 
@@ -16,6 +16,9 @@ class TuxedoBaseStage(tuxedo.TuxedoBaseStage):
         return self.job_info.sample_group
 
 class TophatStage(TuxedoBaseStage, tuxedo.TophatStage):
+    pass
+
+class IndexStage(SummaryStage, TuxedoBaseStage, tuxedo.IndexStage):
     pass
 
 class CufflinksStage(TuxedoBaseStage):
@@ -34,7 +37,7 @@ class CufflinksStage(TuxedoBaseStage):
 
 class TuxedoReport(tuxedo.TuxedoReport):
     stage_classnames = [
-        tuxedo.IndexStage, tuxedo.QCStage, TophatStage, CufflinksStage
+        IndexStage, tuxedo.QCStage, TophatStage, CufflinksStage
     ]
     static_roots = tuxedo.TuxedoReport.static_roots[:]
     static_roots.extend([
