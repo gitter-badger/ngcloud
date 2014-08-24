@@ -18,9 +18,23 @@ class TuxedoBaseStage(tuxedo.TuxedoBaseStage):
 class TophatStage(TuxedoBaseStage, tuxedo.TophatStage):
     pass
 
+class CufflinksStage(TuxedoBaseStage):
+    """Cufflinks stage for Tuxedo pipeline"""
+    result_foldername = 'cufflinks'
+    template_entrances = 'cufflinks.html'
+
+    def set_const(self):
+        pass
+
+    def parse(self):
+        super().parse()
+        self.set_const()
+        for group, sample_list in self.sample_group.items():
+            pass
+
 class TuxedoReport(tuxedo.TuxedoReport):
     stage_classnames = [
-        tuxedo.IndexStage, tuxedo.QCStage, TophatStage
+        tuxedo.IndexStage, tuxedo.QCStage, TophatStage, CufflinksStage
     ]
     static_roots = tuxedo.TuxedoReport.static_roots[:]
     static_roots.extend([
