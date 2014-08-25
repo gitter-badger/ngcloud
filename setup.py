@@ -123,6 +123,8 @@ setup(
 
     install_requires=pkg_deps,
     extras_require={
+        ':python_version=="2.7"': ['pathlib'],
+        ':python_version=="3.3"': ['pathlib'],
         'color': color_dep,
         'all': all_dep,
     },
