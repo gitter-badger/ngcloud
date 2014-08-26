@@ -9,9 +9,10 @@ CHANGES
 - API CHANGE: now Stage.parse() is handled by Report.parse().
   Outcome behavior should remain the same
 - Subclass SummaryStage from Stage.
-  It takes normal stages' result_info in its result_info (#18)
+  It can access normal stages' result_info in its result_info (#18)
 - Add true functionality of Cufflinks page (#19)
-- Doc update (#15)
+- Fix py3.3 wheel dependencies
+- Move change log before 0.3 to OLDCHANGES.rst
 
 -----
 0.3.2
@@ -44,3 +45,4 @@ CHANGES
 - No pathlib required during installation (#12)
 - Add API for stage static file copying (#8)
 
+Older changes can be found in OLDCHANGES.rst
