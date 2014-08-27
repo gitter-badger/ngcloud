@@ -107,6 +107,11 @@ class JobInfo:
         self._raw = self._read_yaml()
         self.id = self._raw['job_id']
         self.type = self._raw['job_type']
+        if 'pipe_param' not in self._raw:
+            logger.warning('Pipeline parameters not found!')
+            self.pipe_param = None
+        else:
+            self.pipe_param = self._raw.get('pipe_param', None)
         logger.debug(
             "JobInfo created (id: {0.id} type: {0.type})".format(self)
         )

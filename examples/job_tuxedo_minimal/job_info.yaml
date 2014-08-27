@@ -10,3 +10,9 @@ sample_list:
         pair_end: R1
     - SRR1027183:
         pair_end: R2
+pipe_param:
+    paramA: true
+    paramB:
+        - some value 1
+        - some value 2
+        - some value 3
