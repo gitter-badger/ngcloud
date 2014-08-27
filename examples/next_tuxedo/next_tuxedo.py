@@ -42,14 +42,14 @@ class TophatStage(TuxedoBaseStage, tuxedo.TophatStage):
 
         self.result_info['sep_rate'] = sep_rate
         self.result_info['pair_rate'] = pair_rate
-        self.result_info['overall_sep_rate'] = stats.mean(
+        self.result_info['overall_sep_percent'] = stats.mean(
             rate
             for group_rates in sep_rate.values()
             for rate in group_rates
-        )
-        self.result_info['overall_pair_rate'] = stats.mean(
+        ) * 100
+        self.result_info['overall_pair_percent'] = stats.mean(
             rate for rate in pair_rate.values()
-        )
+        ) * 100
 
 class IndexStage(SummaryStage, TuxedoBaseStage, tuxedo.IndexStage):
     pass

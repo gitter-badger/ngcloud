@@ -1,6 +1,8 @@
 import re
 from pathlib import Path
 from collections import OrderedDict, namedtuple
+import decimal
+D = decimal.Decimal
 import ngcloud as ng
 from ngcloud.report import Stage, Report
 from ngcloud.pipe import (
@@ -222,7 +224,7 @@ class TophatStage(TuxedoBaseStage):
             raise ValueError("Cannot get pair info in align_summary.txt")
 
         info_dict = {
-            k: int(v)
+            k: D(v)
             for m in [match_sep, match_align]
             for k, v in m.groupdict().items()
         }
@@ -238,3 +240,9 @@ class TuxedoReport(Report):
         get_shared_static_root(),
         _get_builtin_report_root() / 'tuxedo' / 'static',
     ]
+
+    def template_config(self):
+        decimal_context = decimal.getcontext()
+        if decimal_context.prec < 10:
+            logger.warning('Decimal module precison is too low, set to 10')
+            decimal_context.prec = 10
