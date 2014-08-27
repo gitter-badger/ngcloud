@@ -11,7 +11,8 @@ import jinja2
 import ngcloud as ng
 from ngcloud.util import (
     strify_path, open, is_pathlike, merged_copytree,
-    copy, discover_file_by_patterns
+    copy, discover_file_by_patterns,
+    humanfmt
 )
 from ngcloud.info import JobInfo
 
@@ -294,6 +295,7 @@ class Stage(metaclass=abc.ABCMeta):
             extensions=['jinja2.ext.with_'],
         )
         self._env.globals['static'] = self._template_static_path
+        self._env.globals['humanfmt'] = humanfmt
 
     def _locate_result_folder(self):
         if not self.result_foldername:
