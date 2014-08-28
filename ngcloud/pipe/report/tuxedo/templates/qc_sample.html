@@ -11,7 +11,7 @@
 <div class="row">
   <h3><span class="glyphicon {{ FASTQC_GLYPH.get(qc_info[sample.full_name]['Overrepresented sequences'], 'glyphicon-ban-circle') }}"></span> Overrepresented sequences</h3>
   <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover" id="overrep-seq">
       <thead>
         <tr>
           <th>Sequence</th>
