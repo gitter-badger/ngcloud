@@ -1,6 +1,6 @@
 import re
 from pathlib import Path
-from collections import OrderedDict, namedtuple
+from collections import OrderedDict
 import decimal
 D = decimal.Decimal
 import ngcloud as ng
@@ -85,8 +85,12 @@ _extract_align = re.compile(
     _align_txt_aligned, re.MULTILINE
 ).search
 
-OverSeq = namedtuple(
-    "OverSeq", ["seq", "count", "percentage", "possible_source"])
+class OverSeq:
+    def __init__(self, seq, count, percentage, possible_source):
+        self.seq = seq
+        self.count = D(count)
+        self.percentage = D(percentage).quantize(D("0.01"))
+        self.possible_source = possible_source
 
 class TuxedoBaseStage(Stage):
     template_find_paths = _find_paths

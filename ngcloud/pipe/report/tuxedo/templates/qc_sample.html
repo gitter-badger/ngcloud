@@ -23,7 +23,7 @@
 {% for oseq in over_seq[sample.full_name][:10] %}
   <tr>
     <td>{{ oseq.seq }}</td>
-    <td>{{ oseq.count }} / {{ oseq.percentage | float | round(2) }}</td>
+    <td>{{ humanfmt(oseq.count) }} / {{ oseq.percentage }}</td>
     <td>{{ oseq.possible_source }}</td>
   </tr>
 {% endfor %}
