@@ -9,7 +9,7 @@
   "author": "Liang Bo Wang",
   "license": "MIT",
   "dependencies": {
-    "coffee-script": "1.7.x",
+    "coffee-script": "1.x",
     "del": "0.x",
     "gulp": "3.x",
     "gulp-coffee": "2.x",
