@@ -6,6 +6,10 @@ import shutil
 from pathlib import Path
 import abc
 import logging
+try:
+	import colorlog
+except ImportError:
+	pass
 from docopt import docopt
 import jinja2
 import ngcloud as ng
