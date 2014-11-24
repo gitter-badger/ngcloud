@@ -4,7 +4,7 @@ plumber = require 'gulp-plumber'  # robust error handler
 stylus = require 'gulp-stylus'
 nib = require 'nib'
 coffee = require 'gulp-coffee'
-rimraf = require 'gulp-rimraf'
+del = require 'del'
 rename = require 'gulp-rename'
 gcolors = gutil.colors
 path = require 'path'
@@ -75,7 +75,6 @@ gulp.task 'clean', ->
         (path.join devRoot, subproj, 'css/*.css' for subproj of paths),
         (path.join releaseRoot, subproj, 'static', 'js/*.js' for subproj of paths when subproj in released),
         (path.join releaseRoot, subproj, 'static', 'css/*.css' for subproj of paths when subproj in released)
-    gulp.src toClean, read: false
-        .pipe rimraf force: true
+    del toClean
 
 gulp.task 'default', ['coffee', 'stylus']
