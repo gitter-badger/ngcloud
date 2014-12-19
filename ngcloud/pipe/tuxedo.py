@@ -3,8 +3,9 @@ from pathlib import Path
 from collections import OrderedDict
 import decimal
 D = decimal.Decimal
+import statistics as stats  # TODO: 3.3 compatiblity
 import ngcloud as ng
-from ngcloud.report import Stage, Report
+from ngcloud.report import SummaryStage, Stage, Report
 from ngcloud.pipe import (
     _get_builtin_report_root,
     get_shared_template_root, get_shared_static_root
@@ -103,7 +104,12 @@ class TuxedoBaseStage(Stage):
             ('cufflinks', 'cufflinks.html', 'Expression Quantification'),
         ]
 
-class IndexStage(TuxedoBaseStage):
+    @property
+    def sample_group(self):
+        return self.job_info.sample_group
+
+
+class IndexStage(SummaryStage, TuxedoBaseStage):
     """Index page for Tuxedo pipeline"""
     template_entrances = 'index.html'
 
@@ -209,6 +215,8 @@ class TophatStage(TuxedoBaseStage):
         for group, sample_list in self.job_info.sample_group.items():
             detail_info = self.parse_sample(group, sample_list)
             self.result_info['detail_info'][group] = detail_info
+        logger.debug('Get overall pair align rate')
+        self.compute_overall()
 
     def set_const(self):
         for const in ['DETAIL_SEP', 'DETAIL_PAIR']:
@@ -233,6 +241,35 @@ class TophatStage(TuxedoBaseStage):
             for k, v in m.groupdict().items()
         }
         return info_dict
+
+    def compute_overall(self):
+        detail = self.result_info['detail_info']
+        sep_rate = dict()
+        pair_rate = dict()
+        for group in self.sample_group:
+            left_all = detail[group]['left_input']
+            right_all = detail[group]['right_input']
+            if not left_all == right_all:
+                raise ValueError(
+                    "Unequal numbers of read for pair-end sample"
+                    "{}".format(group))
+            sep_rate[group] = [
+                detail[group][d + '_map'] / left_all
+                for d in ['left', 'right']
+            ]
+            pair_rate[group] = detail[group]['align_pair'] / left_all
+
+        self.result_info['sep_rate'] = sep_rate
+        self.result_info['pair_rate'] = pair_rate
+        self.result_info['overall_sep_percent'] = stats.mean(
+            rate
+            for group_rates in sep_rate.values()
+            for rate in group_rates
+        ) * 100
+        self.result_info['overall_pair_percent'] = stats.mean(
+            rate for rate in pair_rate.values()
+        ) * 100
+
 
 class TuxedoReport(Report):
     """NGCloud report class of Tuxedo pipeline."""

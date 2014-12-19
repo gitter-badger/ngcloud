@@ -28,8 +28,8 @@
       <th>{{name}}</th>
       {% for group, info in detail_info.items() %}
       {% if job_info.sample_group[group] | length  == 2 %}
-      <td>{{ "{:,d}".format(info.get('left_' + suffix)) }}</td>
-      <td>{{ "{:,d}".format(info.get('right_' + suffix)) }}</td>
+      <td>{{ humanfmt(info.get('left_' + suffix)) }}</td>
+      <td>{{ humanfmt(info.get('right_' + suffix)) }}</td>
       {% else %}
       <td><em>Not Supported</em></td>
       {% endif %}
@@ -41,7 +41,7 @@
       <th>{{ name }}</th>
       {% for group, info in detail_info.items() %}
       {% if job_info.sample_group[group] | length == 2 %}
-      <td colspan="2">{{ "{:,d}".format(info.get('align_' + suffix )) }}</td>
+      <td colspan="2">{{ humanfmt(info.get('align_' + suffix)) }}</td>
       {% else %}
       <td><em>Not Supported</em></td>
       {% endif %}
