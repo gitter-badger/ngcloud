@@ -13,6 +13,23 @@ Alignment (using Tophat)
 <p class="text-right lead">more information on <a href="#">this page</a>.</p>
 {% endblock %}
 
+{% block before_panel %}
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="container-fluid">
+      <h3>Overall alignment rate</h3>
+      <ul>
+        <li>Computed non-paired: {{ humanfmt(overall_sep_percent, places=2) }}%</li>
+        <li>Computed paired: {{ humanfmt(overall_pair_percent, places=2) }}%</li>
+      </ul>
+      {% if overall_pair_percent < 50 %}
+      <div class="alert alert-info" role="alert"><strong>Notice</strong> Overall alignment rate belows 50%</div>
+      {% endif %}
+    </div><!-- /.container-fluid -->
+  </div>
+</div>
+{% endblock %}
+
 {% block panel %}
 <div class="container-fluid">
   <h3>Detail Statistics</h3>
