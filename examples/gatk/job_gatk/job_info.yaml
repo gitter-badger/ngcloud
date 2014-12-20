@@ -1,0 +1,11 @@
+job_type: new_qc_test
+job_id: 5566
+sample_list:
+    - SRR1027176_1:
+        pair_end: R1
+    - SRR1027176_2:
+        pair_end: R2
+    - SRR1027183_1:
+        pair_end: R1
+    - SRR1027183_2:
+        pair_end: R2
