@@ -62,7 +62,7 @@ class VCFStage(GATKBaseStage):
                 for i in col[0:7]:
                     print('\t\t' + '<td>' + i + '</td>', file = output)        
                 print('\t' + '</tr>', file = output)
-            print('</tbody>', file = output)
+            print('</tbody>'+ '\n' + '</table>', file = output)
 
     def parse(self):
          self.vcf2html('gatk_result.vcf')
