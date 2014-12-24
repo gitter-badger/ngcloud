@@ -4,6 +4,8 @@
 Variant (Calling by GATK)
 {% endblock %}
 
+{% set active='gatk' %}
+
 
 
 {% block extra_css %}
@@ -21,6 +23,7 @@ Variant (Calling by GATK)
 {% endblock %}
 
 {% block panel %}
+
   <h3>Detailed statistics of pairs alignment output</h3>
   <div class="row"><div class="col-sm-12">
   <div class="alert alert-info alert-dismissable pull-right closable-note">
@@ -32,14 +35,15 @@ Variant (Calling by GATK)
   </div></div><!-- /row -->
 
   <div class="row">
-      <div class="col-sm-12">
-      <div class="table-responsive">
-    {% include "tables/gatk_result.vcf.html" %}
-	</div>
-</div>
-</div>
+    <div class="col-sm-12">
+       {% include "tables/table_filter1.html"%}
+     <div class="table-responsive">
+        {% include "tables/gatk_result.vcf.html" %}
+      </div>
+    </div>
+  </div>
 
-
+ </div>
 {% endblock %}
 
 {% block extra_js %}
@@ -49,6 +53,8 @@ Variant (Calling by GATK)
 
 <script>
 /* Custom filtering function which will search data in column four between two values */
+{% include "tables/range1.html"%}
+
 
 $(document).ready(function() { 
 
