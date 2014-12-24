@@ -21,46 +21,6 @@ Variant (Calling by GATK)
 {% endblock %}
 
 {% block panel %}
-<div class="container-fluid">
-  <h2>Results of Variants Calling</h2>
-  <h3>Filtering criteria</h3>
-  <div class="row">
-    <div class="col-sm-12">
-   <p>Lorem atque esse atque soluta minima odio neque! Sequi iste sequi animi sunt cupiditate, amet, nemo in porro. Ullam accusantium aliquam suscipit aspernatur perspiciatis! Unde neque reiciendis ipsum iste nihil.</p>
-</div>
-</div>
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Parameter</th>
-          <th>Setting</th>
-        </tr>
-
-      </thead>
-      <tbody>
-        <tr>
-          <th>Minimum read depth</th>
-          <td>100</td>
-        </tr>
-        <tr>
-          <th>Minimum base quality</th>
-          <td>15</td>
-        </tr>
-          <tr>
-          <th>Minimum alternative readas</th>
-          <td>20</td>
-        </tr><tr>
-          <th>Minimum alternative allele frequency</th>
-          <td>15%</td>
-        </tr><tr>
-          <th>Minimum minor allele frequency</th>
-          <td>--</td>
-        </tr>       
-      </tbody>
-    </table>
-  </div>
-
   <h3>Detailed statistics of pairs alignment output</h3>
   <div class="row"><div class="col-sm-12">
   <div class="alert alert-info alert-dismissable pull-right closable-note">
@@ -72,85 +32,14 @@ Variant (Calling by GATK)
   </div></div><!-- /row -->
 
   <div class="row">
-    <div class="col-sm-12">
-       {% include "tables/table_filter1.html"%}
-     <div class="table-responsive">
-        {% include "tables/ap2_t.html" %}
-      </div>
-    </div>
-  </div>
+      <div class="col-sm-12">
+      <div class="table-responsive">
+    {% include "tables/gatk_result.vcf.html" %}
+	</div>
+</div>
+</div>
 
 
-    <h3>Identified point variants and per-sample information</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Lorem quod odit quasi aspernatur tenetur totam architecto enim hic!</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Sit lorem accusamus earum magni quaerat porro accusantium atque iste quam necessitatibus. Inventore corrupti in at delectus quia velit eius cupiditate dignissimos! Reiciendis earum error culpa voluptas iste! Laudantium inventore mollitia ut sequi quas, laboriosam libero nulla, exercitationem adipisci illum? Ut earum earum eos illum dicta libero minus officia consectetur?</p>
-  </div></div>
-
-
-  
-
-
-<h3>Annotation of identified point variants</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Sit praesentium!</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Sit animi sapiente excepturi suscipit sint et totam! Odio soluta vel aperiam a deleniti magnam. Cum obcaecati ducimus voluptatibus.</p>
-  </div></div>
-
- 
-  <img class="img-responsive" src="{{ static("var_pic/2.png") }}" alt="">
-  
-
-<h3>Function prediction of identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Dolor est quos nulla velit molestias accusantium dolores neque!</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Consectetur tempora veniam nesciunt quam praesentium deserunt! Cum nobis doloremque molestiae accusamus asperiores aspernatur veritatis delectus vero? Placeat asperiores nulla similique distinctio similique provident fugit repudiandae eum! Doloribus quia blanditiis laudantium optio quo pariatur. Praesentium obcaecati architecto quas maiores sequi ipsam eaque.</p>
-  </div></div>
-
-
-  <img class="img-responsive" src="{{ static("var_pic/3.png") }}" alt="">
-
-
-<h3>Regulatory elements on identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Elit molestias ducimus soluta amet deleniti. Dolorum tempore ab doloribus quidem dicta.</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Elit iure omnis tempora in optio! Accusantium aspernatur magnam ipsa perferendis distinctio. Optio vitae natus molestiae sunt illo culpa corrupti! Ratione atque delectus hic?</p>
-  </div></div>
-
-
-  <img class="img-responsive" src="{{ static("var_pic/4.png") }}" alt="">
-
-
-<h3>Diseases associated with identified point variants(optional service with additional charge)</h3>
-  <div class="row"><div class="col-sm-12">
-  <div class="alert alert-info alert-dismissable pull-right closable-note">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p>Sit dolore amet nihil consequuntur nihil. Libero assumenda doloribus soluta eveniet?</p>
-    <p class="text-right">More about <strong><a href="#">by base</a></strong>.</p>
-  </div>
-  <p>Adipisicing fugit saepe unde harum laborum soluta libero. Ut eveniet sed temporibus sunt voluptatibus aliquid ex voluptatum vero neque quisquam. Dolor deserunt corrupti ipsa fuga rem architecto aliquam numquam necessitatibus natus. Molestias libero rem aut aliquam id perspiciatis debitis vero quia incidunt tempora. Sequi explicabo deleniti placeat qui vel culpa nostrum. Facilis quibusdam aspernatur aliquid optio qui impedit nobis. Atque dignissimos molestias ipsum impedit error suscipit cum dolorem. Voluptatibus numquam optio soluta voluptatem in. Culpa labore aperiam possimus inventore est exercitationem pariatur vitae dolores. Eos voluptate eligendi aliquid error.</p>
-</div></div>
-  
-
-<img class="img-responsive" src="{{ static("var_pic/5.png") }}" alt="">
-
- </div>
 {% endblock %}
 
 {% block extra_js %}
@@ -160,8 +49,6 @@ Variant (Calling by GATK)
 
 <script>
 /* Custom filtering function which will search data in column four between two values */
-{% include "tables/range1.html"%}
-
 
 $(document).ready(function() { 
 
