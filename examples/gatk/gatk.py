@@ -35,7 +35,7 @@ class VCFStage(GATKBaseStage):
     # transform vcf into html table 
     def vcf2html(self, vcffile):
         vcfile_path = self.result_root / 'gatk' 
-        output_html_path = vcfile_path / str(vcffile + '.html')
+        output_html_path = _here / 'report' / 'templates' / 'tables' / str(vcffile + '.html')
 
         with open(vcfile_path / vcffile) as vcf:
             start_flag = 0 
@@ -66,12 +66,8 @@ class VCFStage(GATKBaseStage):
 
     def parse(self):
          self.vcf2html('gatk_result.vcf')
-
-
-
+        
 class GATKStage(GATKBaseStage):
-    template_find_paths = GATKBaseStage.template_find_paths[:]
-    template_find_paths.insert(0,Path('job_gatk', 'gatk'))
     template_entrances = 'gatk.html'
 
 class GATKReport(Report):
