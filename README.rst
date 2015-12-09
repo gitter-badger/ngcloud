@@ -36,3 +36,8 @@ development environment.
 .. _pathlib: https://pypi.python.org/pypi/pathlib
 .. _node.js: http://nodejs.org/
 .. _npm: https://www.npmjs.org
+
+
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/BioCloud-TW/ngcloud
+   :target: https://gitter.im/BioCloud-TW/ngcloud?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
